@@ -1,0 +1,16 @@
+{
+  "name": "Ритм кожи",
+  "short_name": "Ритм кожи",
+  "description": "Личный трекер ухода: когда можно ретиналь, что с чем не сочетать, отметки и напоминания.",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FBFAFB",
+  "theme_color": "#FBFAFB",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
