@@ -1,0 +1,382 @@
+<title>Ритм кожи — макеты</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a gallery of phone screens, one per user scenario, wrapping left to right; each phone has a caption naming the scenarios it covers. */
+:root{
+  --bg:#EEF0EE; --paper:#FBFBF9; --ink:#2A2230; --muted:#6E6774; --line:#DCDCD8;
+  --accent:#B9770E; --accent-soft:#F6E7C8;
+  --ok:#2F7D6B; --ok-soft:#DCEFE9; --warn:#B4542F; --warn-soft:#F8E1D6;
+  --a-retinoid:#C98A12; --a-azelaic:#C55A7A; --a-niac:#3F72AF; --a-peptide:#7A5BA6; --a-spf:#2F8F86; --a-supp:#5E6B78;
+  --f-display:"Prata", Georgia, "Times New Roman", serif;
+  --f-body:"Golos Text", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141216; --paper:#1D1A20; --ink:#EEE9F0; --muted:#A79FAD; --line:#38323D;
+  --accent:#E3A73A; --accent-soft:#3A2E17; --ok:#5DBFA6; --ok-soft:#173129; --warn:#E58A66; --warn-soft:#3A2119;
+  --a-retinoid:#E3A73A; --a-azelaic:#E07D9B; --a-niac:#78A3DB; --a-peptide:#A88BD3; --a-spf:#5BC0B6; --a-supp:#9AA7B4;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141216; --paper:#1D1A20; --ink:#EEE9F0; --muted:#A79FAD; --line:#38323D;
+  --accent:#E3A73A; --accent-soft:#3A2E17; --ok:#5DBFA6; --ok-soft:#173129; --warn:#E58A66; --warn-soft:#3A2119;
+  --a-retinoid:#E3A73A; --a-azelaic:#E07D9B; --a-niac:#78A3DB; --a-peptide:#A88BD3; --a-spf:#5BC0B6; --a-supp:#9AA7B4;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.4;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.intro{max-width:760px;margin:0 auto 32px}
+.intro h1{font-family:var(--f-display);font-weight:400;font-size:2.2rem;margin:0 0 8px;text-wrap:balance}
+.intro p{color:var(--muted);margin:0 0 6px;max-width:65ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;font-size:13px;color:var(--muted)}
+.gallery{display:flex;flex-wrap:wrap;gap:40px 32px;justify-content:center}
+figure{margin:0;display:flex;flex-direction:column;gap:12px;width:360px;max-width:100%}
+figcaption{font-size:13px;color:var(--muted)}
+figcaption b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;background:var(--accent-soft);color:var(--ink);border-radius:4px;padding:1px 6px;margin-right:4px}
+
+/* phone */
+.phone{width:360px;max-width:100%;height:740px;background:var(--paper);border:1px solid var(--line);border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 1px 0 var(--line)}
+.status{height:40px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;font-size:13px;font-weight:600}
+.scr{flex:1;overflow:hidden;padding:4px 18px 0;display:flex;flex-direction:column;gap:14px}
+.tabbar{height:76px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);align-items:start;padding-top:10px;font-size:11px;color:var(--muted);text-align:center}
+.tabbar .on{color:var(--accent);font-weight:600}
+.tabbar i{display:block;width:22px;height:22px;margin:0 auto 4px;border-radius:6px;border:1.5px solid currentColor}
+.date{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+h2{font-family:var(--f-display);font-weight:400;font-size:28px;margin:0;line-height:1.1}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+h3 small{text-transform:none;letter-spacing:0;font-weight:500}
+
+/* hero status (retinal) */
+.hero{border-radius:20px;padding:16px;background:var(--accent-soft);display:flex;gap:14px;align-items:center}
+.hero.rest{background:color-mix(in srgb,var(--paper) 70%,var(--line))}
+.ring{flex:none;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:20px;
+  background:conic-gradient(var(--a-retinoid) var(--p,100%),var(--line) 0)}
+.ring span{width:52px;height:52px;border-radius:50%;background:var(--paper);display:grid;place-items:center;line-height:1}
+.ring span small{display:block;font-size:9px;font-family:var(--f-body);color:var(--muted)}
+.hero b{display:block;font-size:17px}
+.hero p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+
+/* block of items */
+.block{display:flex;flex-direction:column;gap:2px}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.chk{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.chk.on{background:var(--ok);border-color:var(--ok)}
+.chk.on::after{content:"";width:10px;height:6px;border:2.5px solid var(--paper);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.item .t{flex:1;min-width:0}
+.item .t b{font-weight:500;display:block}
+.item .t span{font-size:12px;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.d-ret{background:var(--a-retinoid)}.d-az{background:var(--a-azelaic)}.d-ni{background:var(--a-niac)}.d-pep{background:var(--a-peptide)}.d-spf{background:var(--a-spf)}.d-sup{background:var(--a-supp)}
+.pill{font-size:11px;font-weight:600;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.wait{background:color-mix(in srgb,var(--line) 60%,var(--paper));color:var(--muted)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.acc{background:var(--accent-soft);color:var(--ink)}
+.allbtn{font-size:13px;color:var(--accent);font-weight:600}
+.hint{border-radius:14px;padding:12px 14px;background:var(--warn-soft);font-size:13px}
+.hint b{color:var(--warn)}
+.hint.ok{background:var(--ok-soft)}
+.hint.ok b{color:var(--ok)}
+.btn{display:block;text-align:center;border-radius:14px;padding:13px;font-weight:600;background:var(--ink);color:var(--paper)}
+.btn.sec{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.acc{background:var(--accent);color:#1d1406}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fab{position:absolute;right:18px;bottom:92px;width:52px;height:52px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:28px;line-height:1}
+
+/* sheet */
+.dim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 35%,transparent)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-radius:24px 24px 0 0;padding:10px 18px 28px;display:flex;flex-direction:column;gap:14px}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 4px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg span{border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13px}
+.seg span.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.field{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px}
+.field small{display:block;color:var(--muted);font-size:11px;margin-bottom:2px}
+
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:12px}
+.cal .h{color:var(--muted);font-size:11px}
+.cal .d{aspect-ratio:1;max-width:100%;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--f-mono);font-size:12px}
+.cal .d.today{outline:2px solid var(--ink)}
+.cal .d.sel{background:var(--accent-soft)}
+.cal .d.out{color:var(--line)}
+.cal .dots{display:flex;gap:2px;height:5px}
+.cal .dots i{width:5px;height:5px;border-radius:50%}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week div{border-radius:10px;padding:8px 0;text-align:center;font-size:11px;border:1px solid var(--line)}
+.week div b{display:block;font-family:var(--f-mono);font-size:13px;margin-bottom:4px}
+.week .r{background:var(--accent-soft);border-color:var(--a-retinoid)}
+.mono{font-family:var(--f-mono)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border-radius:999px;padding:6px 10px;font-size:13px;border:1.5px solid var(--line)}
+.chip.on{border-color:currentColor;font-weight:600}
+.ocr{font-family:var(--f-mono);font-size:11px;line-height:1.5;background:color-mix(in srgb,var(--line) 35%,var(--paper));border-radius:12px;padding:10px;color:var(--muted)}
+.ocr mark{background:var(--accent-soft);color:var(--ink);border-radius:3px;padding:0 2px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{border:1.5px solid var(--line);border-radius:14px;padding:12px;font-size:14px;font-weight:500;display:flex;gap:8px;align-items:center}
+.tile.on{border-color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 50%,var(--paper))}
+.steps{display:flex;gap:4px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}.steps i.on{background:var(--accent)}
+.opt{border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;font-weight:500}
+.opt.on{border-color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 50%,var(--paper))}
+.toggle{width:44px;height:26px;border-radius:13px;background:var(--line);position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--paper)}
+.toggle.on{background:var(--ok)}.toggle.on::after{left:21px}
+.list{display:flex;flex-direction:column}
+.lrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.lrow:last-child{border-bottom:0}
+.lrow span{color:var(--muted);font-size:12px;display:block}
+.notif{margin:0 10px;background:color-mix(in srgb,var(--paper) 80%,var(--line));border-radius:18px;padding:12px 14px;font-size:13px;box-shadow:0 6px 20px color-mix(in srgb,var(--ink) 18%,transparent)}
+.notif b{display:block}
+.lock{background:linear-gradient(180deg,color-mix(in srgb,var(--a-peptide) 30%,var(--paper)),color-mix(in srgb,var(--a-retinoid) 25%,var(--paper)))}
+.clock{text-align:center;font-family:var(--f-display);font-size:64px;line-height:1;margin:30px 0 6px}
+</style>
+
+<header class="intro">
+  <h1>Ритм кожи — макеты прототипа</h1>
+  <p>Девять экранов PWA-прототипа. Каждый подписан сценариями из ТЗ, которые он закрывает: С0 — первый запуск, С1–С8 — сценарии из раздела «Пользовательские сценарии». Данные — твой реальный набор средств.</p>
+  <p>Цветная точка — актив средства. По ней правила понимают, что с чем нельзя, а календарь показывает, что было в какой день.</p>
+  <div class="legend">
+    <span><i class="dot d-ret"></i>ретиноид</span><span><i class="dot d-az"></i>азелаиновая</span><span><i class="dot d-ni"></i>ниацинамид</span><span><i class="dot d-pep"></i>пептиды</span><span><i class="dot d-spf"></i>SPF</span><span><i class="dot d-sup"></i>добавка</span>
+  </div>
+</header>
+
+<main class="gallery">
+
+<!-- 0 onboarding -->
+<figure>
+<div class="phone"><div class="status"><span>21:40</span><span>●●● 82%</span></div>
+<div class="scr">
+  <div class="steps"><i class="on"></i><i class="on"></i><i></i></div>
+  <div class="date">Шаг 2 из 3</div>
+  <h2>Когда последний раз был ретиналь?</h2>
+  <p style="margin:0;color:var(--muted);font-size:14px">От этого считаем, можно ли сегодня. Потом поправишь в истории.</p>
+  <div class="opt">Вчера</div>
+  <div class="opt">2–3 дня назад</div>
+  <div class="opt on">Неделю назад <span class="pill acc" style="float:right">8 окт</span></div>
+  <div class="opt">Выбрать дату…</div>
+  <div class="opt">Ещё не начинала</div>
+  <h3 style="margin-top:6px">Как часто теперь</h3>
+  <div class="seg"><span>1 раз в неделю</span><span class="on">2 раза в неделю</span><span>Через день</span></div>
+  <div style="margin-top:auto;padding-bottom:22px" class="btn acc">Дальше</div>
+</div></div>
+<figcaption><b>Первый запуск</b><span class="tag">С0</span>3 шага: набор средств (уже заполнен твоим) → последний ретиналь и частота → время утра и вечера. Холодного старта нет: статус «можно ли сегодня» виден сразу.</figcaption>
+</figure>
+
+<!-- 1 today morning -->
+<figure>
+<div class="phone"><div class="status"><span>7:46</span><span>●●● 100%</span></div>
+<div class="scr">
+  <div><div class="date">Четверг, 16 октября</div><h2>Доброе утро</h2></div>
+  <div class="hero rest"><div class="ring" style="--p:66%"><span>2<small>из 3 дн</small></span></div>
+    <div><b>Ретиналь отдыхает</b><p>Был во вторник. Следующий — в пятницу вечером.</p></div></div>
+  <div class="block"><h3>Утро <small class="allbtn">Отметить всё</small></h3>
+    <div class="item"><div class="chk on"></div><div class="t"><b><i class="dot d-ni"></i>Сыворотка с ниацинамидом</b></div></div>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-pep"></i>Пептидная сыворотка Aravia</b></div></div>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-spf"></i>SPF Skin1004</b><span>После ретиналя во вторник — особенно важно</span></div></div>
+  </div>
+  <div class="block"><h3>Добавки</h3>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-sup"></i>Магний</b><span>Напомню в 7:45 · вчера выпила</span></div><span class="pill acc">Выпила</span></div>
+  </div>
+  <div class="block"><h3>Вечер <small>22:00</small></h3>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-az"></i>Сыворотка с азелаиновой</b></div></div>
+  </div>
+  <div class="item" style="border:0;padding-top:0"><div class="t"><b style="color:var(--muted)">По желанию · 3</b><span>Крем с азелаиновой, роллер-патчи, маски</span></div><span class="allbtn">›</span></div>
+</div>
+<div class="fab">+</div>
+<div class="tabbar"><div class="on"><i></i>Сегодня</div><div><i></i>История</div><div><i></i>Средства</div><div><i></i>Ещё</div></div>
+</div>
+<figcaption><b>Сегодня, утро</b><span class="tag">С1</span><span class="tag">С3</span><span class="tag">С4</span>Сверху главный ответ — что с ретиналем. Отметка — тап по кружку, «Отметить всё» закрывает блок. Магний отмечается одной кнопкой «Выпила». «+» — внеплановая отметка.</figcaption>
+</figure>
+
+<!-- 2 evening with retinal + hint -->
+<figure>
+<div class="phone"><div class="status"><span>22:03</span><span>●●● 41%</span></div>
+<div class="scr">
+  <div><div class="date">Пятница, 17 октября</div><h2>Вечер ретиналя</h2></div>
+  <div class="hero"><div class="ring"><span>3<small>из 3 дн</small></span></div>
+    <div><b>Ретиналь можно сегодня</b><p>Прошло 3 дня. Азелаинку сегодня лучше пропустить.</p></div></div>
+  <div class="block"><h3>Вечер <small class="allbtn">Отметить всё</small></h3>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-ret"></i>Ретиналь</b><span>Этап «2 раза в неделю»</span></div><span class="pill ok">можно</span></div>
+    <div class="item"><div class="chk"></div><div class="t"><b><i class="dot d-pep"></i>Пептидная сыворотка Aravia</b></div></div>
+    <div class="item" style="opacity:.6"><div class="chk"></div><div class="t"><b><i class="dot d-az"></i>Крем с азелаиновой</b><span>Перенесён на субботу</span></div><span class="pill wait">не сегодня</span></div>
+  </div>
+  <div class="hint"><b>Подсказка.</b> Пока вводишь ретиналь, азелаиновую кислоту лучше в другой вечер — так меньше шансов на раздражение. Это правило можно выключить.</div>
+  <div class="row2"><span class="btn sec">Всё равно отметить</span><span class="btn">Понятно</span></div>
+</div>
+<div class="tabbar"><div class="on"><i></i>Сегодня</div><div><i></i>История</div><div><i></i>Средства</div><div><i></i>Ещё</div></div>
+</div>
+<figcaption><b>Вечер по схеме + подсказка</b><span class="tag">С2</span><span class="tag">С5</span>В вечер ретиналя конфликтующее средство уходит вниз с пометкой «не сегодня». Если всё же отметить — подсказка, но не запрет.</figcaption>
+</figure>
+
+<!-- 3 product card -->
+<figure>
+<div class="phone"><div class="status"><span>12:10</span><span>●●● 77%</span></div>
+<div class="scr">
+  <div class="date">‹ Средства</div>
+  <div><h2>Ретиналь</h2><p style="margin:4px 0 0;color:var(--muted);font-size:13px"><i class="dot d-ret"></i>ретиноид · только вечер · корейский</p></div>
+  <div class="hero rest" style="flex-direction:column;align-items:stretch;gap:10px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;color:var(--muted)">Последний раз</span><b class="mono" style="font-size:15px">вт, 14 окт · 2 дня</b></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;color:var(--muted)">Можно снова</span><b class="mono" style="font-size:15px">пт, 17 окт</b></div>
+    <div class="week">
+      <div><b>13</b>пн</div><div class="r"><b>14</b>вт</div><div><b>15</b>ср</div><div style="outline:2px solid var(--ink)"><b>16</b>чт</div><div class="r" style="border-style:dashed;background:transparent"><b>17</b>пт</div><div><b>18</b>сб</div><div><b>19</b>вс</div>
+    </div>
+  </div>
+  <h3>Частота</h3>
+  <div class="seg"><span>1 раз в неделю</span><span class="on">2 раза в неделю</span><span>Через день</span><span>Своя…</span></div>
+  <p style="margin:0;font-size:13px;color:var(--muted)">Не чаще чем раз в 3 дня. Дни подбираются сами, жёстких дней недели нет.</p>
+  <h3>Статистика</h3>
+  <div class="list">
+    <div class="lrow">За 7 дней<b class="mono">1 раз</b></div>
+    <div class="lrow">За 30 дней<b class="mono">5 раз</b></div>
+  </div>
+  <div class="row2" style="margin-top:auto;padding-bottom:22px"><span class="btn sec">Отметить за другой день</span><span class="btn acc">Нанесла сегодня</span></div>
+</div></div>
+<figcaption><b>Карточка средства: «Можно ли сегодня?»</b><span class="tag">С4</span><span class="tag">С7</span>Главная боль решена на одном экране: последний раз, когда можно снова, неделя с прошлым и плановым днём. Частота меняется тапом, план пересчитывается.</figcaption>
+</figure>
+
+<!-- 4 add past / unplanned -->
+<figure>
+<div class="phone"><div class="status"><span>21:15</span><span>●●● 52%</span></div>
+<div class="scr" style="opacity:.5">
+  <div><div class="date">Суббота, 18 октября</div><h2>Добрый вечер</h2></div>
+  <div class="hero rest"><div class="ring" style="--p:33%"><span>1<small>из 3 дн</small></span></div><div><b>Ретиналь отдыхает</b><p>Следующий — во вторник.</p></div></div>
+</div>
+<div class="dim"></div>
+<div class="sheet">
+  <div class="grab"></div>
+  <h2 style="font-size:22px">Отметить</h2>
+  <div class="field"><small>Что</small>Маска с кислотами (вне плана)</div>
+  <h3>Когда</h3>
+  <div class="seg"><span class="on">Сегодня</span><span>Вчера</span><span>Позавчера</span><span>Дата…</span></div>
+  <div class="seg"><span>Утро</span><span class="on">Вечер</span></div>
+  <div class="hint"><b>Подсказка.</b> Вчера был ретиналь. Кислоты лучше перенести на воскресенье или понедельник.</div>
+  <div class="row2"><span class="btn sec">Перенести</span><span class="btn">Отметить всё равно</span></div>
+</div>
+</div>
+<figcaption><b>Внеплановая отметка или задним числом</b><span class="tag">С5</span><span class="tag">С8</span>Кнопка «+» на «Сегодня»: любое средство, любой день, утро или вечер. Правила проверяются сразу, решение за тобой.</figcaption>
+</figure>
+
+<!-- 5 add product with composition -->
+<figure>
+<div class="phone"><div class="status"><span>19:02</span><span>●●● 64%</span></div>
+<div class="scr">
+  <div class="date">‹ Средства</div>
+  <h2>Новое средство</h2>
+  <div class="field"><small>Название</small>Тонер с гликолевой кислотой</div>
+  <h3>Состав <small>вставь текст с упаковки</small></h3>
+  <div class="ocr">Aqua, <mark>Glycolic Acid</mark>, Butylene Glycol, <mark>Niacinamide</mark>, Panthenol, Sodium Hydroxide, Allantoin…</div>
+  <p style="margin:-6px 0 0;font-size:12px;color:var(--muted)">Сфотографируй состав, зажми текст на фото и нажми «Скопировать» — iPhone распознаёт сам.</p>
+  <h3>Нашли активы</h3>
+  <div class="chips"><span class="chip on" style="color:var(--a-azelaic)">● AHA (гликолевая)</span><span class="chip on" style="color:var(--a-niac)">● Ниацинамид</span><span class="chip">+ добавить</span></div>
+  <div class="hint"><b>С твоим набором:</b> не в один вечер с <b style="color:var(--ink)">ретиналем</b>. Кислоты — не чаще 2 раз в неделю.</div>
+  <div class="seg"><span>Утро</span><span class="on">Вечер</span><span>2 раза в неделю</span></div>
+  <div class="btn acc" style="margin-top:auto;margin-bottom:22px">Добавить</div>
+</div></div>
+<figcaption><b>Новое средство по составу</b><span class="tag">С6</span>Текст состава с упаковки (функция iPhone «Текст на фото») → приложение находит активы по словарю INCI и сразу показывает, с чем из твоего набора их не сочетать.</figcaption>
+</figure>
+
+<!-- 6 history -->
+<figure>
+<div class="phone"><div class="status"><span>20:30</span><span>●●● 58%</span></div>
+<div class="scr">
+  <h2>История</h2>
+  <h3>Октябрь 2026 <small>‹ ›</small></h3>
+  <div class="cal">
+    <div class="h">пн</div><div class="h">вт</div><div class="h">ср</div><div class="h">чт</div><div class="h">пт</div><div class="h">сб</div><div class="h">вс</div>
+    <div class="d out">29</div><div class="d out">30</div>
+    <div class="d">1<span class="dots"><i class="d-ni"></i><i class="d-sup"></i></span></div>
+    <div class="d">2<span class="dots"><i class="d-ret"></i><i class="d-sup"></i></span></div>
+    <div class="d">3<span class="dots"><i class="d-ni"></i></span></div>
+    <div class="d">4<span class="dots"><i class="d-az"></i><i class="d-sup"></i></span></div>
+    <div class="d">5<span class="dots"><i class="d-sup"></i></span></div>
+    <div class="d">6<span class="dots"><i class="d-ni"></i><i class="d-sup"></i></span></div>
+    <div class="d">7<span class="dots"><i class="d-pep"></i></span></div>
+    <div class="d">8<span class="dots"><i class="d-ret"></i><i class="d-sup"></i></span></div>
+    <div class="d">9<span class="dots"><i class="d-ni"></i><i class="d-sup"></i></span></div>
+    <div class="d">10<span class="dots"><i class="d-az"></i></span></div>
+    <div class="d">11<span class="dots"><i class="d-sup"></i></span></div>
+    <div class="d">12<span class="dots"><i class="d-pep"></i><i class="d-sup"></i></span></div>
+    <div class="d">13<span class="dots"><i class="d-ni"></i><i class="d-sup"></i></span></div>
+    <div class="d sel">14<span class="dots"><i class="d-ret"></i><i class="d-pep"></i><i class="d-sup"></i></span></div>
+    <div class="d">15<span class="dots"><i class="d-az"></i><i class="d-sup"></i></span></div>
+    <div class="d today">16<span class="dots"><i class="d-ni"></i></span></div>
+    <div class="d">17</div><div class="d">18</div><div class="d">19</div>
+  </div>
+  <h3>Вторник, 14 октября</h3>
+  <div class="list">
+    <div class="lrow"><div><i class="dot d-sup"></i>Магний<span>утро · 7:52</span></div></div>
+    <div class="lrow"><div><i class="dot d-ret"></i>Ретиналь<span>вечер · 22:10</span></div></div>
+    <div class="lrow"><div><i class="dot d-pep"></i>Пептидная сыворотка Aravia<span>вечер · 22:12</span></div></div>
+  </div>
+  <p style="margin:0;font-size:13px;color:var(--muted)">Магний за октябрь: <b class="mono" style="color:var(--ink)">11 из 15</b> дней</p>
+</div>
+<div class="tabbar"><div><i></i>Сегодня</div><div class="on"><i></i>История</div><div><i></i>Средства</div><div><i></i>Ещё</div></div>
+</div>
+<figcaption><b>История</b><span class="tag">С8</span>Месяц с цветными точками активов: видно ритм ретиналя и пропуски магния. Тап по дню — список отметок, свайп удаляет ошибочную.</figcaption>
+</figure>
+
+<!-- 7 reminders -->
+<figure>
+<div class="phone"><div class="status"><span>23:05</span><span>●●● 30%</span></div>
+<div class="scr">
+  <div class="date">‹ Ещё</div>
+  <h2>Напоминания</h2>
+  <h3>Утро: уход и магний</h3>
+  <div class="list">
+    <div class="lrow">Будни<b class="mono">7:45</b></div>
+    <div class="lrow">Чт, 16 окт <span class="pill acc">только завтра</span><b class="mono">7:15</b></div>
+    <div class="lrow">Выходные<b class="mono">9:30</b></div>
+  </div>
+  <h3>Вечер</h3>
+  <div class="list"><div class="lrow">Каждый день<b class="mono">22:00</b></div></div>
+  <div class="hint ok"><b>Как это работает.</b> Веб-приложение не умеет присылать уведомления само, поэтому напоминания встают в Календарь iPhone с будильником. Ссылка в событии открывает «Сегодня».</div>
+  <div class="btn acc">Добавить в Календарь</div>
+  <p style="margin:0;font-size:12px;color:var(--muted)">После изменения времени нажми ещё раз — старые события заменятся.</p>
+</div>
+<div class="tabbar"><div><i></i>Сегодня</div><div><i></i>История</div><div><i></i>Средства</div><div class="on"><i></i>Ещё</div></div>
+</div>
+<figcaption><b>Время напоминаний по дням</b><span class="tag">С3</span>Время по будням и выходным плюс разовый сдвиг «только завтра» — для раннего выезда на работу. В прототипе напоминания идут через Календарь, в нативной версии будут обычные уведомления.</figcaption>
+</figure>
+
+<!-- 8 lock screen + rules -->
+<figure>
+<div class="phone lock"><div class="status"><span></span><span>●●● 95%</span></div>
+<div class="scr" style="padding:0">
+  <div class="clock">7:45</div>
+  <div style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:24px">четверг, 16 октября</div>
+  <div class="notif"><b>Календарь · Магний и утренний уход</b>Магний ждёт. После ретиналя во вторник — не забудь SPF. Открыть «Ритм кожи» →</div>
+  <div class="notif" style="margin-top:10px;opacity:.85"><b>Календарь · вчера 22:00</b>Вечер: азелаиновая сыворотка.</div>
+</div></div>
+<figcaption><b>Напоминание на экране блокировки</b><span class="tag">С3</span>Так выглядит напоминание из Календаря в прототипе. Тап открывает приложение, там отметка в один тап. Отметить прямо из уведомления можно будет только в нативной версии.</figcaption>
+</figure>
+
+<!-- 9 settings / data -->
+<figure>
+<div class="phone"><div class="status"><span>23:10</span><span>●●● 29%</span></div>
+<div class="scr">
+  <h2>Ещё</h2>
+  <h3>Правила</h3>
+  <div class="list">
+    <div class="lrow"><div>Ретиналь не чаще раза в 3 дня<span>этап «2 раза в неделю»</span></div><i class="toggle on"></i></div>
+    <div class="lrow"><div>Ретиналь и азелаиновая — разные вечера<span>пока вводишь ретиналь</span></div><i class="toggle on"></i></div>
+    <div class="lrow"><div>Ретиноид и AHA/BHA — разные вечера</div><i class="toggle on"></i></div>
+    <div class="lrow"><div>Кислоты AHA/BHA — до 2 раз в неделю</div><i class="toggle on"></i></div>
+    <div class="lrow"><div>SPF утром после ретиналя</div><i class="toggle on"></i></div>
+  </div>
+  <h3>Данные</h3>
+  <div class="list">
+    <div class="lrow"><div>Хранятся только на этом iPhone<span>сохранено 16 окт, 7:47</span></div></div>
+    <div class="lrow"><div>Сохранить копию в Файлы</div><span class="allbtn">Экспорт</span></div>
+    <div class="lrow"><div>Восстановить из копии</div><span class="allbtn">Импорт</span></div>
+  </div>
+  <div class="lrow" style="border:0"><div>Напоминания<span>Утро 7:45 · вечер 22:00</span></div><span class="allbtn">›</span></div>
+</div>
+<div class="tabbar"><div><i></i>Сегодня</div><div><i></i>История</div><div><i></i>Средства</div><div class="on"><i></i>Ещё</div></div>
+</div>
+<figcaption><b>Правила и данные</b><span class="tag">С5</span><span class="tag">С6</span>Правила — переключатели с понятным текстом. Данные не покидают телефон; копия в Файлы и восстановление защищают от очистки браузера.</figcaption>
+</figure>
+
+</main>

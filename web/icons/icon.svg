@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F4F6"/><stop offset="1" stop-color="#E7E1E8"/></linearGradient>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9B04A"/><stop offset="1" stop-color="#B9770E"/></linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g fill="none" stroke-width="56" stroke-linecap="round" transform="rotate(-90 512 512)">
+    <!-- 7 дуг по 51.4°, зазор 14° -->
+    <circle cx="512" cy="512" r="300" stroke="#2A2230" stroke-opacity=".16" pathLength="7" stroke-dasharray="0.73 0.27" stroke-dashoffset="-0.135"/>
+    <circle cx="512" cy="512" r="300" stroke="#C98A12" pathLength="7" stroke-dasharray="0.73 2.27 0.73 3.27" stroke-dashoffset="-1.135"/>
+  </g>
+  <path d="M512 330c-70 92-125 160-125 228a125 125 0 0 0 250 0c0-68-55-136-125-228z" fill="url(#drop)"/>
+  <ellipse cx="465" cy="540" rx="26" ry="48" fill="#fff" opacity=".55" transform="rotate(-18 465 540)"/>
+</svg>
