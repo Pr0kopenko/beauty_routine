@@ -412,7 +412,7 @@ function productHtml(id) {
   }
   return `<main class="screen">
     <div class="topbar"><button class="back" data-act="back">${I.back}Назад</button><button class="linkbtn" data-act="edit-product" data-id="${id}" style="margin-right:6px">Изменить</button></div>
-    <div><h1>${esc(it.name)}</h1><p class="small muted" style="margin-top:6px">${dotHtml(it)}${esc(actives)} · ${esc(blockName)}${it.dose ? ' · ' + esc(it.dose) : ''}</p></div>
+    <div><h1>${esc(it.name)}</h1><p class="small muted" style="margin-top:6px">${dotHtml(it)}${esc(actives)}${blockName && blockName.toLowerCase() !== actives.toLowerCase() ? ' · ' + esc(blockName) : ''}${it.dose ? ' · ' + esc(it.dose) : ''}</p></div>
     ${statusBlock}
     ${actions}
     <section class="block"><p class="sec">Статистика</p>
