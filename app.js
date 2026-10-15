@@ -1,6 +1,6 @@
 import * as L from './logic.js';
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 const KEY = 'ritm-kozhi-v1';
 const APP_URL = new URL('./', location.href).href;
 
@@ -17,7 +17,7 @@ const I = {
   ok: '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.8a8.2 8.2 0 1 1 0 16.4 8.2 8.2 0 0 1 0-16.4zm3.6 5.3L8.9 11.8 6.4 9.3 5.2 10.5l3.7 3.7 5.9-5.9-1.2-1.2z"/></svg>',
   empty: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="9" width="28" height="25" rx="5"/><path d="M6 16h28M14 5v7M26 5v7"/></svg>',
   tToday: '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="13" cy="13" r="8.5"/><path class="fillable" d="M13 4.5a8.5 8.5 0 0 1 0 17z" stroke="none"/><path d="M13 4.5v17"/></svg>',
-  tHistory: '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="5.5" width="17" height="16" rx="3.5"/><circle cx="9.5" cy="11.5" r="1"/><circle cx="13" cy="11.5" r="1"/><circle cx="16.5" cy="11.5" r="1"/><circle cx="9.5" cy="16" r="1"/><circle class="fillable" cx="13" cy="16" r="2"/><circle cx="16.5" cy="16" r="1"/></svg>',
+  tHistory: '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect class="fillable" x="4.5" y="5.5" width="17" height="16" rx="3.5" fill-opacity=".14"/><path d="M4.5 10h17"/><circle cx="9.5" cy="14.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="16.5" cy="14.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="13" cy="18" r="1.4" fill="currentColor" stroke="none"/></svg>',
   tProducts: '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3.5h5v3.5h-5z"/><path d="M9 7h8l.8 3H8.2z"/><rect x="7.5" y="10" width="11" height="12.5" rx="3"/><path class="fillable" d="M10 16h6v4h-6z" stroke="none"/></svg>',
   tMore: '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 9h16M5 17h16"/><circle class="fillable" cx="10" cy="9" r="2.4"/><circle class="fillable" cx="16" cy="17" r="2.4"/></svg>',
 };
@@ -55,7 +55,8 @@ function dotHtml(item) {
 
 // ---------- действия с отметками ----------
 function addEntry(itemId, day, slot, overrode = false) {
-  const e = { id: L.uid(), itemId, day, slot, at: new Date().toISOString(), time: day === today() ? nowHHMM() : null };
+  const h = new Date().getHours(); const period = h >= L.DAY_START_HOUR && h < 15 ? 'morning' : 'evening';
+  const e = { id: L.uid(), itemId, day, slot, at: new Date().toISOString(), time: day === today() && slot === period ? nowHHMM() : null };
   if (overrode) e.overrode = true;
   S.entries.push(e); save(); return e;
 }
@@ -135,8 +136,11 @@ function sheetHtml(s) {
   }
   if (s.type === 'deferred') {
     const it = itemById(s.itemId);
+    const morningOk = !L.isRetinoid(it) && !L.checkMark({ itemId: it.id, day: today(), slot: 'morning' }, S).length;
     return `${sheetHead(esc(it.name))}${hintsHtml([{ text: s.reason }], 'soft')}
-      <div class="stack"><button class="btn" data-act="close-sheet">Понятно</button><button class="btn sec" data-act="force-mark-today" data-id="${it.id}">Всё равно отметить</button></div>`;
+      <div class="stack"><button class="btn" data-act="close-sheet">Понятно</button>
+      ${morningOk ? `<button class="btn sec" data-act="mark-slot" data-id="${it.id}" data-slot="morning">Нанесла утром</button>` : ''}
+      <button class="btn sec" data-act="force-mark-today" data-id="${it.id}">Всё равно отметить${morningOk ? ' вечером' : ''}</button></div>`;
   }
   if (s.type === 'mark') {
     const items = S.items.filter((i) => !i.archived);
@@ -155,7 +159,7 @@ function sheetHtml(s) {
       <div class="seg"><button data-act="m-slot" data-slot="morning" aria-pressed="${s.slot === 'morning'}">Утро</button><button data-act="m-slot" data-slot="evening" aria-pressed="${s.slot === 'evening'}">Вечер</button></div>
       ${already ? hintsHtml([{ text: 'В этот день уже есть такая отметка.' }], 'soft') : ''}
       ${hints.length ? hintsHtml(hints) : ''}
-      ${hints.length
+      ${already ? `<button class="btn" disabled>Уже отмечено</button>` : hints.length
         ? `<div class="stack"><button class="btn" data-act="close-sheet">Не отмечать</button><button class="btn sec" data-act="m-save" data-force="1">Всё равно отметить</button></div>`
         : `<button class="btn" data-act="m-save">Отметить</button>`}`;
   }
@@ -179,7 +183,7 @@ function sheetHtml(s) {
 // ---------- экраны ----------
 function render() {
   const app = document.getElementById('app');
-  if (!S.onboarded) { app.innerHTML = onboardingHtml(); document.querySelector('.tabbar')?.remove(); document.querySelector('.fab')?.remove(); return; }
+  if (!S.onboarded) { app.innerHTML = onboardingHtml(); document.querySelector('.tabbar')?.remove(); return; }
   let html = '';
   if (ui.view === 'product') html = productHtml(ui.param);
   else if (ui.view === 'edit') html = editHtml(ui.param);
@@ -196,10 +200,6 @@ function renderChrome() {
   if (!tb) { tb = document.createElement('div'); tb.className = 'tabbar'; document.body.appendChild(tb); }
   const tabs = [['today', 'Сегодня', I.tToday], ['history', 'История', I.tHistory], ['products', 'Средства', I.tProducts], ['more', 'Ещё', I.tMore]];
   tb.innerHTML = `<nav aria-label="Разделы">${tabs.map(([id, l, ic]) => `<button data-act="tab" data-tab="${id}" ${ui.tab === id && !ui.view ? 'aria-current="page"' : ''}>${ic}<span>${l}</span></button>`).join('')}</nav>`;
-  let fab = document.querySelector('.fab');
-  const showFab = ui.tab === 'today' && !ui.view;
-  if (showFab && !fab) { fab = document.createElement('button'); fab.className = 'fab'; fab.dataset.act = 'open-mark'; fab.setAttribute('aria-label', 'Отметить другое средство или другой день'); fab.innerHTML = I.plus; document.body.appendChild(fab); }
-  if (!showFab) fab?.remove();
 }
 
 function ringHtml(st) {
@@ -219,8 +219,8 @@ function headline(plan, t) {
   switch (r.st.state) {
     case 'resting': return `${n} — ${L.whenWord(r.st.next, t)}`;
     case 'today': case 'overdue': return `Сегодня вечер — ${n.toLowerCase()}`;
-    case 'done': return `${n} сделан`;
-    default: return `${n}: можно начать`;
+    case 'done': return `${n} нанесён ✓`;
+    default: return `${n} — можно начать сегодня`;
   }
 }
 
@@ -230,10 +230,10 @@ function rowHtml(r, t, opts = {}) {
   if (r.deferred) sub = `<span class="s">${esc(r.deferred)}</span>`;
   else if (r.accent) sub = `<span class="s acc">${esc(r.accent)}</span>`;
   else if (it.actives.includes('supplement')) sub = `<span class="s">${esc(suppLine(it, t, r.done))}</span>`;
-  else if (r.status && L.isRetinoid(it)) sub = `<span class="s">${r.status.state === 'done' ? 'Сделано · следующий ' + esc(L.whenWord(r.status.next, t)) : esc(L.FREQUENCIES[it.schedule.freq]?.label || '')}</span>`;
+  else if (r.status && L.isRetinoid(it)) sub = `<span class="s">${r.status.state === 'done' ? 'Нанесла · следующий ' + esc(L.whenWord(r.status.next, t)) : esc(L.FREQUENCIES[it.schedule.freq]?.label || '')}</span>`;
   else if (r.done && r.entry?.time) sub = `<span class="s">${r.entry.slot === 'evening' ? 'вечер' : 'утро'} · ${esc(r.entry.time)}</span>`;
   else if (it.dose) sub = `<span class="s">${esc(it.dose)}</span>`;
-  const pill = r.status && !r.done && ['today', 'overdue', 'notStarted'].includes(r.status.state) ? '<span class="pill ret">можно</span>' : '';
+  const pill = r.status && !r.done ? (r.status.state === 'overdue' ? '<span class="pill due">пора</span>' : ['today', 'notStarted'].includes(r.status.state) ? '<span class="pill ret">можно</span>' : '') : '';
   const act = r.deferred ? `data-act="deferred" data-id="${it.id}" data-reason="${esc(r.deferred)}"` : `data-act="toggle" data-id="${it.id}"`;
   return `<button class="row ${r.done ? 'done' : ''} ${r.deferred ? 'deferred' : ''}" ${act} aria-pressed="${r.done}">
     <span class="chk" aria-hidden="true">${I.check}</span>
@@ -248,7 +248,7 @@ function suppLine(it, t, done) {
   if (done) return streak > 1 ? `Выпила · ${streak} ${L.plural(streak, 'день', 'дня', 'дней')} подряд` : 'Выпила';
   const late = nowHHMM() >= time;
   const parts = [late ? 'Пора выпить' : `Напомню в ${time}`];
-  if (yesterday) parts.push(streak > 1 ? `${streak} ${L.plural(streak, 'день', 'дня', 'дней')} подряд` : 'вчера ✓');
+  if (yesterday) parts.push(streak > 1 ? `вчера ✓ · ${streak} ${L.plural(streak, 'день', 'дня', 'дней')} подряд` : 'вчера ✓');
   return parts.join(' · ');
 }
 
@@ -262,13 +262,14 @@ function blockHtml(title, name, rows, t, meta = '') {
 
 function bannersHtml() {
   const out = [];
-  if (!isStandalone() && !ui.bannerHidden) {
+  let snoozed = false; try { snoozed = Number(localStorage.getItem(KEY + '-banner') || 0) > Date.now(); } catch {}
+  if (!isStandalone() && !ui.bannerHidden && !snoozed) {
     out.push(`<div class="banner"><span><b>Открыто во вкладке браузера.</b> Чтобы отметки не потерялись, поставь «Ритм кожи» на экран «Домой» и открывай с иконки.</span>
       <div class="acts"><button data-act="install-help">Как это сделать</button><button data-act="hide-banner">Позже</button></div></div>`);
   }
   const lastB = S.lastBackupAt ? Date.parse(S.lastBackupAt) : null;
   const firstEntry = S.entries.length ? Math.min(...S.entries.map((e) => Date.parse(e.at) || Date.now())) : null;
-  if (S.entries.length >= 5 && (!lastB ? (firstEntry && Date.now() - firstEntry > 3 * 864e5) : Date.now() - lastB > 7 * 864e5)) {
+  if (!out.length && new Date().getHours() >= 10 && S.entries.length >= 5 && (!lastB ? (firstEntry && Date.now() - firstEntry > 3 * 864e5) : Date.now() - lastB > 7 * 864e5)) {
     out.push(`<div class="banner"><span><b>Пора сохранить копию.</b> Данные лежат только в этом телефоне — копия в «Файлах» спасёт их, если браузер очистит память.</span>
       <div class="acts"><button data-act="export">Сохранить копию</button></div></div>`);
   }
@@ -287,14 +288,14 @@ function todayHtml() {
   const optNames = optionalShown.slice(0, 3).map((x) => x.item.name).join(', ') + (optionalShown.length > 3 ? '…' : '');
   const st = r ? L.heroText(r.item, r.st, t) : null;
   const warm = r && ['today', 'overdue', 'notStarted', 'done'].includes(r.st.state);
-  const morningFirst = h < 15;
+  const morningFirst = h >= L.DAY_START_HOUR && h < 15;
   const order = morningFirst
-    ? [blockHtml('Утро', 'morning', blocks.morning, t), blockHtml('Добавки', 'supplements', blocks.supplements, t), blockHtml('Вечер', 'evening', blocks.evening, t, esc(S.reminders.evening))]
-    : [blockHtml('Вечер', 'evening', blocks.evening, t, esc(S.reminders.evening)), blockHtml('Утро', 'morning', blocks.morning, t), blockHtml('Добавки', 'supplements', blocks.supplements, t)];
+    ? [blockHtml('Утро', 'morning', blocks.morning, t, esc(L.morningTimeFor(S.reminders, t))), blockHtml('Добавки', 'supplements', blocks.supplements, t), blockHtml('Вечер', 'evening', blocks.evening, t, esc(S.reminders.evening))]
+    : [blockHtml('Вечер', 'evening', blocks.evening, t, esc(S.reminders.evening)), blockHtml('Утро', 'morning', blocks.morning, t, esc(L.morningTimeFor(S.reminders, t))), blockHtml('Добавки', 'supplements', blocks.supplements, t)];
   return `<main class="screen">
-    <div><p class="eyebrow">${esc(L.fmtLong(t))}</p><h1>${esc(headline(plan, t))}</h1></div>
+    <div class="dayhead"><div><p class="eyebrow">${esc(L.fmtLong(t))}</p><h1>${esc(headline(plan, t))}</h1></div><button class="addbtn" data-act="open-mark" aria-label="Отметить другое средство или другой день">${I.plus}</button></div>
     ${bannersHtml()}
-    ${r ? `<button class="hero tap ${warm ? 'warm' : ''}" data-act="open-product" data-id="${r.item.id}">${ringHtml(r.st)}<span class="txt"><b>${esc(st.title)}</b><p>${esc(st.sub)}</p></span>${I.chev}</button>` : ''}
+    ${r ? `<button class="hero tap ${warm ? 'warm' : ''} ${r.st.state === 'overdue' ? 'due' : ''}" data-act="open-product" data-id="${r.item.id}">${ringHtml(r.st)}<span class="txt"><b>${esc(st.title)}</b><p>${esc(st.sub)}</p></span>${I.chev}</button>` : ''}
     ${allDone ? `<div class="hint ok">${I.ok}<div><p><b>На сегодня всё сделано.</b> ${r && r.st.state !== 'done' && r.st.state !== 'resting' ? '' : 'Коже — отдых.'}</p></div></div>` : ''}
     ${order.join('')}
     ${optionalShown.length ? `<section class="block">
@@ -323,7 +324,7 @@ function historyHtml() {
     const es = byDay.get(k) || [];
     const its = [...new Set(es.map((e) => e.itemId))].map(itemById).filter(Boolean);
     const ret = its.some(L.isRetinoid);
-    const dots = its.filter((i) => !L.isRetinoid(i)).slice(0, 4).map((i) => `<i class="${colorClass(i)}"></i>`).join('');
+    const dots = its.filter((i) => !L.isRetinoid(i)).sort((a, b) => (a.actives.includes('supplement') ? 1 : 0) - (b.actives.includes('supplement') ? 1 : 0)).slice(0, 4).map((i) => `<i class="${colorClass(i)}"></i>`).join('');
     const cls = [ret ? 'ret' : '', k === sel ? 'sel' : '', k === t ? 'today' : '', k > t ? 'future' : ''].join(' ');
     cells.push(`<button class="${cls}" data-act="hist-day" data-day="${k}" aria-label="${esc(L.fmtLong(k))}${its.length ? ': ' + esc(its.map((i) => i.name).join(', ')) : ''}">${d}<span class="dots">${dots}</span></button>`);
   }
@@ -332,22 +333,36 @@ function historyHtml() {
   const selEntries = (byDay.get(sel) || []).slice().sort((a, b) => (a.slot === b.slot ? (a.time || '').localeCompare(b.time || '') : a.slot === 'morning' ? -1 : 1));
   const mag = S.items.find((i) => i.actives.includes('supplement') && !i.archived);
   const monthEnd = month === `${ty}-${String(tm).padStart(2, '0')}` ? t : `${month}-${String(daysInMonth).padStart(2, '0')}`;
-  const monthDays = month > `${ty}-${String(tm).padStart(2, '0')}` ? 0 : L.daysBetween(first, monthEnd) + 1;
-  const magCount = mag ? L.countInRange(mag.id, S.entries, first, monthEnd) : 0;
+  const firstMag = mag ? S.entries.filter((e) => e.itemId === mag.id && !e.skipped).map((e) => e.day).sort()[0] : null;
+  const since = [first, S.startedAt, firstMag].filter(Boolean).filter((d) => d <= monthEnd).sort().pop() || first;
+  const statFrom = since > first ? since : first;
+  const monthDays = month > `${ty}-${String(tm).padStart(2, '0')}` || statFrom > monthEnd ? 0 : L.daysBetween(statFrom, monthEnd) + 1;
+  const magCount = mag ? L.countInRange(mag.id, S.entries, statFrom, monthEnd) : 0;
   return `<main class="screen">
     <h1>История</h1>
     <div class="sec"><span>${L.MONTHS_NOM[m - 1]} ${y}</span><span style="display:flex">
       <button class="close" data-act="hist-month" data-month="${prev}" aria-label="Предыдущий месяц">${I.back}</button>
       <button class="close" data-act="hist-month" data-month="${next}" aria-label="Следующий месяц" style="transform:scaleX(-1)">${I.back}</button></span></div>
     <div class="cal">${['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'].map((d) => `<span class="h">${d}</span>`).join('')}${cells.join('')}</div>
-    <div class="legend"><span><i style="background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--a-ret)"></i>ретиналь</span><span><i style="background:var(--a-sup);border-radius:50%"></i>другие средства — точки</span></div>
-    ${mag && monthDays ? `<p class="small muted">${esc(mag.name)} за ${L.MONTHS_NOM[m - 1].toLowerCase()}: <b class="num" style="color:var(--ink)">${magCount} из ${monthDays}</b> ${L.plural(monthDays, 'дня', 'дней', 'дней')}</p>` : ''}
+    <div class="legend"><span><i style="background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--a-ret)"></i>ретиналь</span><span><i style="box-shadow:inset 0 0 0 1.5px var(--ctl);border-radius:50%"></i>другие средства — цветные точки</span></div>
+    ${retMonth(first, monthEnd, monthDays, m)}
+    ${mag && monthDays ? `<p class="small muted">${esc(mag.name)} ${statFrom > first ? 'с ' + esc(L.fmtDayMonth(statFrom)) : 'за ' + L.MONTHS_NOM[m - 1].toLowerCase()}: <b class="num" style="color:var(--ink)">${magCount} из ${monthDays}</b> ${L.plural(monthDays, 'дня', 'дней', 'дней')}</p>` : ''}
     <section class="block">
       <p class="sec"><span>${esc(L.fmtLong(sel))}</span>${sel <= t ? `<button class="linkbtn" data-act="open-mark" data-day="${sel}">Добавить</button>` : ''}</p>
       ${selEntries.length ? selEntries.map((e) => { const it = itemById(e.itemId); if (!it) return ''; return `<div class="row"><span class="t"><b>${dotHtml(it)}${esc(it.name)}</b><span class="s">${e.slot === 'evening' ? 'вечер' : 'утро'}${e.time ? ' · ' + esc(e.time) : ''}${e.overrode ? ' · вопреки подсказке' : ''}${e.fromOnboarding ? ' · указано при настройке' : ''}</span></span><button class="linkbtn" data-act="del-entry" data-id="${e.id}" aria-label="Удалить отметку ${esc(it.name)}">Удалить</button></div>`; }).join('')
         : `<div class="empty">${I.empty}<p>${sel > t ? 'Этот день ещё не наступил.' : 'В этот день отметок нет.'}</p></div>`}
     </section>
   </main>`;
+}
+
+function retMonth(first, end, monthDays, m) {
+  const ret = S.items.find((i) => L.isRetinoid(i) && !i.archived);
+  if (!ret || !monthDays) return '';
+  const days = [...new Set(S.entries.filter((e) => e.itemId === ret.id && !e.skipped && e.day >= first && e.day <= end).map((e) => e.day))].sort();
+  if (!days.length) return '';
+  const minDays = L.FREQUENCIES[ret.schedule?.freq]?.minDays || 3;
+  const early = days.filter((d, i) => i > 0 && L.daysBetween(days[i - 1], d) < minDays).length;
+  return `<p class="small muted">${esc(ret.name)} за ${L.MONTHS_NOM[m - 1].toLowerCase()}: <b class="num" style="color:var(--ink)">${days.length}</b> ${L.plural(days.length, 'вечер', 'вечера', 'вечеров')}${early ? ` · ${early} раньше интервала` : ' · все по плану'}</p>`;
 }
 
 // ---------- средства ----------
@@ -401,11 +416,11 @@ function productHtml(id) {
       <div class="kv"><span class="muted small">Можно снова</span><b>${esc(st.state === 'done' ? L.fmtShort(st.next) : st.state === 'resting' ? L.fmtShort(st.next) : 'сегодня')}</b></div>
       ${weekStrip(it, st, t)}</div>
       <div><p class="sec">Частота</p><div class="seg">${Object.entries(L.FREQUENCIES).map(([k, f]) => `<button data-act="set-freq" data-id="${id}" data-freq="${k}" aria-pressed="${it.schedule.freq === k}">${f.label}</button>`).join('')}</div>
-      <p class="small muted" style="margin-top:8px">Не чаще чем раз в ${L.daysWord(L.FREQUENCIES[it.schedule.freq].minDays)}. Дни подбираются сами от последнего раза — жёстких дней недели нет.</p></div>`;
+      <p class="small muted" style="margin-top:8px">Не чаще раза в ${L.daysWord(L.FREQUENCIES[it.schedule.freq].minDays)}. Дни считаю сама от последнего раза — к дням недели не привязываю.</p></div>`;
     actions = doneToday
       ? `<button class="btn sec" data-act="toggle-here" data-id="${id}">Снять сегодняшнюю отметку</button>`
       : st.state === 'resting'
-        ? `<div class="stack"><button class="btn sec" data-act="open-mark" data-item="${id}">Отметить за другой день</button><button class="btn sec" data-act="toggle-here" data-id="${id}">Всё равно нанесла сегодня</button></div>`
+        ? `<div class="stack"><button class="btn sec" data-act="open-mark" data-item="${id}">Отметить за другой день</button><button class="btn sec" data-act="toggle-here" data-id="${id}">Всё равно отметить</button></div>`
         : `<div class="stack"><button class="btn ret" data-act="toggle-here" data-id="${id}">Нанесла сегодня</button><button class="btn sec" data-act="open-mark" data-item="${id}">Отметить за другой день</button></div>`;
   } else {
     actions = `<div class="stack"><button class="btn ${doneToday ? 'sec' : ''}" data-act="toggle-here" data-id="${id}">${doneToday ? 'Снять сегодняшнюю отметку' : it.actives.includes('supplement') ? 'Выпила сегодня' : 'Отметить сегодня'}</button><button class="btn sec" data-act="open-mark" data-item="${id}">Отметить за другой день</button></div>`;
@@ -493,10 +508,14 @@ function remindersHtml() {
     <section class="block"><p class="sec">Вечер</p>
       <div class="row"><span class="t"><b>Каждый день</b></span><input class="timein" type="time" value="${esc(r.evening)}" data-change="r-evening" aria-label="Время вечером"></div></section>
     <div class="hint ok">${I.ok}<div><p><b>Как это работает.</b> Веб-приложение не умеет само присылать уведомления, поэтому напоминания встают в Календарь iPhone с будильником. В событии есть ссылка на «Ритм кожи».</p></div></div>
-    <button class="btn" data-act="ics">Добавить в Календарь</button>
-    <p class="small muted">Поменяла время — добавь ещё раз и удали старый календарь «Ритм кожи» в настройках Календаря. Если кнопка не сработала, открой эту страницу в Safari и нажми ещё раз.</p>
+    <a class="btn" data-act="ics" href="${icsDataUrl()}" download="ritm-kozhi.ics" style="text-decoration:none">Добавить в Календарь</a>
+    <p class="small muted">Откроется Календарь с событиями — нажми «Добавить все». Поменяла время — добавь ещё раз, а старые события удали.</p>
+    <a class="btn sec" href="ritm-kozhi-default.ics" style="text-decoration:none">Запасной вариант: 7:45 · 9:30 · 22:00</a>
+    <p class="small muted">Если кнопка выше не открыла Календарь, нажми запасную: это обычный файл, Safari его точно откроет. Ещё можно открыть ${esc(APP_URL.replace(/^https?:\/\//, ''))} в Safari и нажать «Добавить в Календарь» там.</p>
   </main>`;
 }
+
+const BLOCK_LABEL = { morning: 'утро', evening: 'вечер', optional: 'по желанию', supplements: 'добавка' };
 
 // ---------- онбординг ----------
 function onboardingHtml() {
@@ -509,13 +528,14 @@ function onboardingHtml() {
     o.items = sel;
     return `<main class="screen no-tabs">${steps}
       <div><p class="eyebrow">Шаг 1 из 4</p><h1>Что у тебя на полке?</h1><p class="muted" style="margin-top:8px">Это твой набор. Сними галочку с того, чем не пользуешься, — потом можно добавить новое.</p></div>
-      <section class="block">${S.items.map((i) => `<button class="row ${sel[i.id] ? 'done' : ''}" data-act="ob-item" data-id="${i.id}" aria-pressed="${!!sel[i.id]}"><span class="chk">${I.check}</span><span class="t"><b>${dotHtml(i)}${esc(i.name)}</b><span class="s">${esc(i.actives.map((a) => L.ACTIVES[a]?.name).join(', ') || 'без активов')}</span></span></button>`).join('')}</section>
+      <section class="block">${S.items.map((i) => { const blk = (o.blocks || {})[i.id] || i.block; const fixed = L.isRetinoid(i) || i.block === 'supplements'; return `<div class="row ${sel[i.id] ? 'done' : ''}"><button class="chk" data-act="ob-item" data-id="${i.id}" aria-pressed="${!!sel[i.id]}" aria-label="${esc(i.name)}: ${sel[i.id] ? 'в наборе' : 'не использую'}">${I.check}</button><span class="t"><b>${dotHtml(i)}${esc(i.name)}</b><span class="s">${esc(i.actives.map((a) => L.ACTIVES[a]?.name).join(', ') || 'без активов')}</span></span>${sel[i.id] && !fixed ? `<button class="blockpick" data-act="ob-block" data-id="${i.id}" aria-label="Когда: ${BLOCK_LABEL[blk]}. Нажми, чтобы сменить">${BLOCK_LABEL[blk]}</button>` : ''}</div>`; }).join('')}</section>
+      <p class="small muted">Справа — когда средство показывать: утро, вечер или «по желанию» (свёрнутый список, отмечаешь, когда используешь).</p>
       <button class="btn" data-act="ob-next">Дальше</button></main>`;
   }
   if (s === 1) {
     const opts = [['1', 'Вчера'], ['3', '2–3 дня назад'], ['7', 'Неделю назад'], ['date', 'Выбрать дату…'], ['never', 'Ещё не начинала']];
     return `<main class="screen no-tabs">${steps}<div class="topbar">${backBtn}</div>
-      <div><p class="eyebrow">Шаг 2 из 4</p><h1>Когда последний раз был ретиналь?</h1><p class="muted" style="margin-top:8px">Посчитаю, когда можно снова. Ошибёшься — поправим в истории.</p></div>
+      <div><p class="eyebrow">Шаг 2 из 4</p><h1>Когда последний раз был ретиналь?</h1><p class="muted" style="margin-top:8px">Посчитаю, когда можно снова. Не помнишь точно — выбери примерно, потом поправим.</p></div>
       <div class="stack">${opts.map(([k, l]) => `<button class="opt" data-act="ob-last" data-v="${k}" aria-pressed="${o.last === k}">${l}${o.last === k && k !== 'never' && k !== 'date' ? `<span class="pill ret">${esc(L.fmtDayMonth(L.addDays(t, -Number(k))))}</span>` : ''}</button>`).join('')}</div>
       ${o.last === 'date' ? `<div class="field"><label for="ob-date">Дата</label><input id="ob-date" type="date" max="${t}" value="${o.date || L.addDays(t, -4)}" data-change="ob-date"></div>` : ''}
       <button class="btn" data-act="ob-next" ${o.last ? '' : 'disabled'}>Дальше</button></main>`;
@@ -548,16 +568,20 @@ function onboardingHtml() {
   const S0 = S; S = preview; const strip = ret && st ? weekStrip(ret, st, t) : ''; S = S0;
   return `<main class="screen no-tabs">
     <div><p class="eyebrow">Готово</p><h1>${ret ? (next === t ? 'Ретиналь можно сегодня вечером' : `Ретиналь можно ${L.whenWord(next, t)}, ${L.fmtDayMonth(next)}`) : 'Всё готово'}</h1></div>
-    ${ret ? `<div class="card">${strip}</div>
-      <p class="muted">Каждый день на экране «Сегодня» будет видно, отдыхает ретиналь или пора. В вечер ретиналя азелаиновую предложу перенести.</p>` : ''}
-    <div class="hint">${I.drop}<div><p>Поставь «Ритм кожи» на экран «Домой» и открывай с иконки — так отметки не потеряются.</p></div></div>
+    ${ret ? `<div class="card">${strip}</div>` : ''}
+    <section class="block"><p class="sec">Что я беру на себя</p>
+      <div class="row"><span class="t"><b>${dotHtml({ actives: ['retinoid'] })}Интервал ретиналя</b><span class="s">Скажу, отдыхает он или пора — каждый день на «Сегодня».</span></span></div>
+      <div class="row"><span class="t"><b>${dotHtml({ actives: ['azelaic'] })}Азелаиновую — в другие вечера</b><span class="s">В вечер ретиналя предложу её перенести.</span></span></div>
+      <div class="row"><span class="t"><b>${dotHtml({ actives: ['spf'] })}SPF после ретиналя</b><span class="s">Утром напомню, что кожа чувствительнее к солнцу.</span></span></div>
+      <div class="row"><span class="t"><b>${dotHtml({ actives: ['supplement'] })}Магний</b><span class="s">Отметка в один тап и серия дней подряд.</span></span></div>
+    </section>
     <button class="btn ret" data-act="ob-finish">Начать</button>
     <button class="btn sec" data-act="ob-back">Назад</button></main>`;
 }
 function obPreviewState() {
   const o = ui.ob; const t = today();
   const st = JSON.parse(JSON.stringify(S));
-  st.items.forEach((i) => { i.archived = !(o.items ? o.items[i.id] : true); });
+  st.items.forEach((i) => { i.archived = !(o.items ? o.items[i.id] : true); const b = o.blocks?.[i.id]; if (b) { i.block = b; i.schedule = b === 'optional' ? { type: 'asneeded' } : { type: 'daily' }; } });
   const ret = st.items.find((i) => i.id === 'retinal');
   if (ret) ret.schedule.freq = o.freq || '2w';
   st.entries = st.entries.filter((e) => !e.fromOnboarding);
@@ -591,18 +615,8 @@ async function importData(file) {
     openSheet({ type: 'confirm', title: 'Восстановить копию?', text: `В копии ${next.items.length} средств и ${next.entries.length} отметок. Текущие данные будут заменены.`, yes: 'Восстановить', fn: () => { S = { ...next, onboarded: true }; save(); toast('Копия восстановлена'); render(); } });
   } catch (e) { toast(e instanceof SyntaxError ? 'Файл повреждён или это не JSON.' : e.message); }
 }
-function addToCalendar() {
-  const ics = L.buildIcs(S.reminders, today(), APP_URL);
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-  const file = new File([blob], 'ritm-kozhi.ics', { type: 'text/calendar' });
-  if (isIOS()) {
-    // Safari на iOS открывает календарь с предложением «Добавить все» при переходе на data:/blob .ics
-    const url = URL.createObjectURL(blob);
-    location.href = url;
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
-    return;
-  }
-  downloadBlob(file, 'ritm-kozhi.ics');
+function icsDataUrl() {
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(L.buildIcs(S.reminders, today(), APP_URL));
 }
 
 // ---------- события ----------
@@ -616,7 +630,8 @@ document.addEventListener('click', (ev) => {
     case 'toggle': toggleRow(id); break;
     case 'toggle-here': toggleRow(id); break;
     case 'deferred': openSheet({ type: 'deferred', itemId: id, reason: deferredReason(id, el.dataset.reason) }); break;
-    case 'force-mark-today': { const it = itemById(id); const e = addEntry(id, t, L.defaultSlot(it), true); closeSheet(); markedToast(e); render(); break; }
+    case 'force-mark-today': { const it = itemById(id); const slot = L.isRetinoid(it) ? 'evening' : L.defaultSlot(it); const flag = L.checkMark({ itemId: id, day: t, slot }, S).length > 0; const e = addEntry(id, t, slot, flag); closeSheet(); markedToast(e); render(); break; }
+    case 'mark-slot': { const e = addEntry(id, t, el.dataset.slot); closeSheet(); markedToast(e); render(); break; }
     case 'force-mark': { const s = ui.sheet; const e = addEntry(s.itemId, s.day, s.slot, true); closeSheet(); markedToast(e); s.after?.(); render(); break; }
     case 'mark-all': markAll(el.dataset.block); break;
     case 'toggle-optional': ui.optionalOpen = !ui.optionalOpen; render(); break;
@@ -645,25 +660,26 @@ document.addEventListener('click', (ev) => {
     case 'rule': S.rules[id] = !(S.rules[id] !== false); save(); render(); break;
     case 'open-reminders': ui.view = 'reminders'; render(); scrollTo(0, 0); break;
     case 'r-add-override': S.reminders.overrides = { ...(S.reminders.overrides || {}), [el.dataset.day]: '07:15' }; save(); render(); break;
+    case 'ics': el.href = icsDataUrl(); return;
     case 'r-del-override': delete S.reminders.overrides[el.dataset.day]; save(); render(); break;
-    case 'ics': addToCalendar(); break;
     case 'export': exportData(); break;
     case 'reset': openSheet({ type: 'confirm', title: 'Начать заново?', text: 'Все отметки удалятся, набор вернётся к стартовому. Сначала лучше сохранить копию.', yes: 'Удалить всё и начать заново', fn: () => { S = L.seedState(); save(); ui.obStep = 0; ui.ob = {}; render(); } }); break;
     case 'install-help': openSheet({ type: 'install' }); break;
-    case 'hide-banner': ui.bannerHidden = true; render(); break;
+    case 'hide-banner': ui.bannerHidden = true; try { localStorage.setItem(KEY + '-banner', String(Date.now() + 3 * 864e5)); } catch {} render(); break;
     // онбординг
     case 'ob-item': ui.ob.items[id] = !ui.ob.items[id]; render(); break;
+    case 'ob-block': { const cur = (ui.ob.blocks || {})[id] || itemById(id).block; const order = ['morning', 'evening', 'optional']; ui.ob.blocks = { ...(ui.ob.blocks || {}), [id]: order[(order.indexOf(cur) + 1) % 3] }; render(); break; }
     case 'ob-last': ui.ob.last = el.dataset.v; render(); break;
     case 'ob-freq': ui.ob.freq = el.dataset.v; render(); break;
     case 'ob-next': ui.obStep++; render(); scrollTo(0, 0); break;
     case 'ob-back': ui.obStep = Math.max(0, ui.obStep - 1); render(); break;
-    case 'ob-finish': { const p = obPreviewState(); S = { ...p, onboarded: true }; save(); askPersist(); ui.tab = 'today'; render(); scrollTo(0, 0); break; }
+    case 'ob-finish': { const p = obPreviewState(); S = { ...p, onboarded: true, startedAt: today() }; save(); askPersist(); ui.tab = 'today'; render(); scrollTo(0, 0); break; }
   }
 });
 function deferredReason(id, short) {
   const it = itemById(id); const t = today();
   if (L.isRetinoid(it)) { const st = L.intervalStatus(it, S.entries, t); return `Ретиналь был ${L.whenWord(st.last, t)}. При частоте «${L.FREQUENCIES[it.schedule.freq].label.toLowerCase()}» следующий — ${L.whenWord(st.next, t)}.`; }
-  if (it.actives.includes('azelaic')) return 'Сегодня вечер ретиналя. Пока вводишь ретиналь, азелаиновую лучше в другой вечер — так коже спокойнее. Утром — можно.';
+  if (it.actives.includes('azelaic')) return 'Сегодня вечер ретиналя — азелаиновую лучше в другой вечер, так коже спокойнее. Утром можно.';
   return short;
 }
 function saveDraft() {
@@ -706,10 +722,10 @@ document.addEventListener('change', (ev) => {
   switch (k) {
     case 'm-item': ui.sheet.itemId = v; ui.sheet.slot = L.defaultSlot(itemById(v)); renderSheet(); break;
     case 'm-date': if (v) { ui.sheet.day = v > today() ? today() : v; renderSheet(); } break;
-    case 'r-weekdays': if (v) { R.morning.weekdays = v; save(); } break;
-    case 'r-weekend': if (v) { R.morning.weekend = v; save(); } break;
-    case 'r-evening': if (v) { R.evening = v; save(); } break;
-    case 'r-override': if (v) { R.overrides[ev.target.dataset.day] = v; save(); } break;
+    case 'r-weekdays': if (v) { R.morning.weekdays = v; save(); render(); toast('Время сохранено'); } break;
+    case 'r-weekend': if (v) { R.morning.weekend = v; save(); render(); toast('Время сохранено'); } break;
+    case 'r-evening': if (v) { R.evening = v; save(); render(); toast('Время сохранено'); } break;
+    case 'r-override': if (v) { R.overrides[ev.target.dataset.day] = v; save(); render(); toast('Время сохранено'); } break;
     case 'import': if (ev.target.files?.[0]) importData(ev.target.files[0]); ev.target.value = ''; break;
     case 'ob-date': ui.ob.date = v; break;
     case 'ob-weekdays': ui.ob.rem.weekdays = v || ui.ob.rem.weekdays; break;
@@ -718,6 +734,9 @@ document.addEventListener('change', (ev) => {
   }
 });
 document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && ui.sheet) closeSheet(); });
+let swipeY = null;
+document.addEventListener('touchstart', (ev) => { const sh = ev.target.closest('.sheet'); swipeY = sh && (ev.target.closest('.grab, .head') || sh.scrollTop === 0) ? ev.touches[0].clientY : null; }, { passive: true });
+document.addEventListener('touchmove', (ev) => { if (swipeY != null && ev.touches[0].clientY - swipeY > 90 && ui.sheet) { swipeY = null; closeSheet(); } }, { passive: true });
 
 // новый день, возврат в приложение
 let lastDay = today();
@@ -727,5 +746,5 @@ setInterval(() => { if (today() !== lastDay) { lastDay = today(); render(); } },
 // запуск
 render();
 if (S.onboarded) askPersist();
-if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('./sw.js').catch(() => {});
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('./sw.js').catch(() => {});
 window.__ritm = { get state() { return S; }, set state(v) { S = v; save(); render(); }, ui, render, L };

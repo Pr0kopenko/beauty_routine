@@ -38,9 +38,9 @@ const MONTHS_GEN = ['января', 'февраля', 'марта', 'апрел�
 export const MONTHS_NOM = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
 export const weekday = (key) => keyToDate(key).getDay();
-export const fmtShort = (key) => { const d = keyToDate(key); return `${WEEKDAYS_SHORT[d.getDay()]}, ${d.getDate()} ${MONTHS_GEN[d.getMonth()].slice(0, 3)}`; };
+export const fmtShort = (key) => { const d = keyToDate(key); return `${WEEKDAYS_SHORT[d.getDay()]},\u00a0${d.getDate()}\u00a0${MONTHS_GEN[d.getMonth()].slice(0, 3)}`; };
 export const fmtLong = (key) => { const d = keyToDate(key); return `${WEEKDAYS_FULL[d.getDay()]}, ${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`; };
-export const fmtDayMonth = (key) => { const d = keyToDate(key); return `${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`; };
+export const fmtDayMonth = (key) => { const d = keyToDate(key); return `${d.getDate()}\u00a0${MONTHS_GEN[d.getMonth()]}`; };
 
 /** «сегодня», «завтра», «в пятницу» (в пределах недели) или «пн, 20 окт». */
 export function whenWord(key, today) {
@@ -59,7 +59,7 @@ export function plural(n, one, few, many) {
   if (b === 1) return one;
   return many;
 }
-export const daysWord = (n) => `${n} ${plural(n, 'день', 'дня', 'дней')}`;
+export const daysWord = (n) => `${n}\u00a0${plural(n, 'день', 'дня', 'дней')}`;
 
 // ---------- активы и частоты ----------
 
@@ -93,16 +93,15 @@ export const isRetinoid = (item) => has(item, 'retinoid');
 export function seedState() {
   const items = [
     { id: 'retinal', name: 'Ретиналь', note: 'корейский', actives: ['retinoid'], block: 'evening', schedule: { type: 'interval', freq: '2w' } },
-    { id: 'aravia', name: 'Пептидная сыворотка Aravia', actives: ['peptides'], block: 'optional' },
-    { id: 'aza-serum', name: 'Сыворотка с азелаиновой кислотой', actives: ['azelaic'], block: 'optional' },
+    { id: 'aravia', name: 'Пептидная сыворотка Aravia', actives: ['peptides'], block: 'morning' },
+    { id: 'aza-serum', name: 'Сыворотка с азелаиновой кислотой', actives: ['azelaic'], block: 'evening' },
     { id: 'aza-cream', name: 'Крем с азелаиновой кислотой', actives: ['azelaic'], block: 'optional' },
-    { id: 'niac', name: 'Сыворотка с ниацинамидом', actives: ['niacinamide'], block: 'optional' },
+    { id: 'niac', name: 'Сыворотка с ниацинамидом', actives: ['niacinamide'], block: 'morning' },
     { id: 'spf', name: 'SPF Skin1004', actives: ['spf'], block: 'morning' },
     { id: 'eye-patch', name: 'Роллер-патчи для глаз', actives: [], block: 'optional' },
     { id: 'magnesium', name: 'Магний', actives: ['supplement'], block: 'supplements', dose: '' },
   ].map((it) => ({ archived: false, schedule: { type: 'daily' }, ...it }));
-  items.find((i) => i.id === 'aravia').schedule = { type: 'asneeded' };
-  for (const id of ['aza-serum', 'aza-cream', 'niac', 'eye-patch']) items.find((i) => i.id === id).schedule = { type: 'asneeded' };
+  for (const id of ['aza-cream', 'eye-patch']) items.find((i) => i.id === id).schedule = { type: 'asneeded' };
   return {
     version: SCHEMA_VERSION,
     onboarded: false,
@@ -154,10 +153,10 @@ export function statusText(item, st, today) {
   const n = item.name;
   switch (st.state) {
     case 'notStarted': return { title: `${n}: можно начать сегодня`, sub: 'Отметь, когда нанесёшь, — дальше посчитаю сама.' };
-    case 'done': return { title: `${n} сделан`, sub: `Следующий — ${whenWord(st.next, today)}, ${fmtDayMonth(st.next)}.` };
+    case 'done': return { title: `${n} нанесён ✓`, sub: `Следующий — ${whenWord(st.next, today)}, ${fmtDayMonth(st.next)}.` };
     case 'resting': return { title: `${n} отдыхает`, sub: `Был ${whenWord(st.last, today)}. Следующий — ${whenWord(st.next, today)} вечером.` };
     case 'today': return { title: `Сегодня вечер — ${n.toLowerCase()}`, sub: `Прошло ${daysWord(st.since)} — можно.` };
-    case 'overdue': return { title: `${n}а не было ${daysWord(st.since)}`, sub: 'Можно сегодня вечером.' };
+    case 'overdue': return { title: `${n} ждёт уже ${daysWord(st.since)}`, sub: 'Можно сегодня вечером.' };
     default: return { title: n, sub: '' };
   }
 }
@@ -170,7 +169,7 @@ export function heroText(item, st, today) {
     case 'done': return { title: 'Сделано сегодня', sub: `Следующий — ${whenWord(st.next, today)}, ${fmtDayMonth(st.next)}.` };
     case 'resting': { const left = st.minDays - st.since; return { title: `Ещё ${daysWord(left)} отдыха`, sub: `Был ${fmtShort(st.last)}. Можно с ${fmtShort(st.next)}.` }; }
     case 'today': return { title: `Прошло ${daysWord(st.since)} — можно`, sub: `Последний раз ${fmtShort(st.last)} · ${freq}.` };
-    case 'overdue': return { title: `Прошло ${daysWord(st.since)} — пора`, sub: `Последний раз ${fmtShort(st.last)} · ${freq}.` };
+    case 'overdue': return { title: `Прошло ${daysWord(st.since)} — самое время`, sub: `Последний раз ${fmtShort(st.last)} · ${freq}.` };
     default: return { title: item.name, sub: '' };
   }
 }
@@ -236,7 +235,7 @@ export function checkMark(candidate, state) {
 
   if (has(item, 'azelaic') && on('retinoid-azelaic') && slot === 'evening') {
     const r = sameEvening.filter(isRetinoid);
-    if (r.length) out.push({ rule: 'retinoid-azelaic', text: 'Сегодня вечер ретиналя. Пока вводишь ретиналь, азелаиновую лучше в другой вечер — меньше шансов на раздражение.' });
+    if (r.length) out.push({ rule: 'retinoid-azelaic', text: 'Сегодня вечер ретиналя — азелаиновую лучше в другой вечер, так коже спокойнее. Утром можно.' });
   }
 
   if (hasAcid(item)) {
