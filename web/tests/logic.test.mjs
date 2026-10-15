@@ -151,8 +151,8 @@ test('импорт: валидирует и дополняет', () => {
 });
 
 test('plural', () => {
-  assert.equal(L.daysWord(1), '1 день');
-  assert.equal(L.daysWord(3), '3 дня');
-  assert.equal(L.daysWord(11), '11 дней');
-  assert.equal(L.daysWord(22), '22 дня');
+  assert.equal(L.daysWord(1), '1\u00a0день');
+  assert.equal(L.daysWord(3), '3\u00a0дня');
+  assert.equal(L.daysWord(11), '11\u00a0дней');
+  assert.equal(L.daysWord(22), '22\u00a0дня');
 });

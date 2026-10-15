@@ -1,0 +1,55 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Ritm Kozhi//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Ритм кожи
+BEGIN:VEVENT
+UID:morning-weekdays@ritm-kozhi
+DTSTAMP:20261015T214821Z
+DTSTART:20261016T074500
+DURATION:PT10M
+SUMMARY:Магний и утренний уход
+DESCRIPTION:Магний и утренний уход. Открыть: https://pr0kopenko.github.io/
+ beauty_routine/
+URL:https://pr0kopenko.github.io/beauty_routine/
+RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Магний и утренний уход
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:morning-weekend@ritm-kozhi
+DTSTAMP:20261015T214821Z
+DTSTART:20261017T093000
+DURATION:PT10M
+SUMMARY:Магний и утренний уход
+DESCRIPTION:Магний и утренний уход. Открыть: https://pr0kopenko.github.io/
+ beauty_routine/
+URL:https://pr0kopenko.github.io/beauty_routine/
+RRULE:FREQ=WEEKLY;BYDAY=SA,SU
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Магний и утренний уход
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:evening@ritm-kozhi
+DTSTAMP:20261015T214821Z
+DTSTART:20261016T220000
+DURATION:PT10M
+SUMMARY:Вечерний уход
+DESCRIPTION:Загляни\, что сегодня вечером. Открыть: https://pr0kopenko.git
+ hub.io/beauty_routine/
+URL:https://pr0kopenko.github.io/beauty_routine/
+RRULE:FREQ=DAILY
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Вечерний уход
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

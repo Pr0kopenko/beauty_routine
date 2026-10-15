@@ -7,7 +7,7 @@ git -C "$ROOT" fetch -q origin gh-pages
 git -C "$ROOT" worktree add -q "$TMP" origin/gh-pages --detach
 find "$TMP" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 cp -R "$ROOT/web/." "$TMP/"
-rm -rf "$TMP/tests" "$TMP/package.json" "$TMP/README.md"
+rm -rf "$TMP/tests" "$TMP/package.json" "$TMP/README.md" "$TMP/gen-ics.mjs"
 touch "$TMP/.nojekyll"
 git -C "$TMP" add -A
 git -C "$TMP" commit -qm "Деплой $(git -C "$ROOT" rev-parse --short HEAD)" || echo "нет изменений"
