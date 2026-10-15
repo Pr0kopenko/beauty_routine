@@ -288,7 +288,7 @@ export function planForDay(state, day, today = day) {
       blocks.evening.unshift(row);
       continue;
     }
-    if (item.actives.includes('spf') && spfAccent) row.accent = `После ${strongYesterday.some(isRetinoid) ? 'вчерашнего ретиналя' : 'вчерашних кислот'} — особенно важно`;
+    if (item.actives.includes('spf') && spfAccent) row.accent = `После ${strongYesterday.some(isRetinoid) ? 'вчерашнего ретиналя' : 'вчерашних кислот'} кожа чувствительнее к солнцу`;
     const conflictsTonight = retinoidTonight && (
       (rules['retinoid-azelaic'] !== false && item.actives.includes('azelaic')) ||
       (rules['retinoid-acids'] !== false && hasAcid(item))
