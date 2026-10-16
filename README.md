@@ -21,6 +21,28 @@
 - Макеты v1 (рисованные, до ревью): [`design/mockups.html`](design/mockups.html)
 - Макеты v2 (кадры прототипа по сценариям): [`design/v2/index.html`](design/v2/index.html)
 
-## Нативное iOS-приложение (следующий этап)
+## Нативное iOS-приложение (v0.4)
 
-Каркас на SwiftUI + SwiftData лежит в `CareTracker/` и `CareTracker.xcodeproj` (Xcode 16+, iOS 17+). Его переделаем по ТЗ, когда будет Xcode. Данные из PWA переедут через импорт того же JSON-файла копии.
+SwiftUI, iOS 17+, Xcode 16+. Собирается в GitHub Actions; там же снимаются скриншоты всех экранов (артефакт `screens` у прогона «iOS»).
+
+```
+CareTracker/Core/       логика без UI: ретиноид, совместимость, план дня, уведомления, копия (swift test)
+CareTracker/Services/   хранилище JSON, фото, Keychain, распознавание (Vision и ИИ), уведомления
+CareTracker/Features/   экраны: Сегодня, Кожа, Средства, История, Настройки, онбординг
+CareTracker/App/        точка входа, AppStore, тема
+Tests/RitmCoreTests/    тесты ядра
+proxy/                  сервер-посредник с инвайт-кодами, чтобы друзьям не нужен был свой ключ ИИ
+ci/                     скрипт скриншотов и тестовые данные
+```
+
+### Как поставить на свой iPhone
+
+1. Установить Xcode из App Store и открыть `CareTracker.xcodeproj`.
+2. Xcode → Settings → Accounts → добавить свой Apple ID. В проекте: таргет CareTracker → Signing & Capabilities → Team = Personal Team. Если Xcode пишет, что bundle id занят, замени `com.pr0kopenko.CareTracker` на любой свой.
+3. Подключить iPhone кабелем. На телефоне: Настройки → Конфиденциальность и безопасность → Режим разработчика → включить, перезагрузить.
+4. Выбрать iPhone в списке устройств вверху и нажать Run (⌘R). При первом запуске: Настройки → Основные → VPN и управление устройством → доверять своему Apple ID.
+5. Перенести данные из PWA: в веб-версии «Ещё → Сохранить копию» → в «Файлы». В приложении на экране приветствия — «У меня есть копия из веб-версии».
+
+С бесплатным Apple ID установка живёт 7 дней, потом снова Run. Для друзей нужен платный Apple Developer и TestFlight.
+
+Тесты ядра без Xcode: `swift test` (macOS или Linux со Swift 6).

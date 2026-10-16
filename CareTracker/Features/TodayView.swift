@@ -85,7 +85,11 @@ struct RetinoidHero: View {
     let status: RetinoidStatus
 
     var body: some View {
-        let text = Retinoid.statusText(item, status, today: store.today)
+        let raw = Retinoid.statusText(item, status, today: store.today)
+        // Заголовок экрана уже говорит «Сегодня вечер — …», в карточке не повторяем.
+        let title = raw.title == Retinoid.headline(item, status, today: store.today)
+            ? "\(item.name) · \(Catalog.frequency(item.schedule.freq).label.lowercased())" : raw.title
+        let text = (title: title, sub: raw.sub)
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 16) {
                 Ring(status: status)

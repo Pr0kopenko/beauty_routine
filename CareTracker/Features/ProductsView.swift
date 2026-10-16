@@ -115,7 +115,7 @@ struct ProductDetailView: View {
                     Thumb(item: it, size: 72)
                     VStack(alignment: .leading, spacing: 4) {
                         Text(it.name).font(Theme.title)
-                        Text([Catalog.typeName(it.type), it.actives.map(Catalog.activeName).joined(separator: ", "), it.strength].filter { !$0.isEmpty }.joined(separator: " · "))
+                        Text(Array(NSOrderedSet(array: [Catalog.typeName(it.type), it.actives.map(Catalog.activeName).joined(separator: ", "), it.strength].filter { !$0.isEmpty })).compactMap { $0 as? String }.joined(separator: " · "))
                             .font(.footnote).foregroundStyle(Theme.muted)
                     }
                 }
