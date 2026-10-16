@@ -1,0 +1,45 @@
+name: iOS
+
+on:
+  push:
+    branches: [main]
+    paths: ['CareTracker/**', 'CareTracker.xcodeproj/**', 'Tests/**', 'Package.swift', '.github/workflows/ios.yml']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  core-linux:
+    name: Ядро · тесты (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+
+  app-macos:
+    name: Приложение · сборка (macOS)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Версия Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.4.app 2>/dev/null || sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)"
+          xcodebuild -version
+      - name: Тесты ядра
+        run: swift test
+      - name: Сборка для симулятора
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project CareTracker.xcodeproj -scheme CareTracker \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee build.log | grep -E "error:|warning: .*CareTracker/|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build.log
+      - name: Лог сборки
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log

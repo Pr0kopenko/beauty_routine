@@ -253,3 +253,69 @@ final class NotificationPlannerTests: XCTestCase {
         XCTAssertNotNil(r.first { $0.id == "f-m-2026-10-17" })
     }
 }
+
+final class RecognitionTests: XCTestCase {
+    func testParseStrictJson() {
+        let text = #"{"is_skincare":true,"brand":"Skin1004","name":"Madagascar Centella Sun","product_type":"spf","actives":["spf","unknown"],"retinoid_form":"none","strength":"SPF 50+","time_of_day":"morning","inci_text":"","confidence":"high","note_ru":"Солнцезащитный крем."}"#
+        let r = Recognition.parse(text)!
+        XCTAssertEqual(r.type, "spf")
+        XCTAssertEqual(r.actives, ["spf"], "неизвестный актив отброшен")
+        XCTAssertNil(r.retinoidForm)
+        XCTAssertEqual(r.displayName, "Skin1004 Madagascar Centella Sun")
+        XCTAssertEqual(r.suggestedBlock, "morning")
+    }
+    func testParseDirtyJsonAddsRetinoid() {
+        let r = Recognition.parse("Вот ответ: ```json\n{\"brand\":\"\",\"name\":\"Retinal 0.1\",\"product_type\":\"bogus\",\"actives\":[],\"retinoid_form\":\"retinal\",\"time_of_day\":\"night\"}\n```")!
+        XCTAssertEqual(r.type, "other")
+        XCTAssertEqual(r.actives, ["retinoid"])
+        XCTAssertEqual(r.retinoidForm, "retinal")
+        XCTAssertEqual(r.time, "any")
+        XCTAssertNil(Recognition.parse("не json"))
+    }
+}
+
+final class ActionsTests: XCTestCase {
+    func testMakeRetinoidItem() {
+        let r = RecognizedProduct(brand: "", name: "Ретинол 0.3", type: "serum", actives: ["retinoid"], retinoidForm: nil, time: "any")
+        let it = Actions.makeItem(r, block: "morning", today: "2026-10-16")
+        XCTAssertEqual(it.block, "evening", "ретиноид всегда вечером")
+        XCTAssertEqual(it.retinoidForm, "retinol")
+        XCTAssertEqual(it.schedule, Schedule(type: "interval", freq: "2w", since: "2026-10-16"))
+        let supp = Actions.makeItem(RecognizedProduct(name: "Магний B6", actives: ["supplement"]), today: "2026-10-16")
+        XCTAssertEqual(supp.block, "supplements")
+        XCTAssertEqual(supp.type, "supplement")
+        let opt = Actions.makeItem(RecognizedProduct(name: "Маска"), today: "2026-10-16")
+        XCTAssertEqual(opt.schedule.type, "asneeded")
+    }
+    func testMarkBlockSkipsConflicts() {
+        var s = sample()
+        s.entries = [mark("retinal", "2026-10-12")]
+        let added = Actions.markBlock(&s, kind: "evening", day: "2026-10-16")
+        XCTAssertEqual(Set(added.map(\.itemId)), ["retinal"], "азелаиновая отложена в вечер ретиноида")
+        let morning = Actions.markBlock(&s, kind: "morning", day: "2026-10-16")
+        XCTAssertEqual(Set(morning.map(\.itemId)), ["aravia", "niac", "spf", "magnesium"])
+        XCTAssertTrue(Planner.plan(s, day: "2026-10-16").allDone)
+    }
+    func testSkipDoesNotCountAsRetinoid() {
+        var s = sample()
+        s.entries = [mark("retinal", "2026-10-12")]
+        Actions.skipBlock(&s, kind: "evening", day: "2026-10-16")
+        XCTAssertEqual(Retinoid.days(s), ["2026-10-12"])
+        let r = NotificationPlanner.plan(s, today: "2026-10-16", now: "08:00")
+        XCTAssertNil(r.first { $0.id == "e-2026-10-16" }, "пропущенный вечер не напоминаем")
+        XCTAssertNotNil(r.first { $0.id == "e-2026-10-17" }, "ретиноид снова завтра")
+    }
+    func testOnboarding() {
+        var s = sample(); s.items[0].schedule = Schedule()
+        var o = Actions.Onboarding(); o.last = "3"; o.freq = "2w"; o.weekdays = "07:30"
+        let r = Actions.applyOnboarding(s, o, today: "2026-10-16")
+        XCTAssertEqual(r.entries.filter(\.fromOnboarding).map(\.day), ["2026-10-13"])
+        XCTAssertEqual(r.items[0].schedule.type, "interval")
+        XCTAssertEqual(r.reminders.morning.weekdays, "07:30")
+        XCTAssertEqual(Retinoid.status(r.items[0], r, today: "2026-10-16").state, .today)
+        o.last = "never"; o.freq = nil
+        let n = Actions.applyOnboarding(r, o, today: "2026-10-16")
+        XCTAssertTrue(n.entries.filter(\.fromOnboarding).isEmpty)
+        XCTAssertEqual(n.items[0].schedule.freq, "2w")
+    }
+}

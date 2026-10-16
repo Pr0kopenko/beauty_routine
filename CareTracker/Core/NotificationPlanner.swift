@@ -20,11 +20,13 @@ enum NotificationPlanner {
         for i in 0..<days {
             let day = Days.add(today, i)
             let p = Planner.plan(state, day: day, today: day)
-            let morningItems = (p.morning + p.supplements).filter { !$0.done }
-            let eveningItems = p.evening.filter { !$0.done }
+            // «Сегодня пропускаю» — пропуск тоже закрывает пункт для напоминаний.
+            let skipped = Set(state.entries.filter { $0.day == day && $0.skipped }.map(\.itemId))
+            let morningItems = (p.morning + p.supplements).filter { !$0.done && !skipped.contains($0.item.id) }
+            let eveningItems = p.evening.filter { !$0.done && !skipped.contains($0.item.id) }
             let mt = Planner.morningTime(state.reminders, day)
             if !morningItems.isEmpty && (i > 0 || now < mt) {
-                let supp = p.supplements.filter { !$0.done }.map(\.item.name)
+                let supp = p.supplements.filter { !$0.done && !skipped.contains($0.item.id) }.map(\.item.name)
                 let title = supp.isEmpty ? "Утренний уход" : "\(supp.joined(separator: ", ")) и утренний уход"
                 var body = morningItems.map(\.item.name).prefix(4).joined(separator: ", ")
                 if p.spfAccent { body = "После вчерашнего ретиноида или кислот — SPF обязательно. " + body }
