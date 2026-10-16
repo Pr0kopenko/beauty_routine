@@ -6,6 +6,7 @@ struct ProductsView: View {
     @State private var picks: [PhotosPickerItem] = []
     @State private var batch: [UIImage]?
     @State private var addOne = false
+    @State private var pushed: Item?
 
     var body: some View {
         List {
@@ -46,7 +47,11 @@ struct ProductsView: View {
         .navigationTitle("Средства")
         .navigationDestination(for: Item.self) { ProductDetailView(itemId: $0.id) }
         .navigationDestination(isPresented: $addOne) { AddProductView() }
+        .navigationDestination(item: $pushed) { ProductDetailView(itemId: $0.id) }
         .toolbar { ToolbarItem(placement: .topBarLeading) { SettingsButton() } }
+        #if DEBUG
+        .onAppear { if pushed == nil, let it = store.debugPush { pushed = it } }
+        #endif
         .onChange(of: picks) { _, items in
             guard !items.isEmpty else { return }
             Task {

@@ -27,19 +27,13 @@ jobs:
           xcodebuild -version
       - name: Тесты ядра
         run: swift test
-      - name: Сборка для симулятора
-        run: |
-          set -o pipefail
-          xcodebuild build \
-            -project CareTracker.xcodeproj -scheme CareTracker \
-            -destination 'generic/platform=iOS Simulator' \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO \
-            2>&1 | tee build.log | grep -E "error:|warning: .*CareTracker/|BUILD (SUCCEEDED|FAILED)" || true
-          grep -q "BUILD SUCCEEDED" build.log
-      - name: Лог сборки
-        if: failure()
+      - name: Сборка, запуск в симуляторе, скриншоты
+        run: ci/screens.sh
+      - name: Скриншоты и лог
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-log
-          path: build.log
+          name: screens
+          path: |
+            shots/
+            build.log

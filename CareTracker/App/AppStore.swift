@@ -32,7 +32,23 @@ final class AppStore {
 
     init(state: AppState = Storage.load()) {
         self.state = state
+        #if DEBUG
+        // Аргументы запуска для скриншотов в CI: -ui.tab skin, -ui.sheet settings|mark|add, -ui.push <id>
+        let d = UserDefaults.standard
+        switch d.string(forKey: "ui.tab") {
+        case "skin": route = .skin
+        case "products": route = .products
+        case "history": route = .history
+        default: break
+        }
+        if d.string(forKey: "ui.sheet") == "settings" { showSettings = true }
+        #endif
     }
+
+    #if DEBUG
+    var debugSheet: String? { UserDefaults.standard.string(forKey: "ui.sheet") }
+    var debugPush: Item? { UserDefaults.standard.string(forKey: "ui.push").flatMap { state.item($0) } }
+    #endif
 
     // MARK: — сохранение
 

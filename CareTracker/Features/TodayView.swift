@@ -4,7 +4,7 @@ struct TodayView: View {
     @Environment(AppStore.self) private var store
     @State private var showMark = false
     @State private var optionalOpen = false
-    @State private var exportURL: URL?
+    @State private var showAdd = false
 
     var body: some View {
         let t = store.today
@@ -66,7 +66,14 @@ struct TodayView: View {
             }
         }
         .sheet(isPresented: $showMark) { MarkSheet() }
+        .sheet(isPresented: $showAdd) { NavigationStack { AddProductView() } }
         .refreshable { store.refreshDay() }
+        #if DEBUG
+        .onAppear {
+            if store.debugSheet == "mark" { showMark = true }
+            if store.debugSheet == "add" { showAdd = true }
+        }
+        #endif
     }
 }
 
