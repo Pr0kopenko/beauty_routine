@@ -87,6 +87,8 @@ test('правила: кислоты — соседний вечер с рети
   const s = mk();
   s.items.push({ id: 'toner', name: 'Тонер с гликолевой', actives: ['aha'], block: 'optional', schedule: { type: 'asneeded' }, archived: false });
   s.entries.push(mark('retinal', '2026-10-17'));
+  assert.ok(!L.checkMark({ itemId: 'toner', day: '2026-10-18', slot: 'evening' }, s).some((h) => h.rule === 'retinoid-acids-adjacent'), 'соседние дни по умолчанию можно');
+  s.rules['retinoid-acids-adjacent'] = true;
   assert.ok(L.checkMark({ itemId: 'toner', day: '2026-10-18', slot: 'evening' }, s).some((h) => h.rule === 'retinoid-acids-adjacent'));
   s.entries.push(mark('toner', '2026-10-10'), mark('toner', '2026-10-12'));
   assert.ok(L.checkMark({ itemId: 'toner', day: '2026-10-14', slot: 'evening' }, s).some((h) => h.rule === 'acids-weekly'));
@@ -155,4 +157,70 @@ test('plural', () => {
   assert.equal(L.daysWord(3), '3\u00a0дня');
   assert.equal(L.daysWord(11), '11\u00a0дней');
   assert.equal(L.daysWord(22), '22\u00a0дня');
+});
+
+const prod = (id, actives, extra = {}) => ({ id, name: id, actives, block: 'optional', schedule: { type: 'asneeded' }, archived: false, type: 'serum', ...extra });
+
+test('правила v2: БПО окисляет ретинол, но не адапален', () => {
+  const s = mk({ items: [prod('bpo', ['bpo']), prod('rol', ['retinoid'], { retinoidForm: 'retinol' }), prod('ada', ['retinoid'], { retinoidForm: 'adapalene' })], entries: [mark('bpo', '2026-10-17')] });
+  assert.ok(L.checkMark({ itemId: 'rol', day: '2026-10-17', slot: 'evening' }, s).some((h) => h.rule === 'retinoid-bpo'));
+  assert.ok(!L.checkMark({ itemId: 'ada', day: '2026-10-17', slot: 'evening' }, s).some((h) => h.rule === 'retinoid-bpo'));
+  assert.ok(!L.checkMark({ itemId: 'rol', day: '2026-10-17', slot: 'morning' }, s).some((h) => h.rule === 'retinoid-bpo'), 'утро и вечер — можно');
+});
+
+test('правила v2: витамин C, один эксфолиант, медные пептиды', () => {
+  const s = mk({ items: [prod('c', ['vitc']), prod('ret', ['retinoid'], { retinoidForm: 'retinal' }), prod('aha', ['aha']), prod('scrub', ['exfoliant']), prod('cu', ['copper'])], entries: [mark('ret', '2026-10-17'), mark('aha', '2026-10-15', 'morning')] });
+  assert.ok(L.checkMark({ itemId: 'c', day: '2026-10-17', slot: 'evening' }, s).some((h) => h.rule === 'vitc-retinoid'));
+  assert.ok(!L.checkMark({ itemId: 'c', day: '2026-10-17', slot: 'morning' }, s).length);
+  assert.ok(L.checkMark({ itemId: 'scrub', day: '2026-10-15', slot: 'evening' }, s).some((h) => h.rule === 'one-exfoliant'));
+  assert.ok(L.checkMark({ itemId: 'cu', day: '2026-10-15', slot: 'morning' }, s).some((h) => h.rule === 'copper-acids'));
+});
+
+test('этапы: через день не чаще 4 раз в неделю, 4–5 раз — без интервала', () => {
+  const s = mk();
+  const ret = { ...s.items.find((i) => i.id === 'retinal'), schedule: { type: 'interval', freq: 'eod' } };
+  const e = ['2026-10-10', '2026-10-12', '2026-10-14'].map((d) => mark('retinal', d));
+  assert.equal(L.intervalStatus(ret, e, '2026-10-15').state, 'resting');
+  assert.equal(L.intervalStatus(ret, e, '2026-10-16').state, 'today');
+  const r5 = { ...ret, schedule: { type: 'interval', freq: '5w' } };
+  const e5 = ['2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16'].map((d) => mark('retinal', d));
+  assert.equal(L.intervalStatus(r5, e5, '2026-10-17').state, 'resting', 'лимит 5 в неделю');
+  assert.equal(L.intervalStatus(r5, e5, '2026-10-17').next, '2026-10-19');
+});
+
+test('пауза по реакции: средне — 3 дня, сильно — пока не пройдёт', () => {
+  const s = mk({ entries: [mark('retinal', '2026-10-10')] });
+  const ret = s.items.find((i) => i.id === 'retinal');
+  s.diary = { '2026-10-15': { reactions: { redness: 2 } } };
+  assert.equal(L.intervalStatus(ret, s.entries, '2026-10-16', s).state, 'paused');
+  assert.equal(L.intervalStatus(ret, s.entries, '2026-10-18', s).state, 'overdue');
+  s.diary = { '2026-10-15': { reactions: { burning: 3 } } };
+  assert.equal(L.intervalStatus(ret, s.entries, '2026-10-17', s).state, 'paused');
+  s.diary['2026-10-17'] = { reactions: { burning: 0, redness: 0 } };
+  assert.notEqual(L.intervalStatus(ret, s.entries, '2026-10-17', s).state, 'paused');
+  s.diary = { '2026-10-15': { reactions: { breakouts: 3 } } };
+  assert.notEqual(L.intervalStatus(ret, s.entries, '2026-10-16', s).state, 'paused', 'высыпания — не раздражение');
+  s.diary = {}; s.settings.pregnancy = true;
+  assert.equal(L.intervalStatus(ret, s.entries, '2026-10-16', s).state, 'blocked');
+});
+
+test('совет: шаг вверх после 2 недель без реакций, шаг вниз при реакции', () => {
+  const s = mk();
+  const ret = s.items.find((i) => i.id === 'retinal'); ret.retinoidForm = 'retinal'; ret.schedule = { type: 'interval', freq: '2w', since: '2026-10-01' };
+  s.entries = ['2026-10-01', '2026-10-05', '2026-10-09', '2026-10-13'].map((d) => mark('retinal', d));
+  const up = L.retinoidAdvice(ret, s, '2026-10-16');
+  assert.equal(up.kind, 'up'); assert.equal(up.to, 'eod');
+  assert.equal(L.retinoidAdvice(ret, s, '2026-10-10'), null, 'рано');
+  ret.schedule.freq = 'eod'; s.diary = { '2026-10-15': { reactions: { dryness: 2 } } };
+  const down = L.retinoidAdvice(ret, s, '2026-10-16');
+  assert.equal(down.kind, 'down'); assert.equal(down.to, '2w');
+});
+
+test('миграция v1 → v2', () => {
+  const old = { items: [{ id: 'retinal', name: 'Ретиналь', actives: ['retinoid'], block: 'evening', schedule: { type: 'interval', freq: '2w' } }, { id: 'm', name: 'Магний', actives: ['supplement'], block: 'supplements' }], entries: [], rules: { 'retinoid-acids-adjacent': true }, version: 1 };
+  const s = L.validateImport(old);
+  assert.equal(s.items[0].retinoidForm, 'retinal');
+  assert.equal(s.items[1].type, 'supplement');
+  assert.equal(s.rules['retinoid-acids-adjacent'], false);
+  assert.deepEqual(s.diary, {});
 });
