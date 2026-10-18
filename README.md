@@ -15,6 +15,8 @@
 
 Код — в [`web/`](web/), тесты логики — `node --test web/tests/logic.test.mjs`, выкладка — `./deploy.sh` (ветка `gh-pages`).
 
+Как начать на своём Маке (Xcode, iPhone, Claude локально): [docs/mac-setup.md](docs/mac-setup.md).
+
 ## Документы
 
 - ТЗ v1 — в Claude Docs: https://claude.ai/code/artifact/c88ad6a8-ce30-49b7-8128-18de2ab5767f
