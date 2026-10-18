@@ -9,7 +9,7 @@ items = [
  dict(id="niac", name="Сыворотка с ниацинамидом", type="serum", actives=["niacinamide"], block="morning", schedule=dict(type="daily")),
  dict(id="spf", name="SPF Skin1004", type="spf", actives=["spf"], block="morning", schedule=dict(type="daily")),
  dict(id="lrp", name="La Roche-Posay SPF", type="spf", actives=["spf"], block="optional", schedule=dict(type="asneeded")),
- dict(id="aza", name="Сыворотка с азелаиновой кислотой", type="serum", actives=["azelaic"], block="evening", schedule=dict(type="daily")),
+ dict(id="aza", name="Сыворотка с азелаиновой кислотой", type="serum", actives=["azelaic"], composition="Aqua, Azelaic Acid 10%, Propanediol, Niacinamide, Glycerin, Phenoxyethanol, Ethylhexylglycerin", block="evening", schedule=dict(type="daily")),
  dict(id="azac", name="Крем с азелаиновой кислотой", type="cream", actives=["azelaic"], block="optional", schedule=dict(type="asneeded")),
  dict(id="patch", name="Роллер-патчи", type="eye", actives=[], block="optional", schedule=dict(type="asneeded")),
  dict(id="mg", name="Магний", type="supplement", actives=["supplement"], block="supplements", dose="1 капсула", schedule=dict(type="daily")),
@@ -27,5 +27,5 @@ diary = {d(-8): dict(reactions=dict(redness=1, dryness=1), note="Немного 
          d(-1): dict(reactions=dict(redness=0, dryness=1, breakouts=1), note="", photos=[])}
 state = dict(version=2, onboarded=True, items=items, entries=entries, diary=diary, startedAt=d(-20), lastBackupAt=d(-2) + "T10:00:00Z",
              reminders=dict(morning=dict(weekdays="07:45", weekend="09:30"), evening="22:00", overrides={}, followUpMinutes=60, quietAfter="23:30"),
-             settings=dict(pregnancy=False))
+             settings=dict(pregnancy=False, rosacea=True))
 json.dump(state, open(sys.argv[1], "w"), ensure_ascii=False, indent=1)

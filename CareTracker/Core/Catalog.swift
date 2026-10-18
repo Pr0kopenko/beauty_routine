@@ -42,11 +42,17 @@ enum Catalog {
     static let frequencies: [String: Frequency] = [
         "1w": Frequency(id: "1w", label: "1 раз в неделю", short: "1×/нед", minDays: 7, maxPerWeek: 1),
         "2w": Frequency(id: "2w", label: "2 раза в неделю", short: "2×/нед", minDays: 3, maxPerWeek: 2),
+        "3w": Frequency(id: "3w", label: "3 раза в неделю", short: "3×/нед", minDays: 2, maxPerWeek: 3),
         "eod": Frequency(id: "eod", label: "Через день", short: "через день", minDays: 2, maxPerWeek: 4),
         "5w": Frequency(id: "5w", label: "4–5 раз в неделю", short: "4–5×/нед", minDays: 1, maxPerWeek: 5),
         "daily": Frequency(id: "daily", label: "Каждый вечер", short: "каждый вечер", minDays: 1, maxPerWeek: 7),
     ]
+    /// Осторожная лестница (чувствительная кожа, розацеа, первый ретиноид): 8–12 недель до ежедневного.
     static let stageOrder = ["1w", "2w", "eod", "5w", "daily"]
+    /// Стандартная лестница, как у большинства брендов (Medik8, LRP, COSRX): ~4–5 недель до ежедневного.
+    static let standardOrder = ["2w", "eod", "daily"]
+    /// Все частоты по возрастанию — для ручной схемы.
+    static let allFrequencies = ["1w", "2w", "3w", "eod", "5w", "daily"]
     static func frequency(_ id: String?) -> Frequency { frequencies[id ?? "2w"] ?? frequencies["2w"]! }
 
     static let retinoidForms: [String: RetinoidForm] = [
@@ -75,6 +81,7 @@ enum Catalog {
         Rule(id: "one-exfoliant", text: "Один эксфолиант за день", sub: "кислоты, скраб, энзимы, пилинг-маска — в разные дни", confidence: "средний", source: aadExf, defaultOn: true),
         Rule(id: "copper-acids", text: "Медные пептиды отдельно от кислот и витамина C", sub: "при низком pH комплекс меди может распадаться", confidence: "низкий", source: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6073405/", defaultOn: true),
         Rule(id: "acids-weekly", text: "Кислоты AHA/BHA — до 2–3 раз в неделю", sub: "подсказка с третьего раза за 7 дней", confidence: "эвристика", source: nil, defaultOn: true),
+        Rule(id: "irritation-load", text: "Не больше активов за один приём, чем выдержит кожа", sub: "сумма сил активов с учётом концентрации; при розацеа и чувствительной коже лимит ниже", confidence: "эвристика", source: nil, defaultOn: true),
         Rule(id: "retinoid-acids-adjacent", text: "Ретиноид и кислоты — не в соседние вечера", sub: "строже, чем нужно по данным; для чувствительной кожи", confidence: "низкий", source: nil, defaultOn: false),
         Rule(id: "spf-after", text: "SPF утром после ретиноида или кислот", sub: "выделю SPF на утро", confidence: "высокий", source: "https://www.fda.gov/cosmetics/cosmetic-ingredients/alpha-hydroxy-acids", defaultOn: true),
     ]

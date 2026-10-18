@@ -63,6 +63,17 @@ enum Compatibility {
             add("pause", "Кожа сейчас реагирует. Активы лучше отложить на пару дней: мягкое очищение, увлажнение и SPF.")
         }
 
+        if on("irritation-load") {
+            let mine = Knowledge.load(of: item)
+            if mine > 0 {
+                let total = sameSlot.reduce(mine) { $0 + Knowledge.load(of: $1) }
+                let limit = state.settings.loadLimit
+                if total > limit && sameSlot.contains(where: { Knowledge.load(of: $0) > 0 }) {
+                    add("irritation-load", "За этот \(slot == "morning" ? "утренний" : "вечерний") уход уже много активов: нагрузка \(total) при комфортных \(limit)\(state.settings.rosacea ? " для кожи с розацеа" : ""). Лучше перенести что-то на другой день.")
+                }
+            }
+        }
+
         func pair(_ id: String, _ mine: (Item) -> Bool, _ theirs: (Item) -> Bool, _ list: [Item], _ text: (String) -> String) {
             guard on(id), mine(item) else { return }
             let hit = list.filter(theirs)

@@ -17,6 +17,15 @@ struct SettingsView: View {
                 }
             }
             Section {
+                Toggle("Розацеа", isOn: Binding(get: { store.state.settings.rosacea }, set: { store.setSkin(rosacea: $0) }))
+                Toggle("Чувствительная кожа", isOn: Binding(get: { store.state.settings.sensitive }, set: { store.setSkin(sensitive: $0) }))
+                Picker("Ретиноиды", selection: Binding(get: { store.state.settings.retinoidProfile }, set: { store.setSkin(profile: $0) })) {
+                    Text("Авто").tag("auto"); Text("Стандартно").tag("standard"); Text("Осторожно").tag("cautious")
+                }
+            } header: { Text("Кожа") } footer: {
+                Text("Сейчас: \(store.state.settings.cautious ? "осторожный режим — 1 раз в неделю и медленные шаги" : "стандартный режим — 2 раза в неделю → через день → каждый вечер"). «Авто» включает осторожный режим при розацеа или чувствительной коже. При розацеа ретиноиды лучше вводить вместе с дерматологом.")
+            }
+            Section {
                 Toggle(isOn: Binding(get: { store.state.settings.pregnancy }, set: { store.setPregnancy($0) })) {
                     VStack(alignment: .leading) {
                         Text("Беременность, планирование, ГВ")
@@ -146,7 +155,7 @@ struct AISettingsView: View {
                     Text("Инвайт-код").tag("proxy")
                 }
                 .onChange(of: s.provider) { _, p in
-                    s.model = p == "openai" ? "gpt-6-astra" : "claude-haiku-5-5"
+                    s.model = p == "openai" ? "gpt-4.1-mini" : p == "proxy" ? "gpt-4.1-mini" : "claude-haiku-5-5"
                     secret = Keychain.get(p)
                     result = nil
                 }
@@ -157,6 +166,10 @@ struct AISettingsView: View {
                 if s.provider == "proxy" {
                     TextField("Адрес сервера", text: $s.proxyURL).keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
                     SecureField("Инвайт-код", text: $secret)
+                    Picker("Нейросеть", selection: $s.model) {
+                        Text("ChatGPT (gpt-4.1-mini)").tag("gpt-4.1-mini")
+                        Text("Claude Haiku").tag("claude-haiku-5-5")
+                    }
                 } else {
                     SecureField(s.provider == "openai" ? "Ключ OpenAI (sk-…)" : "Ключ Anthropic (sk-ant-…)", text: $secret)
                     TextField("Модель", text: $s.model).textInputAutocapitalization(.never).autocorrectionDisabled()

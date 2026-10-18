@@ -64,6 +64,15 @@ enum Planner {
                 if row.deferred != nil { p.optional.append(row) } else { p.evening.insert(row, at: 0) }
                 continue
             }
+            if item.schedule.type == "interval" && !row.done {
+                // Кислоты, BPO и т. п. по своей частоте: отдыхает — уходит в «по желанию».
+                let days = Set(state.entries.filter { $0.itemId == item.id && !$0.skipped }.map(\.day)).sorted()
+                let next = Retinoid.nextAllowed(freq: Catalog.frequency(item.schedule.freq), days: days, from: day)
+                if next > day {
+                    row.deferred = "Отдыхает до \(Days.when(next, today: today))"
+                    p.optional.append(row); continue
+                }
+            }
             if item.actives.contains("spf") && p.spfAccent {
                 row.accent = "После \(strongYesterday.contains(where: \.isRetinoid) ? "вчерашнего ретиноида" : "вчерашних кислот") кожа чувствительнее к солнцу"
             }

@@ -132,7 +132,7 @@ final class AppStore {
     @discardableResult
     func addItem(_ r: RecognizedProduct, block: String? = nil, image: UIImage? = nil) -> Item {
         let thumb = image.flatMap { PhotoStore.saveThumb($0) }
-        let it = Actions.makeItem(r, block: block, thumb: thumb, today: today)
+        let it = Actions.makeItem(r, block: block, thumb: thumb, today: today, settings: state.settings)
         commit { $0.items.append(it) }
         return it
     }
@@ -206,6 +206,45 @@ final class AppStore {
     // MARK: — настройки
 
     func setRule(_ id: String, _ on: Bool) { commit { $0.rules[id] = on } }
+    func setSkin(rosacea: Bool? = nil, sensitive: Bool? = nil, profile: String? = nil) {
+        commit { s in
+            if let rosacea { s.settings.rosacea = rosacea }
+            if let sensitive { s.settings.sensitive = sensitive }
+            if let profile { s.settings.retinoidProfile = profile }
+        }
+    }
+
+    /// Своя схема введения. Для ретиноида и «интервальных» средств сразу ставит стартовую частоту.
+    func setIntroPlan(_ itemId: String, _ plan: IntroPlan?) {
+        commit { s in
+            guard let i = s.items.firstIndex(where: { $0.id == itemId }) else { return }
+            s.items[i].introPlan = plan
+            guard let plan else { return }
+            if plan.timeOfDay == "evening" && s.items[i].block == "morning" { s.items[i].block = "evening" }
+            if plan.timeOfDay == "morning" && s.items[i].block == "evening" && !s.items[i].isRetinoid { s.items[i].block = "morning" }
+            if s.items[i].isRetinoid || plan.start != "daily" {
+                s.items[i].schedule = Schedule(type: "interval", freq: plan.start, since: s.items[i].schedule.since ?? today)
+            } else if s.items[i].schedule.type == "interval" {
+                s.items[i].schedule = Schedule(type: "daily")
+            }
+        }
+        show(plan == nil ? "Схема убрана — снова общее правило" : "Схема сохранена")
+    }
+
+    /// Новый состав (по фото): уточняет активы и форму ретиноида.
+    func setComposition(_ itemId: String, _ text: String) {
+        commit { s in
+            guard let i = s.items.firstIndex(where: { $0.id == itemId }) else { return }
+            s.items[i].composition = text
+            let found = Knowledge.analyze(text)
+            for c in Knowledge.coarseActives(found) where !s.items[i].actives.contains(c) { s.items[i].actives.append(c) }
+            if let f = Knowledge.retinoidForm(found), Catalog.retinoidForms[f] != nil { s.items[i].retinoidForm = f }
+        }
+    }
+
+    func setFrequency(_ itemId: String, _ freq: String) {
+        commit { s in if let i = s.items.firstIndex(where: { $0.id == itemId }) { s.items[i].schedule.freq = freq; s.items[i].schedule.since = today } }
+    }
     func setPregnancy(_ on: Bool) { commit { $0.settings.pregnancy = on } }
     func setReminders(_ r: Reminders) { commit { $0.reminders = r } }
 

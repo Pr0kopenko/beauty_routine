@@ -130,6 +130,8 @@ final class CompatibilityTests: XCTestCase {
         XCTAssertTrue(Compatibility.check(itemId: "aza-serum", day: "2026-10-17", slot: "evening", in: s).contains { $0.rule == "retinoid-azelaic" })
         XCTAssertTrue(Compatibility.check(itemId: "aza-serum", day: "2026-10-17", slot: "morning", in: s).isEmpty)
         s.rules["retinoid-azelaic"] = false
+        XCTAssertEqual(Compatibility.check(itemId: "aza-serum", day: "2026-10-17", slot: "evening", in: s).map(\.rule), ["irritation-load"], "ретиналь 4 + азелаиновая 3 > 6")
+        s.rules["irritation-load"] = false
         XCTAssertTrue(Compatibility.check(itemId: "aza-serum", day: "2026-10-17", slot: "evening", in: s).isEmpty)
     }
     func testAcids() {
@@ -271,6 +273,11 @@ final class RecognitionTests: XCTestCase {
         XCTAssertEqual(r.retinoidForm, "retinal")
         XCTAssertEqual(r.time, "any")
         XCTAssertNil(Recognition.parse("не json"))
+        let withIntro = Recognition.parse(#"{"name":"Crystal Retinal 6","actives":["retinoid"],"retinoid_form":"retinal","intro_source":"manufacturer_known","intro_start":"2w","intro_step_weeks":2,"intro_max":"daily","intro_quote":"2 раза в неделю 2 недели, затем через день, затем ежедневно"}"#)!
+        XCTAssertEqual(withIntro.intro, IntroPlan(source: "ai", start: "2w", stepUpWeeks: 2, max: "daily", timeOfDay: nil, note: "", quote: "2 раза в неделю 2 недели, затем через день, затем ежедневно"))
+        let item = Actions.makeItem(withIntro, today: "2026-10-18")
+        XCTAssertEqual(item.introPlan?.source, "ai")
+        XCTAssertEqual(item.schedule.freq, "2w")
     }
 }
 
@@ -317,5 +324,90 @@ final class ActionsTests: XCTestCase {
         let n = Actions.applyOnboarding(r, o, today: "2026-10-16")
         XCTAssertTrue(n.entries.filter(\.fromOnboarding).isEmpty)
         XCTAssertEqual(n.items[0].schedule.freq, "2w")
+    }
+}
+
+
+final class KnowledgeTests: XCTestCase {
+    func testBaseLoads() {
+        XCTAssertGreaterThan(Knowledge.kb.actives.count, 70)
+        XCTAssertNotNil(Knowledge.active("retinal"))
+    }
+    func testAnalyzeWithPercentAndOnePercentLine() {
+        let inci = "Ingredients: Aqua, Niacinamide 10%, Glycerin, Squalane, Phenoxyethanol, Retinol, Lactic Acid, Ethylhexylglycerin"
+        let f = Knowledge.analyze(inci)
+        let ids = Set(f.map(\.active.id))
+        XCTAssertTrue(ids.contains("niacinamide"))
+        XCTAssertTrue(ids.contains("retinol"))
+        XCTAssertFalse(ids.contains("lactic_acid"), "молочная после линии 1% — регулятор pH")
+        let n = f.first { $0.active.id == "niacinamide" }!
+        XCTAssertEqual(n.pct, 10)
+        XCTAssertEqual(n.level, .high)
+        XCTAssertEqual(Knowledge.coarseActives(f).sorted(), ["niacinamide", "retinoid"])
+    }
+    func testUvFilterIsNotBha() {
+        let f = Knowledge.analyze("Aqua, Ethylhexyl Salicylate, Butyl Methoxydibenzoylmethane, Glycerin")
+        XCTAssertFalse(f.contains { $0.active.group == "bha" })
+    }
+    func testRosaceaCard() {
+        var s = sample(); s.settings.rosacea = true
+        s.items[0].composition = "Aqua, Retinal, Alcohol Denat., Menthol, Parfum"
+        let card = CardBuilder.build(s.items[0], in: s)
+        XCTAssertFalse(card.scheduleKnown, "схемы производителя нет — общее правило")
+        XCTAssertTrue(card.intro!.text.contains("осторожный"))
+        XCTAssertTrue(card.rosacea.contains { $0.contains("ретиноиды") })
+        XCTAssertEqual(Set(card.triggers), ["спирт", "ментол", "отдушка"])
+        XCTAssertTrue(card.safety.contains { $0.text.contains("SPF") })
+        let aza = CardBuilder.build(s.items[2], in: s)
+        XCTAssertTrue(aza.rosacea.contains { $0.contains("основных средств") })
+    }
+    func testCompatWithSetAndMyths() {
+        var s = sample(); s.items.append(prod("toner", ["aha"]))
+        s.items.append(prod("c", ["vitc"]))
+        let card = CardBuilder.build(s.items[0], in: s)
+        XCTAssertEqual(card.compat.first { $0.otherId == "toner" }?.verdict, "alternate_days")
+        let niac = CardBuilder.build(s.items.first { $0.id == "niac" }!, in: s)
+        XCTAssertFalse(niac.compat.contains { $0.otherId == "c" && Knowledge.verdictRank[$0.verdict]! > 1 }, "ниацинамид + C — миф")
+    }
+    func testProfiles() {
+        var s = sample()
+        XCTAssertEqual(Retinoid.ladder(s.items[0], s).stages, ["2w", "eod", "daily"])
+        s.settings.rosacea = true
+        XCTAssertEqual(Retinoid.ladder(s.items[0], s).stages, Catalog.stageOrder)
+        XCTAssertEqual(Retinoid.startFrequency(s.items[0], s), "1w")
+        s.settings.retinoidProfile = "standard"
+        XCTAssertEqual(Retinoid.startFrequency(s.items[0], s), "2w")
+        s.items[0].introPlan = IntroPlan(source: "doctor", start: "1w", stepUpWeeks: 4, max: "3w")
+        XCTAssertEqual(Retinoid.ladder(s.items[0], s).stages, ["1w", "2w", "3w"])
+        XCTAssertEqual(Retinoid.ladder(s.items[0], s).weeks, 4)
+    }
+    func testAdviceFollowsStandardLadder() {
+        var s = sample()
+        s.items[0].schedule = Schedule(type: "interval", freq: "2w", since: "2026-10-01")
+        s.entries = ["2026-10-02", "2026-10-06", "2026-10-09", "2026-10-13"].map { mark("retinal", $0) }
+        XCTAssertEqual(Retinoid.advice(s.items[0], s, today: "2026-10-16")?.to, "eod")
+        s.settings.rosacea = true
+        XCTAssertNil(Retinoid.advice(s.items[0], s, today: "2026-10-16"), "осторожный режим: шаг не раньше 3 недель")
+    }
+    func testGenericIntervalForAcids() {
+        var s = sample()
+        var acid = prod("toner", ["aha"]); acid.block = "evening"; acid.schedule = Schedule(type: "interval", freq: "2w")
+        s.items.append(acid)
+        s.entries = [mark("toner", "2026-10-15"), mark("retinal", "2026-10-17")]
+        let row = Planner.plan(s, day: "2026-10-16").optional.first { $0.item.id == "toner" }
+        XCTAssertEqual(row?.deferred, "Отдыхает до в воскресенье")
+        XCTAssertNotNil(Planner.plan(s, day: "2026-10-18").evening.first { $0.item.id == "toner" })
+        XCTAssertEqual(Knowledge.startFrequency(actives: ["aha"], composition: ""), "2w")
+        let made = Actions.makeItem(RecognizedProduct(name: "Тоник", type: "toner", actives: ["aha"], time: "evening"), today: "2026-10-16")
+        XCTAssertEqual(made.schedule, Schedule(type: "interval", freq: "2w", since: "2026-10-16"))
+    }
+    func testLeafletParser() {
+        let ru = "Способ применения: первые 2 недели наносить 2 раза в неделю вечером, затем через день. При хорошей переносимости — ежедневно."
+        let p = LeafletParser.parse(ru)!
+        XCTAssertEqual(p.start, "2w"); XCTAssertEqual(p.max, "daily"); XCTAssertEqual(p.stepUpWeeks, 2); XCTAssertEqual(p.timeOfDay, "evening")
+        XCTAssertTrue(p.quote!.contains("2 раза в неделю"))
+        let en = LeafletParser.parse("Apply every other night for 2 weeks, then nightly as tolerated.")!
+        XCTAssertEqual(en.start, "eod"); XCTAssertEqual(en.max, "daily"); XCTAssertEqual(en.timeOfDay, "evening")
+        XCTAssertNil(LeafletParser.parse("Aqua, Glycerin, Parfum"))
     }
 }

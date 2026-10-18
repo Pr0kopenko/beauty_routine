@@ -35,4 +35,7 @@ for theme in light dark; do
 done
 xcrun simctl ui "$UDID" appearance light
 launch -ui.tab products -ui.push mg; shot light-magnesium
+launch -ui.tab products -ui.push retinal -ui.scroll intro; shot light-card-intro 5
+launch -ui.tab products -ui.push retinal -ui.scroll compat; shot light-card-compat 5
+launch -ui.tab products -ui.push aza -ui.scroll intro; shot light-card-azelaic 5
 launch -ui.tab today -ui.sheet add; shot light-add

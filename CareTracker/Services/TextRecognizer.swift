@@ -23,8 +23,10 @@ enum TextRecognizer {
     /// Офлайн-распознавание: текст → активы по словарю INCI.
     static func recognize(_ image: UIImage) async -> RecognizedProduct {
         let text = await text(in: image)
-        let found = Inci.detect(text).actives
-        let form = Inci.retinoidForm(text)
+        let kbFound = Knowledge.analyze(text)
+        var found = Knowledge.coarseActives(kbFound)
+        for a in Inci.detect(text).actives where !found.contains(a) { found.append(a) }
+        let form = Knowledge.retinoidForm(kbFound) ?? Inci.retinoidForm(text)
         let type = found.contains("spf") ? "spf" : found.contains("supplement") ? "supplement" : "other"
         return RecognizedProduct(isSkincare: true, brand: "", name: "", type: type, actives: found, retinoidForm: found.contains("retinoid") ? (form ?? "retinol") : nil,
                                  strength: "", time: found.contains("retinoid") ? "evening" : found.contains("spf") ? "morning" : "any",

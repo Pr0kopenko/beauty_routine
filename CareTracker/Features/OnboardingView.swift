@@ -172,7 +172,7 @@ struct OnboardingView: View {
             Text("Как часто теперь?").font(Theme.display)
             Text(o.last == "never" ? "Для формы «\(form.name.lowercased())» обычно начинают с «\(Catalog.frequency(form.start).label.lowercased())». Дальше сама предложу шаг вверх, если кожа спокойна." : "Выбери, как наносишь сейчас. Дальше сама предложу шаг вверх, если кожа спокойна.")
                 .foregroundStyle(Theme.muted)
-            ForEach(Catalog.stageOrder, id: \.self) { k in
+            ForEach(Catalog.allFrequencies, id: \.self) { k in
                 let f = Catalog.frequency(k)
                 Button { o.freq = k } label: {
                     HStack {
@@ -205,6 +205,14 @@ struct OnboardingView: View {
             }
             .card()
             Text("Разовый сдвиг («завтра в 7:15») — в настройках напоминаний.").font(.footnote).foregroundStyle(Theme.muted)
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Про кожу").font(.headline)
+                Toggle("Розацеа", isOn: $o.rosacea)
+                Toggle("Чувствительная кожа", isOn: $o.sensitive)
+                Text(o.rosacea || o.sensitive ? "Ретиноиды поведу в осторожном режиме, кислоты — мягче. Подскажу раздражители в составе." : "Ретиноиды — в стандартном режиме, как советуют производители.")
+                    .font(.footnote).foregroundStyle(Theme.muted)
+            }
+            .card()
             Button {
                 Task { _ = await Notifications.shared.requestPermission(); next() }
             } label: { Text("Разрешить уведомления и дальше").frame(maxWidth: .infinity) }

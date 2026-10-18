@@ -88,30 +88,47 @@ enum Retinoid {
         return nil
     }
 
+    /// Лестница частот для средства: своя схема → режим (осторожный / стандартный).
+    static func ladder(_ item: Item, _ state: AppState) -> (stages: [String], weeks: Int) {
+        if let p = item.introPlan { return (p.ladder, p.stepUpWeeks ?? 0) }
+        if state.settings.cautious { return (Catalog.stageOrder, max(item.form.weeks, 3)) }
+        return (Catalog.standardOrder, 2)
+    }
+
+    /// С какой частоты начинать новый ретиноид.
+    static func startFrequency(_ item: Item, _ state: AppState) -> String {
+        if let p = item.introPlan { return p.start }
+        if state.settings.cautious { return "1w" }
+        return item.form.start
+    }
+
     static func advice(_ item: Item, _ state: AppState, today: String) -> Advice? {
         guard item.isIntervalRetinoid, !state.settings.pregnancy else { return nil }
         let form = item.form
         let cur = item.schedule.freq ?? "2w"
-        guard let idx = Catalog.stageOrder.firstIndex(of: cur) else { return nil }
+        let (stages, weeks) = ladder(item, state)
+        let all = Catalog.allFrequencies
+        let curRank = all.firstIndex(of: cur) ?? 1
+        let lower = stages.last { (all.firstIndex(of: $0) ?? 0) < curRank }
+        let higher = stages.first { (all.firstIndex(of: $0) ?? 0) > curRank }
         let p = pause(state, today: today)
         if p?.level == 3 {
-            return Advice(kind: .doctor, text: "Сильная реакция. Пауза во всех активах, пока кожа не успокоится, потом заново с 2 раз в неделю. Если не проходит за несколько дней — покажись дерматологу.", to: "2w")
+            let restart = stages.first ?? "2w"
+            return Advice(kind: .doctor, text: "Сильная реакция. Пауза во всех активах, пока кожа не успокоится, потом заново с «\(Catalog.frequency(restart).label.lowercased())». Если не проходит за несколько дней — покажись дерматологу.", to: restart)
         }
         if let p, p.level == 2 {
-            guard idx > 1 else { return nil }
-            let to = Catalog.stageOrder[idx - 1]
+            guard let to = lower else { return nil }
             return Advice(kind: .down, text: "Кожа реагирует. Пауза до \(Days.short(p.until)), а потом лучше шаг назад — \(Catalog.frequency(to).label.lowercased()).", to: to)
         }
-        if form.rx || idx >= Catalog.stageOrder.count - 1 { return nil }
-        let all = days(state)
-        guard let since = item.schedule.since ?? all.first else { return nil }
+        guard !form.rx, weeks > 0, let to = higher else { return nil }
+        let days = days(state)
+        guard let since = item.schedule.since ?? days.first else { return nil }
         if let s = item.schedule.snoozeUntil, s > today { return nil }
         let length = Days.between(since, today)
-        let apps = all.filter { $0 >= since && $0 <= today }.count
+        let apps = days.filter { $0 >= since && $0 <= today }.count
         var worst = 0
         for i in 0..<7 { if let l = irritation(state, Days.add(today, -i)), l > worst { worst = l } }
-        if length >= form.weeks * 7 && apps >= 3 && worst < 2 {
-            let to = Catalog.stageOrder[idx + 1]
+        if length >= weeks * 7 && apps >= 3 && worst < 2 {
             return Advice(kind: .up, text: "\(Days.daysWord(length)) на частоте «\(Catalog.frequency(cur).label.lowercased())» без заметных реакций. Можно перейти на «\(Catalog.frequency(to).label.lowercased())».", to: to)
         }
         return nil

@@ -51,18 +51,31 @@ enum Actions {
     }
 
     /// Средство из распознавания или ручного ввода. Ретиноид сразу получает график по своей форме.
-    static func makeItem(_ r: RecognizedProduct, block: String? = nil, thumb: String? = nil, today: String) -> Item {
+    static func makeItem(_ r: RecognizedProduct, block: String? = nil, thumb: String? = nil, today: String, settings: Settings = Settings()) -> Item {
         let isRet = r.actives.contains("retinoid")
         let form = isRet ? (r.retinoidForm ?? "retinol") : nil
         let b = block ?? self.block(time: r.time, type: r.type, actives: r.actives)
         let finalBlock = isRet && b != "optional" ? "evening" : b
         let schedule: Schedule
-        if isRet { schedule = Schedule(type: "interval", freq: (Catalog.retinoidForms[form!] ?? Catalog.retinoidForms["retinol"]!).start, since: today) }
-        else { schedule = Schedule(type: finalBlock == "optional" ? "asneeded" : "daily") }
+        if isRet {
+            var probe = Item(id: "", name: "", actives: r.actives, block: "evening", type: r.type, retinoidForm: form)
+            probe.schedule.type = "interval"
+            probe.introPlan = r.intro
+            var st = AppState(); st.settings = settings
+            schedule = Schedule(type: "interval", freq: Retinoid.startFrequency(probe, st), since: today)
+        } else if finalBlock != "optional", let plan = r.intro, plan.start != "daily" {
+            schedule = Schedule(type: "interval", freq: plan.start, since: today)
+        } else if finalBlock != "optional", let f = Knowledge.startFrequency(actives: r.actives, composition: r.composition), f != "daily" {
+            // Кислоты, BPO, скрабы и т. п. — не каждый день с самого начала.
+            schedule = Schedule(type: "interval", freq: f, since: today)
+        } else {
+            schedule = Schedule(type: finalBlock == "optional" ? "asneeded" : "daily")
+        }
         let name = r.displayName.isEmpty ? "Новое средство" : r.displayName
         let type = r.type == "other" && r.actives.contains("supplement") ? "supplement" : r.type
         var it = Item(id: Ids.make(), name: name, actives: r.actives, block: finalBlock, schedule: schedule, type: type, retinoidForm: form)
         it.brand = r.brand; it.strength = r.strength; it.composition = r.composition; it.note = r.note; it.thumb = thumb; it.createdAt = today
+        it.introPlan = r.intro.map { var p = $0; p.addedAt = today; return p }
         return it
     }
 
@@ -72,6 +85,8 @@ enum Actions {
         var last: String? = nil
         var date: String? = nil
         var freq: String? = nil
+        var rosacea = false
+        var sensitive = false
         var weekdays = "07:45"
         var weekend = "09:30"
         var evening = "22:00"
@@ -86,10 +101,11 @@ enum Actions {
     /// Применяет онбординг: график ретиноида, «последний раз», время напоминаний.
     static func applyOnboarding(_ state: AppState, _ o: Onboarding, today: String) -> AppState {
         var s = state
+        s.settings.rosacea = o.rosacea
+        s.settings.sensitive = o.sensitive
         s.entries.removeAll { $0.fromOnboarding }
         if let i = s.items.firstIndex(where: { $0.isRetinoid && !$0.archived }) {
-            let form = s.items[i].form
-            let freq = o.freq ?? s.items[i].schedule.freq ?? (o.last == "never" ? form.start : "2w")
+            let freq = o.freq ?? s.items[i].schedule.freq ?? (o.last == "never" ? Retinoid.startFrequency(s.items[i], s) : "2w")
             s.items[i].block = "evening"
             s.items[i].schedule = Schedule(type: "interval", freq: freq, since: today)
             if let d = lastRetinoidDay(o, today: today) {

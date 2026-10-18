@@ -109,6 +109,7 @@ struct ProductDetailView: View {
         let t = store.today
         let doneToday = store.state.entries.contains { $0.itemId == it.id && $0.day == t && !$0.skipped }
         let recent = store.state.entries.filter { $0.itemId == it.id && !$0.skipped }.sorted { $0.day > $1.day }.prefix(8)
+        ScrollViewReader { scroller in
         List {
             Section {
                 HStack(spacing: 14) {
@@ -120,6 +121,14 @@ struct ProductDetailView: View {
                     }
                 }
                 if !it.note.isEmpty { Text(it.note).font(.callout) }
+            }
+            ProductCardSections(item: it)
+            if it.schedule.type == "interval" && !it.isRetinoid {
+                Section {
+                    Picker("Частота", selection: Binding(get: { it.schedule.freq ?? "2w" }, set: { store.setFrequency(it.id, $0) })) {
+                        ForEach(Catalog.allFrequencies, id: \.self) { Text(Catalog.frequency($0).label).tag($0) }
+                    }
+                } footer: { Text("В остальные дни средство будет в «По желанию» с пометкой «отдыхает».") }
             }
             if it.isIntervalRetinoid {
                 let st = Retinoid.status(it, store.state, today: t)
@@ -136,9 +145,9 @@ struct ProductDetailView: View {
                 AdviceCard(item: it).listRowInsets(EdgeInsets()).listRowBackground(Color.clear)
                 Section {
                     Picker("Частота", selection: Binding(get: { it.schedule.freq ?? "2w" }, set: { store.applyFrequency(it.id, $0) })) {
-                        ForEach(Catalog.stageOrder, id: \.self) { Text(Catalog.frequency($0).label).tag($0) }
+                        ForEach(Catalog.allFrequencies, id: \.self) { Text(Catalog.frequency($0).label).tag($0) }
                     }
-                } header: { Text("Этап введения · \(it.form.name)") } footer: { Text(stageNote(it)) }
+                } header: { Text("Сейчас · \(it.form.name)") } footer: { Text(stageNote(it)) }
                 Section("Как наносить") {
                     DisclosureGroup("Советы") {
                         VStack(alignment: .leading, spacing: 6) {
@@ -175,6 +184,10 @@ struct ProductDetailView: View {
                 Button("Удалить вместе с отметками", role: .destructive) { confirmDelete = true }
             }
         }
+        #if DEBUG
+        .onAppear { if let a = UserDefaults.standard.string(forKey: "ui.scroll") { DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { scroller.scrollTo(a, anchor: .top) } } }
+        #endif
+        }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Изменить") { editing = true } } }
@@ -189,7 +202,8 @@ struct ProductDetailView: View {
         let f = Catalog.frequency(it.schedule.freq)
         let since = it.schedule.since.map { "На этом этапе с \(Days.short($0)). " } ?? ""
         let lim = f.minDays > 1 ? "не чаще раза в \(Days.daysWord(f.minDays))" : "до \(f.maxPerWeek) раз в неделю"
-        let step = it.form.rx ? "Рецептурная форма — шаги согласуй с врачом." : "Шаг вверх предложу через \(it.form.weeks) нед. без реакций кожи."
+        let weeks = Retinoid.ladder(it, store.state).weeks
+        let step = it.form.rx ? "Рецептурная форма — шаги согласуй с врачом." : weeks > 0 ? "Шаг вверх предложу через \(weeks) нед. без реакций кожи." : "По этой схеме частоту не повышаем."
         return "\(since)Сейчас \(lim). \(step) Дни считаю сама от последнего раза."
     }
 }

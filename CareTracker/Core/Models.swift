@@ -58,12 +58,14 @@ struct Item: Codable, Equatable, Identifiable, Hashable {
     var archived: Bool = false
     var dose: String = ""
     var createdAt: String? = nil
+    /// Схема введения из надёжного источника: производитель, вкладыш, врач, вручную. nil — общее правило.
+    var introPlan: IntroPlan? = nil
 
     init(id: String, name: String, actives: [String] = [], block: String = "optional", schedule: Schedule = Schedule(), type: String = "other", retinoidForm: String? = nil) {
         self.id = id; self.name = name; self.actives = actives; self.block = block; self.schedule = schedule; self.type = type; self.retinoidForm = retinoidForm
     }
 
-    enum CodingKeys: String, CodingKey { case id, name, brand, type, actives, retinoidForm, strength, composition, thumb, note, block, schedule, archived, dose, createdAt }
+    enum CodingKeys: String, CodingKey { case id, name, brand, type, actives, retinoidForm, strength, composition, thumb, note, block, schedule, archived, dose, createdAt, introPlan }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -82,6 +84,7 @@ struct Item: Codable, Equatable, Identifiable, Hashable {
         archived = try c.decodeIfPresent(Bool.self, forKey: .archived) ?? false
         dose = try c.decodeIfPresent(String.self, forKey: .dose) ?? ""
         createdAt = try c.decodeIfPresent(String.self, forKey: .createdAt)
+        introPlan = try? c.decodeIfPresent(IntroPlan.self, forKey: .introPlan)
     }
 
     var isRetinoid: Bool { actives.contains("retinoid") }
@@ -90,6 +93,35 @@ struct Item: Codable, Equatable, Identifiable, Hashable {
     var isExfoliating: Bool { hasAcid || actives.contains("exfoliant") || type == "peel" }
     var isOxidizableRetinoid: Bool { isRetinoid && retinoidForm != "adapalene" }
     var form: RetinoidForm { Catalog.retinoidForms[retinoidForm ?? "retinol"] ?? Catalog.retinoidForms["retinol"]! }
+}
+
+/// Схема введения средства с источником.
+struct IntroPlan: Codable, Equatable, Hashable {
+    /// manufacturer · leaflet · doctor · cosmetologist · user · ai
+    var source: String = "user"
+    /// Стартовая частота (id из Catalog.frequencies).
+    var start: String = "2w"
+    /// Через сколько недель без раздражения повышать; nil — не повышать.
+    var stepUpWeeks: Int? = 2
+    var max: String = "daily"
+    /// morning · evening · any; nil — не указано.
+    var timeOfDay: String? = nil
+    var note: String = ""
+    var quote: String? = nil
+    var url: String? = nil
+    var addedAt: String? = nil
+
+    static let sourceNames: [(id: String, name: String)] = [
+        ("leaflet", "Вкладыш или упаковка"), ("doctor", "Врач"), ("cosmetologist", "Косметолог"),
+        ("manufacturer", "Сайт производителя"), ("user", "Сама"), ("ai", "Нашёл ИИ"),
+    ]
+    var sourceName: String { IntroPlan.sourceNames.first { $0.id == source }?.name ?? source }
+    /// Лестница частот этой схемы.
+    var ladder: [String] {
+        let all = Catalog.allFrequencies
+        guard let a = all.firstIndex(of: start), let b = all.firstIndex(of: max), a <= b else { return [start] }
+        return Array(all[a...b])
+    }
 }
 
 struct Schedule: Codable, Equatable, Hashable {
@@ -170,11 +202,21 @@ struct Reminders: Codable, Equatable, Hashable {
 
 struct Settings: Codable, Equatable, Hashable {
     var pregnancy = false
+    var rosacea = false
+    var sensitive = false
+    /// auto (стандартный; осторожный при розацеа или чувствительной коже) · standard · cautious
+    var retinoidProfile = "auto"
     init() {}
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         pregnancy = try c.decodeIfPresent(Bool.self, forKey: .pregnancy) ?? false
+        rosacea = try c.decodeIfPresent(Bool.self, forKey: .rosacea) ?? false
+        sensitive = try c.decodeIfPresent(Bool.self, forKey: .sensitive) ?? false
+        retinoidProfile = try c.decodeIfPresent(String.self, forKey: .retinoidProfile) ?? "auto"
     }
+    var cautious: Bool { retinoidProfile == "cautious" || (retinoidProfile == "auto" && (rosacea || sensitive)) }
+    /// Лимит суммарной нагрузки активов за один приём.
+    var loadLimit: Int { rosacea || sensitive ? 4 : 6 }
 }
 
 enum Ids {

@@ -1,0 +1,15 @@
+name = "ritm-kozhi"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# Запросы к OpenAI/Anthropic выполнять рядом с их серверами (США), а не рядом с телефоном.
+[placement]
+mode = "smart"
+
+[vars]
+DAILY_LIMIT = "60"
+
+# Лимит запросов в день: создаётся скриптом scripts/deploy-proxy.sh
+# [[kv_namespaces]]
+# binding = "USAGE"
+# id = "..."

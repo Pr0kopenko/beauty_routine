@@ -17,6 +17,8 @@ struct RecognizedProduct: Equatable {
     var confidence = "medium"
     var note = ""
     var source: Source = .ai
+    /// Схема введения, если она видна на фото или модель знает инструкцию производителя.
+    var intro: IntroPlan? = nil
 
     var displayName: String {
         let n = name.trimmingCharacters(in: .whitespaces), b = brand.trimmingCharacters(in: .whitespaces)
@@ -49,8 +51,14 @@ enum Recognition {
                 "inci_text": ["type": "string"],
                 "confidence": ["type": "string", "enum": ["high", "medium", "low"]],
                 "note_ru": ["type": "string"],
+                "intro_source": ["type": "string", "enum": ["photo_text", "manufacturer_known", "none"]],
+                "intro_start": ["type": "string", "enum": Catalog.allFrequencies + ["none"]],
+                "intro_step_weeks": ["type": "integer"],
+                "intro_max": ["type": "string", "enum": Catalog.allFrequencies + ["none"]],
+                "intro_quote": ["type": "string"],
             ],
-            "required": ["is_skincare", "brand", "name", "product_type", "actives", "retinoid_form", "strength", "time_of_day", "inci_text", "confidence", "note_ru"],
+            "required": ["is_skincare", "brand", "name", "product_type", "actives", "retinoid_form", "strength", "time_of_day", "inci_text", "confidence", "note_ru",
+                         "intro_source", "intro_start", "intro_step_weeks", "intro_max", "intro_quote"],
             "additionalProperties": false,
         ]
     }
@@ -67,6 +75,7 @@ enum Recognition {
         - time_of_day — morning для SPF, evening для ретиноидов и сильных кислот, иначе any.
         - inci_text — состав, если читается на фото, иначе "".
         - note_ru — одно короткое предложение по-русски: что это и как обычно используют.
+        - intro_* — схема введения ИМЕННО этого продукта: photo_text, если инструкция видна на фото (тогда intro_quote — дословная цитата); manufacturer_known, только если ты уверенно знаешь официальную инструкцию производителя (intro_quote — её суть); иначе none. Частоты: 1w (раз в неделю), 2w, 3w, eod (через день), 5w, daily. intro_step_weeks — через сколько недель повышать (0, если не сказано). Не выдумывай схему.
         Если на фото не уход и не БАД — is_skincare=false.
         """
     }
@@ -95,6 +104,15 @@ enum Recognition {
         r.confidence = obj["confidence"] as? String ?? "medium"
         r.note = obj["note_ru"] as? String ?? ""
         r.source = .ai
+        let src = obj["intro_source"] as? String ?? "none"
+        let start = obj["intro_start"] as? String ?? "none"
+        if src != "none", Catalog.frequencies[start] != nil {
+            let maxF = obj["intro_max"] as? String ?? start
+            let weeks = obj["intro_step_weeks"] as? Int ?? 0
+            r.intro = IntroPlan(source: src == "photo_text" ? "leaflet" : "ai", start: start, stepUpWeeks: weeks > 0 ? weeks : nil,
+                                max: Catalog.frequencies[maxF] != nil ? maxF : start, timeOfDay: r.time == "any" ? nil : r.time,
+                                note: "", quote: (obj["intro_quote"] as? String).flatMap { $0.isEmpty ? nil : $0 })
+        }
         return r
     }
 }

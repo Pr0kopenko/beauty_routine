@@ -17,6 +17,13 @@ struct AISettings: Codable, Equatable {
     /// Ключ API или инвайт-код посредника — в Keychain.
     var secret: String { Keychain.get(provider) }
     var isReady: Bool { provider == "proxy" ? (!proxyURL.isEmpty && !secret.isEmpty) : !secret.isEmpty }
+    /// Адрес сервера без хвостового «/» и без пути модели.
+    var proxyBase: String {
+        var u = proxyURL.trimmingCharacters(in: .whitespacesAndNewlines)
+        while u.hasSuffix("/") { u.removeLast() }
+        for suffix in ["/openai", "/anthropic"] where u.hasSuffix(suffix) { u.removeLast(suffix.count) }
+        return u
+    }
 }
 
 enum AIError: LocalizedError {
@@ -44,8 +51,10 @@ enum AIClient {
         let b64 = jpeg.base64EncodedString()
         let text: String
         switch settings.provider {
-        case "openai": text = try await openAI(settings, b64)
-        case "proxy": text = try await claude(settings, b64, url: settings.proxyURL, auth: ["x-invite": settings.secret])
+        case "openai": text = try await openAI(settings, b64, url: "https://api.openai.com/v1/responses", auth: ["authorization": "Bearer \(settings.secret)"])
+        case "proxy" where settings.model.hasPrefix("gpt"):
+            text = try await openAI(settings, b64, url: settings.proxyBase + "/openai", auth: ["x-invite": settings.secret])
+        case "proxy": text = try await claude(settings, b64, url: settings.proxyBase + "/anthropic", auth: ["x-invite": settings.secret])
         default: text = try await claude(settings, b64, url: "https://api.anthropic.com/v1/messages", auth: ["x-api-key": settings.secret])
         }
         guard let r = Recognition.parse(text) else { throw AIError.parse }
@@ -55,7 +64,9 @@ enum AIClient {
     static func test(_ settings: AISettings) async throws {
         switch settings.provider {
         case "openai": _ = try await post("https://api.openai.com/v1/responses", ["authorization": "Bearer \(settings.secret)"], ["model": settings.model, "input": "Ответь одним словом: ок", "max_output_tokens": 16])
-        case "proxy": _ = try await post(settings.proxyURL, ["x-invite": settings.secret, "anthropic-version": "2023-06-01"], ["model": settings.model, "max_tokens": 16, "messages": [["role": "user", "content": "Ответь одним словом: ок"]]])
+        case "proxy" where settings.model.hasPrefix("gpt"):
+            _ = try await post(settings.proxyBase + "/openai", ["x-invite": settings.secret], ["model": settings.model, "input": "Ответь одним словом: ок", "max_output_tokens": 16])
+        case "proxy": _ = try await post(settings.proxyBase + "/anthropic", ["x-invite": settings.secret, "anthropic-version": "2023-06-01"], ["model": settings.model, "max_tokens": 16, "messages": [["role": "user", "content": "Ответь одним словом: ок"]]])
         default: _ = try await post("https://api.anthropic.com/v1/messages", ["x-api-key": settings.secret, "anthropic-version": "2023-06-01"], ["model": settings.model, "max_tokens": 16, "messages": [["role": "user", "content": "Ответь одним словом: ок"]]])
         }
     }
@@ -76,7 +87,7 @@ enum AIClient {
         return content.first { $0["type"] as? String == "text" }?["text"] as? String ?? ""
     }
 
-    private static func openAI(_ s: AISettings, _ b64: String) async throws -> String {
+    private static func openAI(_ s: AISettings, _ b64: String, url: String, auth: [String: String]) async throws -> String {
         let body: [String: Any] = [
             "model": s.model,
             "input": [["role": "user", "content": [
@@ -85,7 +96,7 @@ enum AIClient {
             ]]],
             "text": ["format": ["type": "json_schema", "name": "product", "strict": true, "schema": Recognition.schema]],
         ]
-        let r = try await post("https://api.openai.com/v1/responses", ["authorization": "Bearer \(s.secret)"], body)
+        let r = try await post(url, auth, body)
         if let t = r["output_text"] as? String { return t }
         let outputs = r["output"] as? [[String: Any]] ?? []
         for o in outputs { for c in o["content"] as? [[String: Any]] ?? [] where c["type"] as? String == "output_text" { return c["text"] as? String ?? "" } }
