@@ -287,6 +287,8 @@ struct CompatNote: Hashable, Identifiable {
     let confidence: String
     let condition: String?
     let myth: Bool
+    /// Какие компоненты дали оценку: «ретиналь × ниацинамид».
+    var pairLabel: String = ""
 }
 
 struct ProductCard {
@@ -351,7 +353,7 @@ enum CardBuilder {
         } else if let top = strong.filter({ $0.active.group != "retinoid" }).min(by: { (Knowledge.frequencyRank[$0.active.startFrequency] ?? 9) < (Knowledge.frequencyRank[$1.active.startFrequency] ?? 9) }) {
             let a = top.active
             let start = Catalog.frequencies[Knowledge.appFrequency(a.startFrequency) ?? ""]?.label.lowercased() ?? "по самочувствию"
-            let maxF = a.maxFrequency == "2xdaily" ? "2 раз в день" : (Catalog.frequencies[a.maxFrequency]?.label.lowercased() ?? a.maxFrequency)
+            let maxF = a.maxFrequency == "2xdaily" ? "2 раза в день" : (Catalog.frequencies[a.maxFrequency]?.label.lowercased() ?? a.maxFrequency)
             let w = a.stepUpWeeks.map { " раз в \($0) нед." } ?? ""
             c.intro = CardLine(text: "Общее правило для «\(a.nameRu.lowercased())»: начать \(start), повышать\(w) без раздражения до «\(maxF)».", source: "kb", confidence: a.evidence)
             c.scheduleKnown = false
@@ -363,17 +365,19 @@ enum CardBuilder {
         // С набором
         for other in state.items where !other.archived && other.id != item.id && !other.actives.contains("supplement") {
             let of = Knowledge.ingredients(of: other)
-            var bad: (KB.Pair, Int)?
-            var good: KB.Pair?
-            var myth: KB.Pair?
+            typealias Hit = (pair: KB.Pair, label: String)
+            var bad: (Hit, Int)?
+            var good: Hit?
+            var myth: Hit?
             for a in found { for b in of {
                 guard let p = Knowledge.pair(a.active, b.active) else { continue }
-                if p.myth == true && (p.verdict == "ok" || p.verdict == "good_together") { myth = myth ?? p; continue }
+                let hit: Hit = (p, "\(short(a.active)) × \(short(b.active))")
+                if p.myth == true && (p.verdict == "ok" || p.verdict == "good_together") { myth = myth ?? hit; continue }
                 let r = Knowledge.verdictRank[p.verdict] ?? 1
-                if r == 0 { good = good ?? p } else if r > 1, r > (bad?.1 ?? 1) { bad = (p, r) }
+                if r == 0 { good = good ?? hit } else if r > 1, r > (bad?.1 ?? 1) { bad = (hit, r) }
             } }
-            if let p = bad?.0 ?? good { c.compat.append(CompatNote(otherId: other.id, otherName: other.name, verdict: p.verdict, why: p.why, confidence: p.confidence, condition: p.condition, myth: false)) }
-            else if let p = myth { c.myths.append(CompatNote(otherId: other.id, otherName: other.name, verdict: p.verdict, why: p.why, confidence: p.confidence, condition: p.condition, myth: true)) }
+            if let h = bad?.0 ?? good { c.compat.append(CompatNote(otherId: other.id, otherName: other.name, verdict: h.pair.verdict, why: h.pair.why, confidence: h.pair.confidence, condition: h.pair.condition, myth: false, pairLabel: h.label)) }
+            else if let h = myth { c.myths.append(CompatNote(otherId: other.id, otherName: other.name, verdict: h.pair.verdict, why: h.pair.why, confidence: h.pair.confidence, condition: h.pair.condition, myth: true, pairLabel: h.label)) }
         }
         c.compat.sort { (Knowledge.verdictRank[$0.verdict] ?? 0) > (Knowledge.verdictRank[$1.verdict] ?? 0) }
 
@@ -406,6 +410,10 @@ enum CardBuilder {
         c.sources = srcIds.prefix(6).compactMap(Knowledge.source)
         if state.settings.rosacea { c.sources.append(Rosacea.source) }
         return c
+    }
+
+    static func short(_ a: KB.Active) -> String {
+        a.nameRu.replacingOccurrences(of: #"\s*\(.*\)"#, with: "", options: .regularExpression).lowercased()
     }
 
     static func uniq(_ a: [String]) -> [String] { var seen = Set<String>(); return a.filter { seen.insert($0).inserted } }

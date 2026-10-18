@@ -167,6 +167,7 @@ struct CompatRow: View {
                     .padding(.horizontal, 8).padding(.vertical, 3)
                     .background(color.opacity(0.15), in: Capsule()).foregroundStyle(color)
             }
+            if !note.pairLabel.isEmpty { Text(note.pairLabel).font(.caption).foregroundStyle(Theme.muted) }
             Text(note.why).font(.footnote)
             if let c = note.condition { Text(c).font(.caption).foregroundStyle(Theme.muted) }
             Text("Уверенность: \(["high": "высокая", "medium": "средняя", "low": "низкая"][note.confidence] ?? note.confidence)").font(.caption2).foregroundStyle(Theme.muted)
