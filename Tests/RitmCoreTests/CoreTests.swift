@@ -278,6 +278,22 @@ final class RecognitionTests: XCTestCase {
         let item = Actions.makeItem(withIntro, today: "2026-10-18")
         XCTAssertEqual(item.introPlan?.source, "ai")
         XCTAssertEqual(item.schedule.freq, "2w")
+        let pack = Recognition.parsePack("""
+        Вот результат:
+        ```json
+        {"app": "ritm-kozhi-pack", "products": [
+          {"brand": "Medik8", "name": "Crystal Retinal 3", "product_type": "serum", "actives": [], "retinoid_form": "none", "inci_text": "Aqua, Glycerin, Retinal, Phenoxyethanol",
+           "intro_source": "manufacturer_site", "intro_start": "2w", "intro_step_weeks": 2, "intro_max": "daily", "intro_quote": "Week 1-2: twice a week", "intro_url": "https://www.medik8.com/products/crystal-retinal"},
+          {"brand": "Aravia", "name": "Пептидная сыворотка", "product_type": "serum", "actives": ["peptides"], "intro_source": "none"}
+        ]}
+        ```
+        """)
+        XCTAssertEqual(pack.count, 2)
+        XCTAssertEqual(pack[0].retinoidForm, "retinal", "форма по составу")
+        XCTAssertEqual(pack[0].intro?.source, "manufacturer")
+        XCTAssertEqual(pack[0].intro?.url, "https://www.medik8.com/products/crystal-retinal")
+        XCTAssertNil(pack[1].intro)
+        XCTAssertEqual(Recognition.parsePack("[{\"name\":\"A\"},{\"name\":\"B\"}]").map(\.name), ["A", "B"])
     }
 }
 

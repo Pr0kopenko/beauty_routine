@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 import PhotosUI
 
 struct ProductsView: View {
@@ -7,6 +8,9 @@ struct ProductsView: View {
     @State private var batch: [UIImage]?
     @State private var addOne = false
     @State private var pushed: Item?
+    @State private var importing = false
+    @State private var pack: [Draft]?
+    @State private var importError: String?
 
     var body: some View {
         List {
@@ -31,6 +35,12 @@ struct ProductsView: View {
                     Label("Добавить по фото (можно несколько)", systemImage: "camera.on.rectangle")
                 }
                 Button { addOne = true } label: { Label("Добавить вручную", systemImage: "plus") }
+                Button { importing = true } label: { Label("Импорт карточек (файл от Claude)", systemImage: "square.and.arrow.down") }
+                PasteButton(payloadType: String.self) { strings in
+                    Task { @MainActor in openPack(strings.joined(separator: "\n")) }
+                }
+                .labelStyle(.titleAndIcon)
+                if let importError { Text(importError).font(.footnote).foregroundStyle(Theme.warn) }
             } footer: {
                 Text(AISettings.load().isReady ? "ИИ распознает каждое фото. Фото лица в ИИ не отправляются." : "Без ИИ найду активы по составу на фото прямо на телефоне. ИИ можно подключить в настройках.")
             }
@@ -63,6 +73,30 @@ struct ProductsView: View {
         }
         .sheet(isPresented: Binding(get: { batch != nil }, set: { if !$0 { batch = nil } })) {
             NavigationStack { BatchAddView(images: batch ?? []) }
+        }
+        .sheet(isPresented: Binding(get: { pack != nil }, set: { if !$0 { pack = nil } })) {
+            NavigationStack { BatchAddView(images: [], preset: pack ?? []) }
+        }
+        .fileImporter(isPresented: $importing, allowedContentTypes: [.json, .plainText, .data]) { r in
+            guard case .success(let url) = r else { return }
+            let access = url.startAccessingSecurityScopedResource()
+            defer { if access { url.stopAccessingSecurityScopedResource() } }
+            openPack((try? String(contentsOf: url, encoding: .utf8)) ?? "")
+        }
+    }
+}
+
+extension ProductsView {
+    /// Пакет карточек (файл от Claude на Маке или ответ ChatGPT/Claude из буфера) → проверка списком.
+    func openPack(_ text: String) {
+        let products = Recognition.parsePack(text)
+        if products.isEmpty { importError = "В тексте нет карточек средств. Нужен JSON из «Ритма кожи»."; return }
+        importError = nil
+        let known = Set(store.activeItems.map { $0.name.lowercased() })
+        pack = products.map { p in
+            var d = Draft(p)
+            if known.contains(d.product.name.lowercased()) { d.error = "Уже есть в наборе — сними галочку, если это то же средство" }
+            return d
         }
     }
 }

@@ -80,11 +80,40 @@ enum Recognition {
         """
     }
 
-    /// Разбор JSON-ответа ИИ (строгого или «грязного» текста с JSON внутри).
-    static func parse(_ text: String) -> RecognizedProduct? {
-        var json = text
-        if let s = text.firstIndex(of: "{"), let e = text.lastIndex(of: "}") { json = String(text[s...e]) }
-        guard let obj = (try? JSONSerialization.jsonObject(with: Data(json.utf8))) as? [String: Any] else { return nil }
+    /// Вопрос для официального приложения ChatGPT или Claude (кнопка «Спросить»): ответ — пакет JSON, можно несколько средств.
+    static var chatPrompt: String {
+        prompt + """
+
+        Если на фото несколько средств — опиши каждое. Если можешь поискать в интернете инструкцию производителя — поищи; бери только страницу именно этого продукта, intro_source = "manufacturer_site", intro_url — ссылка, intro_quote — дословная цитата.
+        Ответь ТОЛЬКО JSON без пояснений и без markdown, в формате:
+        {"app": "ritm-kozhi-pack", "products": [{"is_skincare": true, "brand": "", "name": "", "product_type": "", "actives": [], "retinoid_form": "none", "strength": "", "time_of_day": "any", "inci_text": "", "confidence": "medium", "note_ru": "", "intro_source": "none", "intro_start": "none", "intro_step_weeks": 0, "intro_max": "none", "intro_quote": "", "intro_url": ""}]}
+        """
+    }
+
+    /// Разбор JSON-ответа ИИ (строгого или «грязного» текста с JSON внутри). Если в ответе пакет — первое средство.
+    static func parse(_ text: String) -> RecognizedProduct? { parsePack(text).first }
+
+    /// Пакет средств: {"products": [...]}, массив или один объект; JSON может быть внутри текста или ```json.
+    static func parsePack(_ text: String) -> [RecognizedProduct] {
+        let t = text.replacingOccurrences(of: "```json", with: "").replacingOccurrences(of: "```", with: "")
+        let candidates: [String] = {
+            var out: [String] = []
+            if let s = t.firstIndex(of: "{"), let e = t.lastIndex(of: "}"), s < e { out.append(String(t[s...e])) }
+            if let s = t.firstIndex(of: "["), let e = t.lastIndex(of: "]"), s < e { out.append(String(t[s...e])) }
+            return out
+        }()
+        for json in candidates {
+            guard let any = try? JSONSerialization.jsonObject(with: Data(json.utf8)) else { continue }
+            if let obj = any as? [String: Any] {
+                if let list = obj["products"] as? [[String: Any]] { return list.map(product) }
+                return [product(obj)]
+            }
+            if let list = any as? [[String: Any]] { return list.map(product) }
+        }
+        return []
+    }
+
+    static func product(_ obj: [String: Any]) -> RecognizedProduct {
         var r = RecognizedProduct()
         r.isSkincare = obj["is_skincare"] as? Bool ?? true
         r.brand = (obj["brand"] as? String ?? "").trimmingCharacters(in: .whitespaces)
@@ -93,14 +122,20 @@ enum Recognition {
         r.type = Catalog.productTypes.contains { $0.id == type } ? type : "other"
         var actives = (obj["actives"] as? [String] ?? []).filter { activeIds.contains($0) }
         let form = obj["retinoid_form"] as? String
-        let validForm = form.flatMap { Catalog.retinoidForms[$0] != nil ? $0 : nil }
+        var validForm = form.flatMap { Catalog.retinoidForms[$0] != nil ? $0 : nil }
+        r.composition = obj["inci_text"] as? String ?? ""
+        if r.composition.count > 10 {
+            // Состав точнее догадки: дополняем активы по локальной базе.
+            let found = Knowledge.analyze(r.composition)
+            for c in Knowledge.coarseActives(found) where !actives.contains(c) { actives.append(c) }
+            if validForm == nil, let f = Knowledge.retinoidForm(found), Catalog.retinoidForms[f] != nil { validForm = f }
+        }
         if validForm != nil && !actives.contains("retinoid") { actives.insert("retinoid", at: 0) }
         r.actives = actives
         r.retinoidForm = actives.contains("retinoid") ? (validForm ?? "retinol") : nil
         r.strength = obj["strength"] as? String ?? ""
         let t = obj["time_of_day"] as? String ?? "any"
         r.time = ["morning", "evening"].contains(t) ? t : "any"
-        r.composition = obj["inci_text"] as? String ?? ""
         r.confidence = obj["confidence"] as? String ?? "medium"
         r.note = obj["note_ru"] as? String ?? ""
         r.source = .ai
@@ -108,10 +143,12 @@ enum Recognition {
         let start = obj["intro_start"] as? String ?? "none"
         if src != "none", Catalog.frequencies[start] != nil {
             let maxF = obj["intro_max"] as? String ?? start
-            let weeks = obj["intro_step_weeks"] as? Int ?? 0
-            r.intro = IntroPlan(source: src == "photo_text" ? "leaflet" : "ai", start: start, stepUpWeeks: weeks > 0 ? weeks : nil,
+            let weeks = (obj["intro_step_weeks"] as? Int) ?? Int(obj["intro_step_weeks"] as? Double ?? 0)
+            let url = (obj["intro_url"] as? String).flatMap { $0.hasPrefix("http") ? $0 : nil }
+            let source = src == "photo_text" ? "leaflet" : (src == "manufacturer_site" && url != nil) ? "manufacturer" : "ai"
+            r.intro = IntroPlan(source: source, start: start, stepUpWeeks: weeks > 0 ? weeks : nil,
                                 max: Catalog.frequencies[maxF] != nil ? maxF : start, timeOfDay: r.time == "any" ? nil : r.time,
-                                note: "", quote: (obj["intro_quote"] as? String).flatMap { $0.isEmpty ? nil : $0 })
+                                note: "", quote: (obj["intro_quote"] as? String).flatMap { $0.isEmpty ? nil : $0 }, url: url)
         }
         return r
     }

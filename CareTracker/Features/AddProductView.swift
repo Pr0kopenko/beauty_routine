@@ -40,6 +40,8 @@ struct AddProductView: View {
     @State private var pick: PhotosPickerItem?
     @State private var camera = false
     @State private var busy = false
+    @State private var sharing = false
+    @State private var packDrafts: [Draft]?
 
     var body: some View {
         Form {
@@ -58,8 +60,21 @@ struct AddProductView: View {
                 if busy { HStack { ProgressView(); Text("Распознаю…").foregroundStyle(Theme.muted) } }
                 if let e = draft.error { Text(e).font(.footnote).foregroundStyle(Theme.warn) }
                 if draft.image == nil {
-                    Text(AISettings.load().isReady ? "Сними упаковку или состав — ИИ заполнит поля." : "Сними состав на обороте — найду активы прямо на телефоне. Название впиши сама.")
+                    Text(AISettings.load().isReady ? "Сними упаковку или состав — ИИ заполнит поля." : "Сними упаковку или состав — найду активы прямо на телефоне. Точнее — через «Спросить ChatGPT / Claude».")
                         .font(.footnote).foregroundStyle(Theme.muted)
+                }
+            }
+            if draft.image != nil {
+                Section {
+                    Button { UIPasteboard.general.string = Recognition.chatPrompt; sharing = true } label: {
+                        Label("Спросить ChatGPT или Claude", systemImage: "bubble.left.and.text.bubble.right")
+                    }
+                    PasteButton(payloadType: String.self) { strings in
+                        Task { @MainActor in applyAnswer(strings.joined(separator: "\n")) }
+                    }
+                    .labelStyle(.titleAndIcon)
+                } footer: {
+                    Text("Фото и вопрос откроются в приложении ChatGPT или Claude — работает твоя подписка. Вопрос уже скопирован: если он не вставился сам, вставь его к фото. Скопируй ответ целиком, вернись сюда и нажми «Вставить».")
                 }
             }
             ProductFields(draft: $draft)
@@ -79,6 +94,12 @@ struct AddProductView: View {
             }
         }
         .fullScreenCover(isPresented: $camera) { CameraPicker { img in Task { await recognize(img) } }.ignoresSafeArea() }
+        .sheet(isPresented: $sharing) {
+            if let img = draft.image { ShareSheet(items: [img.resized(maxSide: 1600), Recognition.chatPrompt]) }
+        }
+        .sheet(isPresented: Binding(get: { packDrafts != nil }, set: { if !$0 { packDrafts = nil } })) {
+            NavigationStack { BatchAddView(images: [], preset: packDrafts ?? []) { packDrafts = nil; dismiss() } }
+        }
     }
 
     private func recognize(_ img: UIImage) async {
@@ -89,6 +110,20 @@ struct AddProductView: View {
         if !d.product.isSkincare { d.error = "Похоже, на фото не уход. Проверь поля или сними другое фото." }
         draft = d
         busy = false
+    }
+
+    /// Ответ из ChatGPT/Claude: одно средство — в форму, несколько — на проверку списком.
+    private func applyAnswer(_ text: String) {
+        let products = Recognition.parsePack(text)
+        guard !products.isEmpty else { draft.error = "Не нашла в ответе JSON. Скопируй ответ целиком, вместе со скобками { }."; return }
+        if products.count == 1 {
+            let name = draft.product.name
+            var d = Draft(products[0], image: draft.image)
+            if d.product.name.isEmpty { d.product.name = name }
+            draft = d
+        } else {
+            packDrafts = products.map { Draft($0) }
+        }
     }
 
     private func save() {
@@ -193,6 +228,8 @@ struct BatchAddView: View {
     @Environment(AppStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     let images: [UIImage]
+    /// Уже распознанные средства (пакет от ChatGPT/Claude или из файла).
+    var preset: [Draft] = []
     var onDone: (() -> Void)? = nil
 
     @State private var drafts: [Draft] = []
@@ -239,6 +276,7 @@ struct BatchAddView: View {
         }
         .task {
             guard drafts.isEmpty else { return }
+            if !preset.isEmpty { drafts = preset; keep = preset.map(\.product.isSkincare); return }
             for img in images {
                 let d = await Recognizer.run(img)
                 drafts.append(d); keep.append(d.product.isSkincare)
@@ -268,3 +306,11 @@ struct BatchAddView: View {
 }
 
 struct IndexBox: Identifiable { let i: Int; var id: Int { i } }
+
+
+/// Системное меню «Поделиться» — для отправки фото и вопроса в ChatGPT или Claude.
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+    func makeUIViewController(context: Context) -> UIActivityViewController { UIActivityViewController(activityItems: items, applicationActivities: nil) }
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
