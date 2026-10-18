@@ -1,0 +1,5308 @@
+{
+ "version": 1,
+ "generated": "2026-10-18",
+ "disclaimer": "Справочные правила для косметики, не медицинская рекомендация. Рецептурные препараты — по назначению врача.",
+ "frequencyLegend": {
+  "1w": "1 раз в неделю",
+  "2w": "2 раза в неделю",
+  "3w": "3 раза в неделю",
+  "eod": "через день",
+  "daily": "1 раз в день",
+  "2xdaily": "2 раза в день",
+  "asneeded": "по необходимости"
+ },
+ "groups": [
+  "retinoid",
+  "aha",
+  "bha",
+  "pha",
+  "azelaic",
+  "vitc",
+  "niacinamide",
+  "peptides",
+  "copper_peptides",
+  "bpo",
+  "sulfur",
+  "brightening",
+  "soothing",
+  "hydrating",
+  "barrier",
+  "antioxidant",
+  "exfoliant_physical",
+  "enzyme",
+  "spf_filter",
+  "other"
+ ],
+ "sources": [
+  {
+   "id": "fda-aha",
+   "title": "FDA: Alpha Hydroxy Acids (CIR: <=10%, pH>=3.5; Sunburn Alert)",
+   "url": "https://www.fda.gov/cosmetics/cosmetic-ingredients/alpha-hydroxy-acids"
+  },
+  {
+   "id": "eu-1223",
+   "title": "Regulation (EC) No 1223/2009 on cosmetic products (art. 19 labelling, INCI order)",
+   "url": "https://eur-lex.europa.eu/eli/reg/2009/1223/oj"
+  },
+  {
+   "id": "eu-2024-996",
+   "title": "Commission Regulation (EU) 2024/996: vitamin A, alpha-arbutin, arbutin, kojic acid limits",
+   "url": "https://eur-lex.europa.eu/eli/reg/2024/996/oj"
+  },
+  {
+   "id": "coslaw-2024-996",
+   "title": "Coslaw: summary of 2024/996 (retinol 0.3% RE, body 0.05%; alpha-arbutin 2%/0.5%; arbutin 7%; kojic 1%)",
+   "url": "https://coslaw.eu/new-amendment-to-cosmetics-regulation-retinol-and-other-substances-banned-or-restricted-in-cosmetics/"
+  },
+  {
+   "id": "cosing",
+   "title": "EU CosIng database",
+   "url": "https://ec.europa.eu/growth/tools-databases/cosing/"
+  },
+  {
+   "id": "incidecoder-lists",
+   "title": "INCIDecoder: How to read an ingredient list",
+   "url": "https://incidecoder.com/ingredient-lists"
+  },
+  {
+   "id": "cosbiz-inci",
+   "title": "Cosmetics Business: writing ingredient lists in EU, US, Canada",
+   "url": "https://cosmeticsbusiness.com/a-guide-on-how-to-write-cosmetics-ingredient-lists-in-eu-us-and-canada-167611"
+  },
+  {
+   "id": "pc-dict",
+   "title": "Paula's Choice Ingredient Dictionary",
+   "url": "https://www.paulaschoice.com/ingredient-dictionary"
+  },
+  {
+   "id": "labmuffin",
+   "title": "Lab Muffin Beauty Science (Michelle Wong)",
+   "url": "https://labmuffin.com/"
+  },
+  {
+   "id": "labmuffin-bakuchiol",
+   "title": "Lab Muffin: Is bakuchiol better than retinol?",
+   "url": "https://labmuffin.com/bakuchiol-better-than-retinol/"
+  },
+  {
+   "id": "beautytap-mixing",
+   "title": "BeautyTap: interview with Michelle Wong on mixing actives (vit C + niacinamide is fine)",
+   "url": "https://beautytap.com/2018/8/avoid-mixing-in-skincare"
+  },
+  {
+   "id": "fb-mixing",
+   "title": "Formula Botanica: Mixing high-performance actives",
+   "url": "https://formulabotanica.com/mixing-high-performance-actives/"
+  },
+  {
+   "id": "dermnet-retinoids",
+   "title": "DermNet: Topical retinoids",
+   "url": "https://dermnetnz.org/topics/topical-retinoids"
+  },
+  {
+   "id": "dermnet-azelaic",
+   "title": "DermNet: Azelaic acid",
+   "url": "https://dermnetnz.org/topics/azelaic-acid"
+  },
+  {
+   "id": "dermnet-bpo",
+   "title": "DermNet: Benzoyl peroxide",
+   "url": "https://dermnetnz.org/topics/benzoyl-peroxide"
+  },
+  {
+   "id": "dermnet-sa",
+   "title": "DermNet: Salicylic acid",
+   "url": "https://dermnetnz.org/topics/salicylic-acid"
+  },
+  {
+   "id": "aad-sunscreen",
+   "title": "AAD: How to select a sunscreen",
+   "url": "https://www.aad.org/public/everyday-care/sun-protection/shade-clothing-sunscreen/how-to-select-sunscreen"
+  },
+  {
+   "id": "aad-acne-2024",
+   "title": "2024 AAD acne guidelines (MDedge summary)",
+   "url": "https://mdedge.com/content/inside-2024-aad-acne-guidelines-new-therapies-join-old-standbys"
+  },
+  {
+   "id": "ret-conc-pmc",
+   "title": "Retinol 0.1/0.3/1% in photoaged skin: efficacy and tolerability (PMC9826105)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9826105"
+  },
+  {
+   "id": "ret-tolerance",
+   "title": "Fluhr et al. Tolerance profile of retinol, retinaldehyde and retinoic acid (PubMed 10473963)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/10473963/"
+  },
+  {
+   "id": "bakuchiol-rct",
+   "title": "Dhaliwal et al. 2019 BJD: bakuchiol 0.5% vs retinol 0.5% RCT",
+   "url": "https://deepblue.lib.umich.edu/handle/2027.42/147746"
+  },
+  {
+   "id": "pinnell-laa",
+   "title": "Pinnell et al. 2001 Dermatol Surg: Topical L-ascorbic acid percutaneous absorption (pH<3.5, max 20%)",
+   "url": "https://www.lorealdermatologicalbeauty.com/inter/skinceuticals/download-pages/scientific-publications/topical-l-ascorbic-acid-percutaneous-absorption-studies"
+  },
+  {
+   "id": "bpo-jdd",
+   "title": "JDD: Advancement in benzoyl peroxide acne treatment (2.5/5/10% equally effective)",
+   "url": "https://jddonline.com/articles/dermatology/S1545961609P0657X"
+  },
+  {
+   "id": "acneorg-bpo",
+   "title": "Acne.org: benzoyl peroxide concentration study summary",
+   "url": "https://www.acne.org/everything-you-need-to-know-about-benzoyl-peroxide"
+  },
+  {
+   "id": "txa-review-2026",
+   "title": "Tranexamic acid for hyperpigmentation: literature review (PMC12848551)",
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12848551/"
+  },
+  {
+   "id": "txa-jcad",
+   "title": "JCAD 2019: Tranexamic acid for melasma, formulations",
+   "url": "https://jcadonline.com/melasma-august-2019/"
+  },
+  {
+   "id": "preg-jabfm",
+   "title": "JABFM: Acne treatment in pregnancy review",
+   "url": "https://www.jabfm.org/content/29/2/254"
+  },
+  {
+   "id": "topical-acne-safety",
+   "title": "Akhavan & Bershad 2003: Topical acne drugs - systemic exposure and safety",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/12814337/"
+  },
+  {
+   "id": "niacinamide-koh",
+   "title": "Adeline Koh PhD: How much niacinamide should you be using",
+   "url": "https://adelinekohphd.substack.com/p/how-much-niacinamide-should-you-be"
+  },
+  {
+   "id": "cu-evigrade",
+   "title": "Evigrade: Copper Tripeptide-1 (GHK-Cu) ingredient page",
+   "url": "https://www.evigrade.com/en/ingredients/copper-peptides-ghk-cu"
+  },
+  {
+   "id": "pdrn-evigrade",
+   "title": "Evigrade: PDRN ingredient page (topical evidence weak)",
+   "url": "https://www.evigrade.com/en/ingredients/pdrn"
+  },
+  {
+   "id": "pdrn-review",
+   "title": "PDRN in dermatology: systematic review (PMC11845969)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11845969/"
+  },
+  {
+   "id": "exo-dermtimes",
+   "title": "Dermatology Times: Social media mythbusters - exosomes",
+   "url": "https://www.dermatologytimes.com/view/social-media-mythbusters-exosomes-in-skin-care"
+  },
+  {
+   "id": "exo-natgeo",
+   "title": "National Geographic: What are exosomes in skincare",
+   "url": "https://www.nationalgeographic.com/health/article/what-are-exosomes-skincare"
+  },
+  {
+   "id": "greyb-kbeauty",
+   "title": "GreyB: K-Beauty industry report 2026",
+   "url": "https://greyb.com/resources/reports/k-beauty-industry-report-2026/"
+  },
+  {
+   "id": "grazia-kbeauty",
+   "title": "Grazia: Korean skin experts on 2026 K-beauty trends (PDRN 2025, EGF 2026)",
+   "url": "https://graziamagazine.com/us/articles/korean-skin-experts-reveal-which-2026-k-beauty-trends-are-actually-worth-your-money-and-which-are-pure-hype-25497/"
+  },
+  {
+   "id": "greyb-jbeauty",
+   "title": "GreyB: Japanese beauty industry report",
+   "url": "https://greyb.com/resources/reports/japanese-beauty-industry-report/"
+  },
+  {
+   "id": "cosmetech-jbeauty",
+   "title": "Cosmetech: Why J-beauty is gaining ground",
+   "url": "https://cosmetech.co.in/article/k-beauty-to-j-beauty-the-formulation-shift-reshaping-india-s-premium-skincare"
+  },
+  {
+   "id": "lookfantastic-2026",
+   "title": "Personal Care Insights: LookFantastic SS2026 trend report (peptides +79%, retinal +49.6%)",
+   "url": "https://www.personalcareinsights.com/news/spring-summer-beauty-trends-2026.html"
+  },
+  {
+   "id": "incos-2026",
+   "title": "in-cosmetics: 2026 skincare and beauty forecast",
+   "url": "https://www.in-cosmetics.com/group/en-gb/blog/trends/2026-skincare-and-beauty-forecast-data-driven-insights.html"
+  },
+  {
+   "id": "tj-pdrn",
+   "title": "Т—Ж: лучшие средства 2025, PDRN",
+   "url": "https://t-j.ru/best-of-2025-pdrn/"
+  },
+  {
+   "id": "rbc-style",
+   "title": "РБК Стиль: тренды ухода (экзосомы, PDRN)",
+   "url": "https://style.rbc.ru/visionaries/67d96ab39a7947570fb83846"
+  },
+  {
+   "id": "mt-pdrn",
+   "title": "The Moscow Times (2026): рынок ПДРН-препаратов в РФ 38,4 млрд руб. за 2025",
+   "url": "https://ru.themoscowtimes.com/2026/05/07/rossiyane-nachali-skupat-spermu-lososya-a194811"
+  }
+ ],
+ "actives": [
+  {
+   "id": "retinol",
+   "nameRu": "Ретинол",
+   "group": "retinoid",
+   "inci": [
+    "Retinol",
+    "Vitamin A",
+    "Encapsulated Retinol",
+    "Retinol (encapsulated)"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.3,
+    "high": 1.0,
+    "notes": "В ЕС с 2025–2027 лимит 0,3% (ретиноловый эквивалент) для лица, 0,05% для тела. 0,3% переносится заметно лучше 1% при сопоставимом эффекте. Инкапсуляция снижает раздражение, но по INCI её не видно."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Начинать с 0,1–0,2% или с инкапсулированной формы, 2 раза в неделю, поверх крема («сэндвич»).",
+   "notes": "Разлагается на свету, поэтому вечером. Шелушение и покраснение в первые 2–6 недель типичны.",
+   "sources": [
+    "dermnet-retinoids",
+    "ret-conc-pmc",
+    "eu-2024-996",
+    "coslaw-2024-996"
+   ],
+   "evidence": "high",
+   "markets": [
+    "US",
+    "EU",
+    "KR",
+    "RU"
+   ]
+  },
+  {
+   "id": "retinal",
+   "nameRu": "Ретиналь (ретинальдегид)",
+   "group": "retinoid",
+   "inci": [
+    "Retinal",
+    "Retinaldehyde"
+   ],
+   "strength": 4,
+   "concentration": {
+    "unit": "%",
+    "low": 0.025,
+    "medium": 0.05,
+    "high": 0.1,
+    "notes": "Примерно в 10 раз «сильнее» ретинола на ту же концентрацию (на шаг ближе к ретиноевой кислоте). 0,1% считается сильной дозой."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 3,
+   "sensitiveSkin": "Не первым ретиноидом при чувствительной коже; начинать с 0,025–0,05%.",
+   "notes": "Тренд 2025–2026 (поисковые запросы +50%). Переносимость сравнима с ретинолом, ниже, чем у третиноина.",
+   "sources": [
+    "ret-tolerance",
+    "lookfantastic-2026",
+    "dermnet-retinoids"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "US",
+    "EU",
+    "KR"
+   ]
+  },
+  {
+   "id": "retinyl_esters",
+   "nameRu": "Эфиры ретинола",
+   "group": "retinoid",
+   "inci": [
+    "Retinyl Palmitate",
+    "Retinyl Acetate",
+    "Retinyl Propionate",
+    "Retinyl Linoleate",
+    "Retinyl Retinoate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 2.0,
+    "notes": "Слабые: должны превратиться в ретинол, затем в ретиналь и кислоту. В ЕС входят в общий лимит 0,3% RE."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Обычно хорошо переносятся; подходят для старта.",
+   "notes": "Ретинил пальмитат часто стоит в составе как антиоксидант-витамин в малой дозе.",
+   "sources": [
+    "dermnet-retinoids",
+    "coslaw-2024-996"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "hpr",
+   "nameRu": "Гидроксипинаколон ретиноат (HPR)",
+   "group": "retinoid",
+   "inci": [
+    "Hydroxypinacolone Retinoate",
+    "Granactive Retinoid",
+    "HPR"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": "Эфир ретиноевой кислоты. Продаётся как «мягкий» ретиноид; независимых сравнений с ретинолом мало. Часто идёт смесью (Granactive Retinoid 2% = ~0,2% HPR)."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Хороший первый ретиноид для реактивной кожи, но всё равно с постепенным стартом.",
+   "notes": "Данные о мягкости в основном от производителей сырья.",
+   "sources": [
+    "dermnet-retinoids"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "adapalene",
+   "nameRu": "Адапален",
+   "group": "retinoid",
+   "inci": [
+    "Adapalene"
+   ],
+   "strength": 4,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.1,
+    "high": 0.3,
+    "notes": "0,1% — безрецептурный в США; 0,3% — рецептурный. В РФ продаётся в аптеках (Дифферин, Клензит)."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 3,
+   "sensitiveSkin": "Сухость и жжение в первые недели; начинать через 2–3 дня, короткими контактами.",
+   "notes": "Лекарство от акне. Стабилен с бензоилпероксидом (есть готовые комбинации).",
+   "sources": [
+    "aad-acne-2024",
+    "dermnet-retinoids",
+    "topical-acne-safety"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "tretinoin",
+   "nameRu": "Третиноин (ретиноевая кислота)",
+   "group": "retinoid",
+   "inci": [
+    "Tretinoin",
+    "Retinoic Acid"
+   ],
+   "strength": 5,
+   "concentration": {
+    "unit": "%",
+    "low": 0.025,
+    "medium": 0.05,
+    "high": 0.1,
+    "notes": "Рецептурный препарат. В косметике ЕС запрещён."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "avoid",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 4,
+   "sensitiveSkin": "Только по назначению врача; при чувствительной коже — 0,025% и редкие нанесения.",
+   "notes": "Окисляется бензоилпероксидом и разрушается на свету — не наносить вместе.",
+   "sources": [
+    "dermnet-retinoids",
+    "ret-tolerance",
+    "aad-acne-2024"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "bakuchiol",
+   "nameRu": "Бакучиол",
+   "group": "other",
+   "inci": [
+    "Bakuchiol",
+    "Psoralea Corylifolia Seed Extract"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 2.0,
+    "notes": "В исследовании 0,5% дважды в день ≈ 0,5% ретинола раз в день по морщинам и пигменту, меньше шелушения."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно мягкий, но бывает покраснение и контактный дерматит.",
+   "notes": "Растительная альтернатива ретинолу, не ретиноид. Неочищенный экстракт псоралеи может содержать фотосенсибилизаторы-псоралены.",
+   "sources": [
+    "bakuchiol-rct",
+    "labmuffin-bakuchiol"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "US",
+    "EU",
+    "KR"
+   ]
+  },
+  {
+   "id": "glycolic_acid",
+   "nameRu": "Гликолевая кислота",
+   "group": "aha",
+   "inci": [
+    "Glycolic Acid"
+   ],
+   "strength": 4,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 8.0,
+    "high": 10.0,
+    "notes": "Домашний уход: до 10% при pH ≥ 3,5 (CIR/FDA). Салонные пилинги 20–70%. Важны и % и pH: 5% при pH 3 раздражает сильнее, чем 8% при pH 4."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "2w",
+   "maxFrequency": "eod",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Самая мелкая молекула AHA — сильнее всех щиплет. При чувствительной коже лучше миндальная или PHA.",
+   "notes": "Повышает чувствительность к солнцу ещё неделю после отмены (FDA).",
+   "sources": [
+    "fda-aha",
+    "pc-dict"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "lactic_acid",
+   "nameRu": "Молочная кислота",
+   "group": "aha",
+   "inci": [
+    "Lactic Acid"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 12.0,
+    "notes": "Отшелушивание от ~5%; ниже 2% и у конца списка — регулятор pH/увлажнитель."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "2w",
+   "maxFrequency": "eod",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Мягче гликолевой, дополнительно увлажняет.",
+   "notes": "Sodium Lactate — увлажнитель, не кислотный пилинг.",
+   "sources": [
+    "fda-aha",
+    "pc-dict"
+   ],
+   "evidence": "high",
+   "activeOnlyIfAbove1pctLine": true
+  },
+  {
+   "id": "mandelic_acid",
+   "nameRu": "Миндальная кислота",
+   "group": "aha",
+   "inci": [
+    "Mandelic Acid"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 15.0,
+    "notes": "Крупная молекула, проникает медленнее — меньше жжения."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "2w",
+   "maxFrequency": "eod",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Подходит для чувствительной и смуглой кожи, склонной к пигментации.",
+   "notes": "Популярна в акне-уходе и при постакне.",
+   "sources": [
+    "pc-dict",
+    "fda-aha"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "fruit_acids",
+   "nameRu": "Фруктовые кислоты (яблочная, винная, лимонная)",
+   "group": "aha",
+   "inci": [
+    "Malic Acid",
+    "Tartaric Acid",
+    "Citric Acid"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 5.0,
+    "notes": "Лимонная кислота чаще всего — регулятор pH (<0,5%). Считать активом только если стоит выше линии 1%."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": true,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "2w",
+   "maxFrequency": "eod",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Обычно мягкие в смесях, но суммируются с другими кислотами.",
+   "notes": "Часто в составе «комплекса AHA» вместе с гликолевой и молочной.",
+   "sources": [
+    "fda-aha",
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "activeOnlyIfAbove1pctLine": true
+  },
+  {
+   "id": "salicylic_acid",
+   "nameRu": "Салициловая кислота (BHA)",
+   "group": "bha",
+   "inci": [
+    "Salicylic Acid",
+    "BHA",
+    "Beta Hydroxy Acid"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 2.0,
+    "notes": "В ЕС для несмываемых средств лица до 2% (лосьоны для тела — 0,5%); в США безрецептурно от акне 0,5–2%. Салонные пилинги 20–30%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "2w",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Сушит; при сухой коже — 0,5–1% или смываемые формы.",
+   "notes": "Жирорастворима, чистит поры — первый выбор при чёрных точках. Не путать с Ethylhexyl Salicylate (это УФ-фильтр).",
+   "sources": [
+    "dermnet-sa",
+    "cosing",
+    "pc-dict"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "betaine_salicylate",
+   "nameRu": "Бетаин салицилат",
+   "group": "bha",
+   "inci": [
+    "Betaine Salicylate"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 2.0,
+    "high": 4.0,
+    "notes": "~4% бетаина салицилата ≈ 1% салициловой кислоты (по данным производителей)."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Мягче салициловой; частый К-бьюти вариант BHA.",
+   "notes": "Эффективность по сравнению с салициловой изучена слабо.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "willow_bark",
+   "nameRu": "Экстракт коры ивы",
+   "group": "bha",
+   "inci": [
+    "Salix Alba (Willow) Bark Extract",
+    "Salix Alba Bark Extract",
+    "Salix Nigra Bark Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Мягкий; редко раздражает.",
+   "notes": "Содержит салицин, а не салициловую кислоту; отшелушивающий эффект слабый.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "lha",
+   "nameRu": "Липогидроксикислота (LHA)",
+   "group": "bha",
+   "inci": [
+    "Capryloyl Salicylic Acid",
+    "LHA"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.3,
+    "high": 1.0,
+    "notes": "Работает в низких концентрациях; часто 0,1–0,5% (La Roche-Posay)."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Мягче салициловой, но тоже может сушить.",
+   "notes": "Производное салициловой кислоты, медленное поверхностное отшелушивание.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "EU"
+   ]
+  },
+  {
+   "id": "gluconolactone",
+   "nameRu": "Глюконолактон (PHA)",
+   "group": "pha",
+   "inci": [
+    "Gluconolactone",
+    "PHA"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 2.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "Отшелушивание от ~4–5%; в малых дозах — увлажнитель/хелатор."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хороший вариант кислоты для чувствительной кожи и розацеа.",
+   "notes": "Крупная молекула, почти не щиплет, удерживает влагу.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "KR",
+    "EU"
+   ]
+  },
+  {
+   "id": "lactobionic_acid",
+   "nameRu": "Лактобионовая/мальтобионовая кислота (PHA)",
+   "group": "pha",
+   "inci": [
+    "Lactobionic Acid",
+    "Maltobionic Acid"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 2.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "Работают как мягкие отшелушивающие и антиоксиданты."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходят чувствительной коже.",
+   "notes": "Часто в паре с глюконолактоном.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "azelaic_acid",
+   "nameRu": "Азелаиновая кислота",
+   "group": "azelaic",
+   "inci": [
+    "Azelaic Acid"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 20.0,
+    "notes": "Косметика 5–10%; лекарства 15% (гель, розацеа) и 20% (крем, акне)."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Покалывание и зуд в первые 1–2 недели — частая и обычно проходящая реакция.",
+   "notes": "Помогает при акне, розацеа и пигментации. Безопасна при беременности.",
+   "sources": [
+    "dermnet-azelaic",
+    "preg-jabfm"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "azeloyl_glycinate",
+   "nameRu": "Азелоилглицинат калия",
+   "group": "azelaic",
+   "inci": [
+    "Potassium Azeloyl Diglycinate",
+    "Azeloglicina"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 3.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "Водорастворимое производное; данных меньше, чем по азелаиновой кислоте."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Мягче азелаиновой кислоты.",
+   "notes": "Себорегуляция и выравнивание тона; доказательная база слабее.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "vitc_laa",
+   "nameRu": "Аскорбиновая кислота (чистый витамин C)",
+   "group": "vitc",
+   "inci": [
+    "Ascorbic Acid",
+    "L-Ascorbic Acid",
+    "Vitamin C"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 20.0,
+    "notes": "Нужен pH < 3,5. Выше 20% проникновение не растёт, а раздражение — да. Если стоит у конца списка — это стабилизатор, не актив."
+   },
+   "timeOfDay": "morning",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "При чувствительной коже — 5–10% или производные.",
+   "notes": "Окисляется (темнеет до оранжевого) — такой флакон лучше заменить. Усиливает защиту SPF, но не заменяет его.",
+   "sources": [
+    "pinnell-laa",
+    "pc-dict"
+   ],
+   "evidence": "high",
+   "activeOnlyIfAbove1pctLine": true
+  },
+  {
+   "id": "vitc_sap",
+   "nameRu": "Аскорбилфосфат натрия (SAP)",
+   "group": "vitc",
+   "inci": [
+    "Sodium Ascorbyl Phosphate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 5.0,
+    "notes": "~5% показало противоакне-эффект."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Стабильная форма, работает при нейтральном pH.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "vitc_map",
+   "nameRu": "Аскорбилфосфат магния (MAP)",
+   "group": "vitc",
+   "inci": [
+    "Magnesium Ascorbyl Phosphate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 10.0,
+    "notes": "Мягкое осветление при 3–10%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Стабильная форма; уровень витамина C в коже повышает слабо.",
+   "sources": [
+    "pc-dict",
+    "pinnell-laa"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "vitc_ag",
+   "nameRu": "Аскорбилглюкозид",
+   "group": "vitc",
+   "inci": [
+    "Ascorbyl Glucoside"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 2.0,
+    "high": 5.0,
+    "notes": "В Корее 2% — порог «функциональной» отбеливающей косметики."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит чувствительной коже.",
+   "notes": "Популярен в K- и J-beauty.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR",
+    "JP"
+   ]
+  },
+  {
+   "id": "vitc_ethyl",
+   "nameRu": "Этиласкорбиновая кислота",
+   "group": "vitc",
+   "inci": [
+    "3-O-Ethyl Ascorbic Acid",
+    "Ethyl Ascorbic Acid",
+    "Ethyl Ascorbate"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 5.0,
+    "high": 15.0,
+    "notes": "Стабильная форма; часто 2–15%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Чаще мягкая, но при высоких % возможно покалывание.",
+   "notes": "Популярна в азиатских сыворотках.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR",
+    "JP",
+    "CN"
+   ]
+  },
+  {
+   "id": "vitc_thd",
+   "nameRu": "Тетрагексилдецил аскорбат (THD)",
+   "group": "vitc",
+   "inci": [
+    "Tetrahexyldecyl Ascorbate",
+    "Ascorbyl Tetraisopalmitate",
+    "Ascorbyl Palmitate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 5.0,
+    "high": 20.0,
+    "notes": "Жирорастворимая форма; аскорбилпальмитат обычно < 0,5% как антиоксидант формулы."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно не щиплет.",
+   "notes": "Эффективность для кожи изучена мало.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "niacinamide",
+   "nameRu": "Ниацинамид (витамин B3)",
+   "group": "niacinamide",
+   "inci": [
+    "Niacinamide",
+    "Nicotinamide",
+    "Vitamin B3"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 2.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "Большинство исследований — 2–5%. 10% и выше чаще дают покраснение и покалывание; пользы сверх 5% почти не доказано. В Корее 2–5% — «функциональное» осветление."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "При реактивной коже выбирать 2–5%, а не 10–20%.",
+   "notes": "Укрепляет барьер, снижает жирность и пигментацию. Совместим почти со всем.",
+   "sources": [
+    "niacinamide-koh",
+    "pc-dict",
+    "labmuffin"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "matrixyl",
+   "nameRu": "Пальмитоил пентапептид-4 (Matrixyl)",
+   "group": "peptides",
+   "inci": [
+    "Palmitoyl Pentapeptide-4",
+    "Palmitoyl Pentapeptide-3",
+    "Matrixyl"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "ppm",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Работает в ppm (миллионных долях); в составе как раствор 2–8%. Процент по INCI оценить нельзя."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Сигнальный пептид, стимулирует коллаген (данные в основном производителей).",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "matrixyl3000",
+   "nameRu": "Пальмитоил трипептид-1 + тетрапептид-7 (Matrixyl 3000)",
+   "group": "peptides",
+   "inci": [
+    "Palmitoyl Tripeptide-1",
+    "Palmitoyl Tetrapeptide-7",
+    "Palmitoyl Oligopeptide"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "ppm",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Сырьё вводят 3–8%, сам пептид — ppm."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Сигнальные пептиды.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "argireline",
+   "nameRu": "Ацетил гексапептид-8 (Аргирелин)",
+   "group": "peptides",
+   "inci": [
+    "Acetyl Hexapeptide-8",
+    "Acetyl Hexapeptide-3",
+    "Argireline",
+    "Acetyl Octapeptide-3",
+    "SNAP-8"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 2.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "Проценты на упаковке обычно про раствор сырья, а не чистый пептид."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "«Ботокс-подобный» эффект на коже выражен слабо.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "syn_ake",
+   "nameRu": "Пептиды-миорелаксанты (Syn-Ake и др.)",
+   "group": "peptides",
+   "inci": [
+    "Dipeptide Diaminobutyroyl Benzylamide Diacetate",
+    "Syn-Ake",
+    "Pentapeptide-18",
+    "Leuphasyl"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "ppm",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Процент по INCI не определить."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Доказательства эффекта слабые.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "peptides_other",
+   "nameRu": "Прочие пептиды",
+   "group": "peptides",
+   "inci": [
+    "Palmitoyl Tripeptide-5",
+    "Palmitoyl Tripeptide-38",
+    "Acetyl Tetrapeptide-9",
+    "Tripeptide-1",
+    "Oligopeptide",
+    "Peptide Complex"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "ppm",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Сигнальные/транспортные пептиды обычно в ppm."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Тренд №1 2025 по поисковым запросам; эффекты скромные, но безопасные.",
+   "sources": [
+    "pc-dict",
+    "lookfantastic-2026"
+   ],
+   "evidence": "low",
+   "patterns": [
+    "peptide-\\d+",
+    "\\bpeptide\\b"
+   ]
+  },
+  {
+   "id": "copper_peptides",
+   "nameRu": "Медные пептиды (GHK-Cu)",
+   "group": "copper_peptides",
+   "inci": [
+    "Copper Tripeptide-1",
+    "GHK-Cu",
+    "Copper Peptide",
+    "Copper Peptides"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.05,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": "Синие сыворотки ~1% (The Ordinary «Buffet + Copper»). Высокие дозы теоретически раздражают."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Иногда покраснение; начинать через день.",
+   "notes": "Заживление и ремоделирование; в кожу проникает плохо. Конфликт с кислотами и чистым витамином C — теоретический.",
+   "sources": [
+    "cu-evigrade",
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "benzoyl_peroxide",
+   "nameRu": "Бензоилпероксид",
+   "group": "bpo",
+   "inci": [
+    "Benzoyl Peroxide"
+   ],
+   "strength": 4,
+   "concentration": {
+    "unit": "%",
+    "low": 2.5,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "2,5%, 5% и 10% примерно одинаково эффективны; 10% сильнее сушат и раздражают. Начинать с 2,5%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Сухость и шелушение; можно короткий контакт 1–5 мин и смыть.",
+   "notes": "Отбеливает ткани и волосы. Окисляет третиноин и чистый витамин C.",
+   "sources": [
+    "dermnet-bpo",
+    "bpo-jdd",
+    "acneorg-bpo",
+    "aad-acne-2024",
+    "preg-jabfm"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "sulfur",
+   "nameRu": "Сера",
+   "group": "sulfur",
+   "inci": [
+    "Sulfur",
+    "Sulphur",
+    "Colloidal Sulfur"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": 3.0,
+    "medium": 5.0,
+    "high": 10.0,
+    "notes": "В США безрецептурно от акне 3–10%."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Сушит, специфический запах; точечно или маской.",
+   "notes": "Подсушивает воспаления, помогает при себорее и розацеа.",
+   "sources": [
+    "pc-dict",
+    "preg-jabfm"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "tranexamic_acid",
+   "nameRu": "Транексамовая кислота",
+   "group": "brightening",
+   "inci": [
+    "Tranexamic Acid",
+    "Cetyl Tranexamate HCl",
+    "Cetyl Tranexamate Mesylate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 2.0,
+    "medium": 3.0,
+    "high": 5.0,
+    "notes": "В исследованиях мелазмы 2–5%, 8–12 недель."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно хорошо переносится, раздражает меньше гидрохинона.",
+   "notes": "Тренд K-beauty и J-beauty. Данных о беременности для местного применения нет.",
+   "sources": [
+    "txa-review-2026",
+    "txa-jcad",
+    "greyb-kbeauty"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "KR",
+    "JP",
+    "US"
+   ]
+  },
+  {
+   "id": "alpha_arbutin",
+   "nameRu": "Альфа-арбутин",
+   "group": "brightening",
+   "inci": [
+    "Alpha-Arbutin",
+    "Alpha Arbutin"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 2.0,
+    "notes": "ЕС: не более 2% в средствах для лица и 0,5% для тела."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Может выделять гидрохинон в малых количествах — отсюда лимиты.",
+   "sources": [
+    "eu-2024-996",
+    "coslaw-2024-996"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "arbutin",
+   "nameRu": "Арбутин (бета)",
+   "group": "brightening",
+   "inci": [
+    "Arbutin",
+    "Beta-Arbutin"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 7.0,
+    "notes": "ЕС: не более 7% для лица. В Корее 2–5% — «функциональное» осветление."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится.",
+   "notes": "Слабее альфа-арбутина.",
+   "sources": [
+    "eu-2024-996",
+    "coslaw-2024-996"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "kojic_acid",
+   "nameRu": "Койевая кислота",
+   "group": "brightening",
+   "inci": [
+    "Kojic Acid",
+    "Kojic Dipalmitate"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 1.0,
+    "notes": "ЕС: не более 1% (лицо и руки). Дипальмитат мягче и стабильнее."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Возможна контактная аллергия; патч-тест обязателен.",
+   "notes": "Классика J-beauty (побочный продукт сакэ/коджи).",
+   "sources": [
+    "eu-2024-996",
+    "coslaw-2024-996",
+    "greyb-jbeauty"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "JP",
+    "KR",
+    "US"
+   ]
+  },
+  {
+   "id": "licorice",
+   "nameRu": "Экстракт солодки (глабридин)",
+   "group": "brightening",
+   "inci": [
+    "Glycyrrhiza Glabra (Licorice) Root Extract",
+    "Glycyrrhiza Glabra Root Extract",
+    "Glycyrrhiza Uralensis Root Extract",
+    "Glabridin"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Мягкий, успокаивает.",
+   "notes": "Осветление и противовоспалительное действие; доза в экстрактах неизвестна.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "butylresorcinol",
+   "nameRu": "4-бутилрезорцинол",
+   "group": "brightening",
+   "inci": [
+    "4-Butylresorcinol",
+    "Rucinol"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.3,
+    "high": 0.5,
+    "notes": "Сильный ингибитор тирозиназы при низких %."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Возможно раздражение; патч-тест.",
+   "notes": "Один из самых эффективных безрецептурных осветлителей.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "EU",
+    "KR",
+    "JP"
+   ]
+  },
+  {
+   "id": "hexylresorcinol",
+   "nameRu": "Гексилрезорцинол",
+   "group": "brightening",
+   "inci": [
+    "Hexylresorcinol"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 1.0,
+    "notes": "Обычно 0,5–1%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Иногда раздражает.",
+   "notes": "Осветление и антиоксидантное действие.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "glutathione",
+   "nameRu": "Глутатион",
+   "group": "brightening",
+   "inci": [
+    "Glutathione"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Мягкий.",
+   "notes": "Популярен в Азии; местный эффект на пигмент изучен слабо.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR",
+    "CN"
+   ]
+  },
+  {
+   "id": "cysteamine",
+   "nameRu": "Цистеамин",
+   "group": "brightening",
+   "inci": [
+    "Cysteamine HCl",
+    "Cysteamine Hydrochloride"
+   ],
+   "strength": 4,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 5.0,
+    "high": 5.0,
+    "notes": "Обычно 5% с коротким контактом 15–30 мин и смыванием."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Часто жжение и покраснение; строго по инструкции.",
+   "notes": "Используется при мелазме; резкий запах.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium",
+   "markets": [
+    "EU"
+   ]
+  },
+  {
+   "id": "centella",
+   "nameRu": "Центелла азиатская (мадекассосид, азиатикосид)",
+   "group": "soothing",
+   "inci": [
+    "Centella Asiatica Extract",
+    "Centella Asiatica Leaf Extract",
+    "Madecassoside",
+    "Asiaticoside",
+    "Asiatic Acid",
+    "Madecassic Acid",
+    "Cica",
+    "Hydrocotyl"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Хорошо переносится; редко — аллергия.",
+   "notes": "Главный «цика»-ингредиент K-beauty: успокаивает и помогает заживлению.",
+   "sources": [
+    "pc-dict",
+    "greyb-kbeauty"
+   ],
+   "evidence": "medium",
+   "patterns": [
+    "centella",
+    "madecass",
+    "asiatic"
+   ],
+   "markets": [
+    "KR",
+    "RU",
+    "EU"
+   ]
+  },
+  {
+   "id": "panthenol",
+   "nameRu": "Пантенол (провитамин B5)",
+   "group": "soothing",
+   "inci": [
+    "Panthenol",
+    "D-Panthenol",
+    "Dexpanthenol",
+    "Provitamin B5"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 2.0,
+    "high": 5.0,
+    "notes": "Обычно 1–5%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Успокаивает и восстанавливает барьер.",
+   "sources": [
+    "pc-dict",
+    "greyb-kbeauty"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "allantoin",
+   "nameRu": "Аллантоин",
+   "group": "soothing",
+   "inci": [
+    "Allantoin"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 2.0,
+    "notes": "Обычно 0,1–2%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Смягчает и успокаивает.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "mugwort",
+   "nameRu": "Полынь (мугворт)",
+   "group": "soothing",
+   "inci": [
+    "Artemisia Princeps Extract",
+    "Artemisia Princeps Leaf Extract",
+    "Artemisia Vulgaris Extract",
+    "Artemisia Annua Extract",
+    "Artemisia Capillaris Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "При аллергии на сложноцветные (амброзия, ромашка) — осторожно.",
+   "notes": "K-beauty тренд для успокоения; доказательства в основном лабораторные.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "patterns": [
+    "artemisia"
+   ],
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "heartleaf",
+   "nameRu": "Хауттюния (heartleaf)",
+   "group": "soothing",
+   "inci": [
+    "Houttuynia Cordata Extract",
+    "Houttuynia Cordata Leaf Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно мягкая.",
+   "notes": "K-beauty успокаивающий экстракт для кожи с акне.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "bisabolol",
+   "nameRu": "Бисаболол",
+   "group": "soothing",
+   "inci": [
+    "Bisabolol",
+    "Alpha-Bisabolol"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Компонент ромашки, противовоспалительный.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "beta_glucan",
+   "nameRu": "Бета-глюкан",
+   "group": "soothing",
+   "inci": [
+    "Beta-Glucan",
+    "Oat Beta Glucan",
+    "Sodium Carboxymethyl Beta-Glucan",
+    "Schizophyllan"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Увлажняет и успокаивает; тренд 2026 по данным Spate.",
+   "sources": [
+    "pc-dict",
+    "incos-2026"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "oat",
+   "nameRu": "Коллоидная овсянка",
+   "group": "soothing",
+   "inci": [
+    "Avena Sativa Kernel Flour",
+    "Avena Sativa (Oat) Kernel Flour",
+    "Colloidal Oatmeal",
+    "Avena Sativa Kernel Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит при атопии; редко аллергия.",
+   "notes": "Успокаивает зуд и сухость.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "glycyrrhizate",
+   "nameRu": "Глицирризинат дикалия",
+   "group": "soothing",
+   "inci": [
+    "Dipotassium Glycyrrhizate",
+    "Ammonium Glycyrrhizate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.3,
+    "high": 0.5,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Противовоспалительный компонент солодки, частый в J-beauty.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "JP",
+    "KR"
+   ]
+  },
+  {
+   "id": "ectoin",
+   "nameRu": "Эктоин",
+   "group": "soothing",
+   "inci": [
+    "Ectoin"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 2.0,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Защищает клетки от стресса и обезвоживания; популярен в ЕС.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "EU"
+   ]
+  },
+  {
+   "id": "hyaluronic_acid",
+   "nameRu": "Гиалуроновая кислота",
+   "group": "hydrating",
+   "inci": [
+    "Sodium Hyaluronate",
+    "Hyaluronic Acid",
+    "Hydrolyzed Hyaluronic Acid",
+    "Hydrolyzed Sodium Hyaluronate",
+    "Sodium Acetylated Hyaluronate",
+    "Sodium Hyaluronate Crosspolymer",
+    "Potassium Hyaluronate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 2.0,
+    "notes": "Обычно 0,1–2%; выше — липкость. «2%» на этикетке часто означает 2% раствора."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Увлажнитель; не «нейтрализует» кислоты и ретиноиды.",
+   "sources": [
+    "pc-dict",
+    "labmuffin"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "polyglutamic_acid",
+   "nameRu": "Полиглутаминовая кислота",
+   "group": "hydrating",
+   "inci": [
+    "Polyglutamic Acid",
+    "Sodium Polyglutamate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Плёнкообразующий увлажнитель, K-beauty.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "urea",
+   "nameRu": "Мочевина",
+   "group": "hydrating",
+   "inci": [
+    "Urea",
+    "Carbamide"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 20.0,
+    "notes": "До 10% — увлажнение; 10–20% — заметное отшелушивание; 30–40% — кератолитик для пяток и ногтей."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "До 5% подходит при атопии; выше 10% может щипать на повреждённой коже.",
+   "notes": "При >10% учитывать как отшелушивающий актив.",
+   "sources": [
+    "pc-dict",
+    "incos-2026"
+   ],
+   "evidence": "high",
+   "markets": [
+    "EU",
+    "JP",
+    "RU"
+   ]
+  },
+  {
+   "id": "snail_mucin",
+   "nameRu": "Муцин улитки",
+   "group": "hydrating",
+   "inci": [
+    "Snail Secretion Filtrate",
+    "Snail Mucin",
+    "Snail Mucus Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно мягкий; при аллергии на моллюсков — осторожно.",
+   "notes": "Увлажнение и заживление; часто стоит первым (до 90%).",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "collagen",
+   "nameRu": "Коллаген гидролизованный",
+   "group": "hydrating",
+   "inci": [
+    "Hydrolyzed Collagen",
+    "Soluble Collagen",
+    "Collagen"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Плёнкообразующий увлажнитель; в кожу как коллаген не встраивается.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "ceramides",
+   "nameRu": "Керамиды",
+   "group": "barrier",
+   "inci": [
+    "Ceramide NP",
+    "Ceramide AP",
+    "Ceramide EOP",
+    "Ceramide NS",
+    "Ceramide AS",
+    "Ceramide EOS",
+    "Ceramide NG",
+    "Ceramide 1",
+    "Ceramide 3",
+    "Ceramide 6 II",
+    "Hydroxypropyl Bispalmitamide MEA",
+    "Cetyl-PG Hydroxyethyl Palmitamide"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": "Обычно < 1%; важнее комбинация с холестерином и жирными кислотами."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Восстановление барьера; хорошая «подушка» под ретиноиды и кислоты.",
+   "sources": [
+    "pc-dict",
+    "incos-2026"
+   ],
+   "evidence": "medium",
+   "patterns": [
+    "ceramide"
+   ]
+  },
+  {
+   "id": "barrier_lipids",
+   "nameRu": "Холестерин, фитосфингозин, жирные кислоты",
+   "group": "barrier",
+   "inci": [
+    "Cholesterol",
+    "Phytosphingosine",
+    "Sphingolipids",
+    "Linoleic Acid"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Липиды барьера; работают в паре с керамидами.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "squalane",
+   "nameRu": "Сквалан",
+   "group": "barrier",
+   "inci": [
+    "Squalane"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем, не комедогенен.",
+   "notes": "Эмолент, смягчает и уменьшает потерю влаги.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "vitamin_e",
+   "nameRu": "Витамин E (токоферол)",
+   "group": "antioxidant",
+   "inci": [
+    "Tocopherol",
+    "Tocopheryl Acetate",
+    "Vitamin E"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.1,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": "Часто < 0,5% как стабилизатор масел."
+   },
+   "timeOfDay": "morning",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Ацетат иногда вызывает аллергию.",
+   "notes": "Усиливает витамин C (связка C+E+феруловая).",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium",
+   "activeOnlyIfAbove1pctLine": true
+  },
+  {
+   "id": "ferulic_acid",
+   "nameRu": "Феруловая кислота",
+   "group": "antioxidant",
+   "inci": [
+    "Ferulic Acid"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.2,
+    "medium": 0.5,
+    "high": 1.0,
+    "notes": "Классическая связка: 15% L-AA + 1% токоферол + 0,5% феруловая."
+   },
+   "timeOfDay": "morning",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Стабилизирует витамин C и E.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "medium"
+  },
+  {
+   "id": "resveratrol",
+   "nameRu": "Ресвератрол",
+   "group": "antioxidant",
+   "inci": [
+    "Resveratrol"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 1.0,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Антиоксидант; клинических данных мало.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "green_tea",
+   "nameRu": "Зелёный чай (EGCG)",
+   "group": "antioxidant",
+   "inci": [
+    "Camellia Sinensis Leaf Extract",
+    "Camellia Sinensis Leaf Water",
+    "Epigallocatechin Gallate",
+    "EGCG"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Антиоксидант и противовоспалительный.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR",
+    "JP"
+   ]
+  },
+  {
+   "id": "coq10",
+   "nameRu": "Коэнзим Q10",
+   "group": "antioxidant",
+   "inci": [
+    "Ubiquinone",
+    "Coenzyme Q10"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Антиоксидант, популярен в РФ и ЕС.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "EU",
+    "RU"
+   ]
+  },
+  {
+   "id": "astaxanthin",
+   "nameRu": "Астаксантин",
+   "group": "antioxidant",
+   "inci": [
+    "Astaxanthin",
+    "Haematococcus Pluvialis Extract"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем; окрашивает средство в красный.",
+   "notes": "Антиоксидант, популярен в J-beauty.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "JP"
+   ]
+  },
+  {
+   "id": "ginseng",
+   "nameRu": "Женьшень",
+   "group": "antioxidant",
+   "inci": [
+    "Panax Ginseng Root Extract",
+    "Panax Ginseng Berry Extract",
+    "Ginsenosides"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Классика корейской «хан-бан» косметики.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "propolis",
+   "nameRu": "Прополис",
+   "group": "antioxidant",
+   "inci": [
+    "Propolis Extract",
+    "Propolis Cera"
+   ],
+   "strength": 2,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Частый аллерген (контактный дерматит); при аллергии на продукты пчёл — избегать.",
+   "notes": "K-beauty: успокоение, антиоксидант, для кожи с акне.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "caffeine",
+   "nameRu": "Кофеин",
+   "group": "antioxidant",
+   "inci": [
+    "Caffeine"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 5.0,
+    "notes": null
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Временно уменьшает отёчность под глазами.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "enzymes",
+   "nameRu": "Энзимы (папаин, бромелайн, протеазы)",
+   "group": "enzyme",
+   "inci": [
+    "Papain",
+    "Bromelain",
+    "Subtilisin",
+    "Protease",
+    "Lipase"
+   ],
+   "strength": 2,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "ok",
+   "startFrequency": "1w",
+   "maxFrequency": "2w",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Мягче кислот, но тоже могут раздражать; держать по инструкции.",
+   "notes": "Энзимные пудры и маски K-/J-beauty.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "JP",
+    "KR"
+   ]
+  },
+  {
+   "id": "spicules",
+   "nameRu": "Спикулы (гидролизованная губка)",
+   "group": "exfoliant_physical",
+   "inci": [
+    "Hydrolyzed Sponge",
+    "Spongilla Lacustris Powder",
+    "Sponge Spicules",
+    "Spicule"
+   ],
+   "strength": 3,
+   "concentration": {
+    "unit": "%",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Сила задаётся количеством спикул (например «100 / 300 / 500 shots»), а не %."
+   },
+   "timeOfDay": "evening",
+   "photosensitizing": false,
+   "spfRequired": true,
+   "pregnancy": "caution",
+   "startFrequency": "1w",
+   "maxFrequency": "2w",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "При розацеа, акне в фазе воспаления и тонкой коже — не использовать.",
+   "notes": "Тренд K-beauty 2025 («reedle shot»): микроповреждения усиливают проникновение остальных средств, а значит и их раздражение.",
+   "sources": [
+    "rbc-style",
+    "tj-pdrn"
+   ],
+   "evidence": "low",
+   "patterns": [
+    "sponge",
+    "spicul"
+   ],
+   "markets": [
+    "KR",
+    "RU"
+   ]
+  },
+  {
+   "id": "scrub",
+   "nameRu": "Скраб (механические частицы)",
+   "group": "exfoliant_physical",
+   "inci": [
+    "Jojoba Esters",
+    "Walnut Shell Powder",
+    "Juglans Regia Shell Powder",
+    "Prunus Armeniaca Seed Powder",
+    "Perlite",
+    "Oryza Sativa Bran Powder"
+   ],
+   "strength": 2,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "1w",
+   "maxFrequency": "2w",
+   "stepUpWeeks": 2,
+   "sensitiveSkin": "Крупные острые частицы травмируют кожу; при чувствительной коже — не использовать.",
+   "notes": "Не сочетать в один вечер с кислотами и ретиноидами.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "spf_mineral",
+   "nameRu": "Минеральные фильтры (оксид цинка, диоксид титана)",
+   "group": "spf_filter",
+   "inci": [
+    "Zinc Oxide",
+    "Titanium Dioxide",
+    "CI 77947",
+    "CI 77891"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 5.0,
+    "medium": 10.0,
+    "high": 25.0,
+    "notes": "ЕС: каждый до 25%. Оксид цинка — широкий UVA/UVB."
+   },
+   "timeOfDay": "morning",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 0,
+   "sensitiveSkin": "Лучший выбор для реактивной кожи и при беременности.",
+   "notes": "CI 77891 у конца списка — краситель, а не фильтр.",
+   "sources": [
+    "aad-sunscreen",
+    "cosing"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "spf_organic",
+   "nameRu": "Органические (химические) УФ-фильтры",
+   "group": "spf_filter",
+   "inci": [
+    "Ethylhexyl Methoxycinnamate",
+    "Octinoxate",
+    "Butyl Methoxydibenzoylmethane",
+    "Avobenzone",
+    "Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine",
+    "Bemotrizinol",
+    "Tinosorb S",
+    "Methylene Bis-Benzotriazolyl Tetramethylbutylphenol",
+    "Tinosorb M",
+    "Diethylamino Hydroxybenzoyl Hexyl Benzoate",
+    "Uvinul A Plus",
+    "Ethylhexyl Triazone",
+    "Drometrizole Trisiloxane",
+    "Terephthalylidene Dicamphor Sulfonic Acid",
+    "Octocrylene",
+    "Homosalate",
+    "Ethylhexyl Salicylate",
+    "Octisalate",
+    "Benzophenone-3",
+    "Oxybenzone",
+    "Phenylbenzimidazole Sulfonic Acid",
+    "Diethylhexyl Butamido Triazone",
+    "Polysilicone-15"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "morning",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 0,
+   "sensitiveSkin": "Изредка жжение у глаз или аллергия (чаще на октокрилен, оксибензон).",
+   "notes": "Лимиты по каждому фильтру в Annex VI ЕС. Ethylhexyl Salicylate — фильтр, не кислота.",
+   "sources": [
+    "aad-sunscreen",
+    "cosing"
+   ],
+   "evidence": "high"
+  },
+  {
+   "id": "pdrn",
+   "nameRu": "PDRN (полидезоксирибонуклеотид, ДНК лосося)",
+   "group": "other",
+   "inci": [
+    "Sodium DNA",
+    "Polydeoxyribonucleotide",
+    "PDRN",
+    "Hydrolyzed DNA",
+    "DNA",
+    "Salmon DNA",
+    "Polynucleotide"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "В кремах обычно 0,01–1% (часто не раскрывается)."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно хорошо переносится; при аллергии на рыбу — осторожно.",
+   "notes": "Хит 2025 (K-beauty, РФ). Инъекционные данные сильнее, данные для кремов — слабые.",
+   "sources": [
+    "pdrn-review",
+    "pdrn-evigrade",
+    "tj-pdrn",
+    "mt-pdrn",
+    "greyb-kbeauty"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR",
+    "RU",
+    "US"
+   ]
+  },
+  {
+   "id": "exosomes",
+   "nameRu": "Экзосомы",
+   "group": "other",
+   "inci": [
+    "Exosomes",
+    "Rosa Damascena Callus Exosomes",
+    "Bacillus Ferment Exosomes",
+    "Human Adipocyte Conditioned Media Extract",
+    "Conditioned Media"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Данных о безопасности мало; осторожно при беременности и реактивной коже.",
+   "notes": "Тренд 2025–2026. Ни одного одобренного FDA продукта; в ЕС ингредиенты человеческого происхождения запрещены.",
+   "sources": [
+    "exo-dermtimes",
+    "exo-natgeo",
+    "greyb-kbeauty"
+   ],
+   "evidence": "low",
+   "patterns": [
+    "exosom",
+    "conditioned media"
+   ],
+   "markets": [
+    "KR",
+    "US",
+    "RU"
+   ]
+  },
+  {
+   "id": "egf",
+   "nameRu": "EGF (фактор роста эпидермиса)",
+   "group": "other",
+   "inci": [
+    "sh-Oligopeptide-1",
+    "rh-Oligopeptide-1",
+    "Human Oligopeptide-1",
+    "EGF",
+    "sh-Polypeptide-1"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "ppm",
+    "low": null,
+    "medium": null,
+    "high": null,
+    "notes": "Обычно ppm."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "daily",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно хорошо переносится.",
+   "notes": "Прогноз K-beauty на 2026. Теоретический вопрос о стимуляции роста клеток не закрыт; доказательства слабые.",
+   "sources": [
+    "grazia-kbeauty",
+    "greyb-kbeauty"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  },
+  {
+   "id": "ferments",
+   "nameRu": "Ферменты (галактомисис, сакэ, бифидо)",
+   "group": "other",
+   "inci": [
+    "Galactomyces Ferment Filtrate",
+    "Saccharomyces Ferment Filtrate",
+    "Bifida Ferment Lysate",
+    "Lactobacillus Ferment",
+    "Rice Ferment Filtrate (Sake)",
+    "Aspergillus Ferment",
+    "Saccharomyces/Rice Ferment Filtrate"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Обычно мягкие; редко реакция.",
+   "notes": "Основа J-beauty (сакэ, коджи) и K-beauty эссенций; часто стоят первыми.",
+   "sources": [
+    "greyb-jbeauty",
+    "cosmetech-jbeauty"
+   ],
+   "evidence": "low",
+   "patterns": [
+    "ferment"
+   ],
+   "markets": [
+    "JP",
+    "KR"
+   ]
+  },
+  {
+   "id": "zinc_pca",
+   "nameRu": "Цинк PCA",
+   "group": "other",
+   "inci": [
+    "Zinc PCA",
+    "Zinc Gluconate",
+    "Zinc Sulfate"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.5,
+    "medium": 1.0,
+    "high": 1.0,
+    "notes": "Обычно ~1%."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Снижает жирность и воспаление; хорошо с ниацинамидом.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "hypochlorous_acid",
+   "nameRu": "Гипохлорная кислота",
+   "group": "other",
+   "inci": [
+    "Hypochlorous Acid"
+   ],
+   "strength": 1,
+   "concentration": null,
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем, щадящий антисептик.",
+   "notes": "Тренд 2026 по данным Spate; спреи для кожи с акне и после процедур.",
+   "sources": [
+    "incos-2026"
+   ],
+   "evidence": "low",
+   "markets": [
+    "US"
+   ]
+  },
+  {
+   "id": "tea_tree",
+   "nameRu": "Масло чайного дерева",
+   "group": "other",
+   "inci": [
+    "Melaleuca Alternifolia (Tea Tree) Leaf Oil",
+    "Melaleuca Alternifolia Leaf Oil",
+    "Tea Tree Oil"
+   ],
+   "strength": 2,
+   "concentration": {
+    "unit": "%",
+    "low": 1.0,
+    "medium": 3.0,
+    "high": 5.0,
+    "notes": "В исследованиях акне 5%; окислённое масло — сильный аллерген."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "caution",
+   "startFrequency": "eod",
+   "maxFrequency": "daily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Частый аллерген; не наносить неразбавленным.",
+   "notes": "Слабее бензоилпероксида, но мягче.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low"
+  },
+  {
+   "id": "adenosine",
+   "nameRu": "Аденозин",
+   "group": "other",
+   "inci": [
+    "Adenosine"
+   ],
+   "strength": 1,
+   "concentration": {
+    "unit": "%",
+    "low": 0.04,
+    "medium": 0.04,
+    "high": 0.1,
+    "notes": "В Корее 0,04% — порог «функциональной» антивозрастной косметики."
+   },
+   "timeOfDay": "any",
+   "photosensitizing": false,
+   "spfRequired": false,
+   "pregnancy": "ok",
+   "startFrequency": "daily",
+   "maxFrequency": "2xdaily",
+   "stepUpWeeks": 1,
+   "sensitiveSkin": "Подходит почти всем.",
+   "notes": "Почти в каждом корейском креме «против морщин»; эффект мягкий.",
+   "sources": [
+    "pc-dict"
+   ],
+   "evidence": "low",
+   "markets": [
+    "KR"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "a": "retinoid",
+   "b": "retinoid",
+   "verdict": "avoid_same_time",
+   "why": "Два ретиноида сразу не усиливают эффект, но суммируют раздражение.",
+   "confidence": "high",
+   "sources": [
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "aha",
+   "verdict": "alternate_days",
+   "why": "Оба отшелушивают и сушат; вместе резко растёт раздражение.",
+   "confidence": "high",
+   "condition": "Опытным с крепкой кожей допустимо в один вечер при низких % (AHA до 5%, ретинол до 0,3%).",
+   "sources": [
+    "dermnet-retinoids",
+    "fda-aha"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "bha",
+   "verdict": "alternate_days",
+   "why": "Сумма раздражения и сухости. Вариант: BHA утром, ретиноид вечером.",
+   "confidence": "high",
+   "condition": "При жирной коже и низкой BHA (0,5–1%) можно разнести по утру и вечеру.",
+   "sources": [
+    "dermnet-retinoids",
+    "dermnet-sa"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "pha",
+   "verdict": "caution",
+   "why": "PHA мягкие, но всё равно добавляют отшелушивание.",
+   "confidence": "medium",
+   "condition": "Лучше через день; в один вечер — только если кожа спокойна.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "azelaic",
+   "verdict": "ok",
+   "why": "Частая врачебная схема при акне и пигментации; разные механизмы.",
+   "confidence": "medium",
+   "condition": "При 15–20% азелаиновой и сильном ретиноиде — разнести на утро и вечер.",
+   "sources": [
+    "dermnet-azelaic",
+    "aad-acne-2024"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "vitc",
+   "verdict": "separate_slots",
+   "why": "Химически друг друга не «гасят», но чистый витамин C кислый и тоже может раздражать. Удобнее: C утром, ретиноид вечером.",
+   "confidence": "medium",
+   "condition": "Стабильные производные C (SAP, MAP, аскорбилглюкозид) можно и вечером вместе.",
+   "sources": [
+    "pc-dict",
+    "labmuffin"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "niacinamide",
+   "verdict": "good_together",
+   "why": "Ниацинамид укрепляет барьер и снижает раздражение от ретиноидов.",
+   "confidence": "high",
+   "sources": [
+    "pc-dict",
+    "niacinamide-koh"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "peptides",
+   "verdict": "good_together",
+   "why": "Конфликта нет; оба антивозрастные, пептиды не раздражают.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "copper_peptides",
+   "verdict": "ok",
+   "why": "Химической несовместимости не показано; запрет — из соображений раздражения.",
+   "confidence": "low",
+   "condition": "При чувствительной коже — разные вечера.",
+   "sources": [
+    "cu-evigrade"
+   ],
+   "myth": true
+  },
+  {
+   "a": "retinoid",
+   "b": "bpo",
+   "verdict": "separate_slots",
+   "why": "Бензоилпероксид окисляет третиноин и, вероятно, ретинол; вместе сильно сушат. Адапален стабилен — с ним можно.",
+   "confidence": "medium",
+   "condition": "Для адапалена — ok (есть готовые комбинации).",
+   "sources": [
+    "aad-acne-2024",
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Оба сушат; суммарное раздражение.",
+   "confidence": "medium",
+   "condition": "Серу точечно, ретиноид на всё лицо — допустимо.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "brightening",
+   "verdict": "ok",
+   "why": "Транексамовая, арбутин, солодка с ретиноидами совместимы и дополняют друг друга.",
+   "confidence": "medium",
+   "condition": "Койевая кислота, бутилрезорцинол и цистеамин сами раздражают — разносить.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Центелла, пантенол, аллантоин снижают раздражение.",
+   "confidence": "high",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Увлажнение уменьшает сухость от ретиноидов. Гиалуроновая кислота ретиноид не нейтрализует.",
+   "confidence": "high",
+   "sources": [
+    "pc-dict"
+   ],
+   "myth": true
+  },
+  {
+   "a": "retinoid",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Крем с керамидами до/после ретиноида («сэндвич») снижает раздражение.",
+   "confidence": "high",
+   "sources": [
+    "pc-dict",
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "exfoliant_physical",
+   "verdict": "avoid_same_time",
+   "why": "Скраб или спикулы на коже под ретиноидом — травма и сильное раздражение.",
+   "confidence": "high",
+   "condition": "Скраб — за 2–3 дня до/после.",
+   "sources": [
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "enzyme",
+   "verdict": "alternate_days",
+   "why": "Энзимы отшелушивают — суммируется раздражение.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Ретиноид вечером, SPF утром обязателен: кожа тоньше и чувствительнее к солнцу.",
+   "confidence": "high",
+   "sources": [
+    "dermnet-retinoids",
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "retinoid",
+   "b": "other",
+   "verdict": "ok",
+   "why": "PDRN, экзосомы, ферменты, цинк — конфликтов не описано.",
+   "confidence": "low",
+   "condition": "Тиа-три и прочие эфирные масла — осторожно.",
+   "sources": []
+  },
+  {
+   "a": "aha",
+   "b": "aha",
+   "verdict": "caution",
+   "why": "Несколько кислотных средств подряд суммируют силу.",
+   "confidence": "high",
+   "condition": "Одно кислотное средство за вечер; комплексы AHA в одном флаконе — норм.",
+   "sources": [
+    "fda-aha"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "bha",
+   "verdict": "caution",
+   "why": "В одной формуле — обычная практика; два отдельных кислотных средства подряд — перебор.",
+   "confidence": "medium",
+   "condition": "При чувствительной коже — разные дни.",
+   "sources": [
+    "pc-dict",
+    "fda-aha"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "pha",
+   "verdict": "caution",
+   "why": "Суммарное отшелушивание; PHA добавляют немного.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "azelaic",
+   "verdict": "caution",
+   "why": "Обе кислоты могут щипать; комбинация допустима при спокойной коже.",
+   "confidence": "medium",
+   "condition": "При сенсибилизации — разные слоты.",
+   "sources": [
+    "dermnet-azelaic"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "vitc",
+   "verdict": "caution",
+   "why": "Миф: кислоты не «разрушают» витамин C (ему нужна кислая среда). Но два кислых средства подряд раздражают.",
+   "confidence": "medium",
+   "condition": "Чистая L-AA утром, AHA вечером. Производные C — без ограничений.",
+   "sources": [
+    "pinnell-laa",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "aha",
+   "b": "niacinamide",
+   "verdict": "ok",
+   "why": "Миф: при нормальном уходе ниацинамид не превращается в никотиновую кислоту от кислот. Можно в один вечер.",
+   "confidence": "medium",
+   "condition": "Если появляется покраснение — разнести на 10–15 минут или на разные слоты.",
+   "sources": [
+    "labmuffin",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "aha",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Миф о «разрушении» пептидов кислотами при наслаивании не подтверждён; проблема только внутри одной формулы.",
+   "confidence": "low",
+   "sources": [
+    "pc-dict"
+   ],
+   "myth": true
+  },
+  {
+   "a": "aha",
+   "b": "copper_peptides",
+   "verdict": "separate_slots",
+   "why": "Кислая среда теоретически ослабляет связь меди с пептидом; доказательств на коже нет.",
+   "confidence": "low",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "bpo",
+   "verdict": "alternate_days",
+   "why": "Сильная сухость и раздражение вместе.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-bpo",
+    "fda-aha"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Суммарная сухость.",
+   "confidence": "low",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "brightening",
+   "verdict": "good_together",
+   "why": "Отшелушивание усиливает действие осветлителей (транексамовая, арбутин).",
+   "confidence": "medium",
+   "condition": "С койевой кислотой и бутилрезорцинолом — следить за раздражением.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Успокаивающие снижают дискомфорт после кислот.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Гиалуроновая кислота и мочевина до 10% не мешают кислотам.",
+   "confidence": "medium",
+   "condition": "Мочевина >10% тоже отшелушивает — считать как кислоту.",
+   "sources": [
+    "pc-dict"
+   ],
+   "myth": true
+  },
+  {
+   "a": "aha",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Крем с керамидами после кислоты снижает раздражение.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "aha",
+   "b": "exfoliant_physical",
+   "verdict": "avoid_same_time",
+   "why": "Двойное отшелушивание — риск повредить барьер.",
+   "confidence": "high",
+   "sources": [
+    "fda-aha"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "enzyme",
+   "verdict": "avoid_same_time",
+   "why": "Двойное отшелушивание.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "AHA повышают чувствительность к солнцу ещё неделю — SPF обязателен.",
+   "confidence": "high",
+   "sources": [
+    "fda-aha",
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "aha",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "condition": "Кроме спикул и тиа-три — осторожно.",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "bha",
+   "verdict": "caution",
+   "why": "Два средства с BHA суммируют сухость.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-sa"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "pha",
+   "verdict": "ok",
+   "why": "PHA мягкие; сочетание обычно переносится.",
+   "confidence": "medium",
+   "condition": "При сухой коже — разные дни.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "azelaic",
+   "verdict": "ok",
+   "why": "Частая связка при акне и розацеа (с BHA 0,5–2%).",
+   "confidence": "medium",
+   "condition": "Если щиплет — разные слоты.",
+   "sources": [
+    "dermnet-azelaic",
+    "dermnet-sa"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "vitc",
+   "verdict": "caution",
+   "why": "Чистая L-AA и BHA кислые — вместе щиплет. Миф о взаимной инактивации не подтверждён.",
+   "confidence": "medium",
+   "condition": "Производные C — ok.",
+   "sources": [
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "bha",
+   "b": "niacinamide",
+   "verdict": "ok",
+   "why": "Миф о несовместимости; классическая связка для жирной кожи.",
+   "confidence": "medium",
+   "sources": [
+    "labmuffin",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "bha",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Конфликта на коже не показано.",
+   "confidence": "low",
+   "sources": [],
+   "myth": true
+  },
+  {
+   "a": "bha",
+   "b": "copper_peptides",
+   "verdict": "separate_slots",
+   "why": "Теоретическое ослабление комплекса меди в кислой среде.",
+   "confidence": "low",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "bpo",
+   "verdict": "caution",
+   "why": "Обе — противоакне, но вместе сушат.",
+   "confidence": "medium",
+   "condition": "Смываемый BPO + несмываемый BHA, либо утро/вечер.",
+   "sources": [
+    "dermnet-bpo",
+    "aad-acne-2024"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "sulfur",
+   "verdict": "ok",
+   "why": "Частая противоакне комбинация в одном средстве.",
+   "confidence": "medium",
+   "condition": "Следить за сухостью.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "brightening",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Снижает дискомфорт.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Компенсирует сухость от BHA.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Компенсирует сухость от BHA.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "exfoliant_physical",
+   "verdict": "avoid_same_time",
+   "why": "Двойное отшелушивание.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "enzyme",
+   "verdict": "avoid_same_time",
+   "why": "Двойное отшелушивание.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bha",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Любое отшелушивание — повод для ежедневного SPF.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "bha",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Цинк PCA и чайное дерево дополняют BHA при акне.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "pha",
+   "verdict": "ok",
+   "why": "Мягкие; суммирование минимально.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "azelaic",
+   "verdict": "ok",
+   "why": "Обе подходят реактивной коже.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "vitc",
+   "verdict": "ok",
+   "why": "PHA мягкие; с C обычно совместимы.",
+   "confidence": "low",
+   "condition": "С чистой L-AA при чувствительной коже — разные слоты.",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "niacinamide",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": [
+    "labmuffin",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "pha",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "copper_peptides",
+   "verdict": "caution",
+   "why": "Теоретически кислая среда; PHA слабокислые.",
+   "confidence": "low",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "pha",
+   "b": "bpo",
+   "verdict": "ok",
+   "why": "PHA мягкие и увлажняют; вместе переносятся.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "sulfur",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "brightening",
+   "verdict": "good_together",
+   "why": "Мягкое отшелушивание усиливает осветлители.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "Двойное отшелушивание, хоть и мягкое.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "enzyme",
+   "verdict": "caution",
+   "why": "Двойное отшелушивание.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "SPF днём при любом отшелушивании.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "azelaic",
+   "b": "vitc",
+   "verdict": "caution",
+   "why": "Обе могут щипать.",
+   "confidence": "low",
+   "condition": "С производными C — ok.",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "niacinamide",
+   "verdict": "good_together",
+   "why": "Связка при акне, розацеа и пигментации.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-azelaic",
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "azelaic",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "copper_peptides",
+   "verdict": "caution",
+   "why": "Кислая среда; теоретически.",
+   "confidence": "low",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "azelaic",
+   "b": "bpo",
+   "verdict": "ok",
+   "why": "Обе применяются при акне, часто в одной схеме.",
+   "confidence": "medium",
+   "condition": "Следить за сухостью.",
+   "sources": [
+    "dermnet-azelaic",
+    "aad-acne-2024"
+   ]
+  },
+  {
+   "a": "azelaic",
+   "b": "sulfur",
+   "verdict": "ok",
+   "why": "Совместимы; обе при розацеа и акне.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "brightening",
+   "verdict": "good_together",
+   "why": "Разные пути борьбы с пигментом.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-azelaic",
+    "txa-review-2026"
+   ]
+  },
+  {
+   "a": "azelaic",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Снижает покалывание.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "Повреждённая кожа сильнее реагирует на кислоту.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "enzyme",
+   "verdict": "caution",
+   "why": "Суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "При пигментации SPF обязателен.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "vitc",
+   "verdict": "ok",
+   "why": "Две формы витамина C можно, но обычно избыточно.",
+   "confidence": "medium",
+   "condition": "Две кислотные L-AA подряд — не надо.",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "niacinamide",
+   "verdict": "ok",
+   "why": "Миф из старых опытов с нагревом. В реальных средствах и на коже — совместимы.",
+   "confidence": "high",
+   "condition": "Если краснеете — разнести по времени; это редкое индивидуальное.",
+   "sources": [
+    "beautytap-mixing",
+    "labmuffin",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "vitc",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Наслаивание допустимо; несовместимость — проблема формулы, а не ухода.",
+   "confidence": "low",
+   "sources": [],
+   "myth": true
+  },
+  {
+   "a": "vitc",
+   "b": "copper_peptides",
+   "verdict": "caution",
+   "why": "Аскорбиновая кислота может восстанавливать медь и разрушать комплекс в растворе; на коже не доказано.",
+   "confidence": "low",
+   "condition": "Касается чистой L-AA; производные C — ok.",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "bpo",
+   "verdict": "avoid_same_time",
+   "why": "Бензоилпероксид — окислитель и окисляет аскорбиновую кислоту.",
+   "confidence": "medium",
+   "condition": "C утром, BPO вечером (или наоборот).",
+   "sources": [
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Мало данных; оба могут раздражать.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "brightening",
+   "verdict": "good_together",
+   "why": "Витамин C, транексамовая и арбутин дополняют друг друга при пигментации.",
+   "confidence": "medium",
+   "sources": [
+    "txa-review-2026",
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "soothing",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "hydrating",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "barrier",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "antioxidant",
+   "verdict": "good_together",
+   "why": "Витамин C + E + феруловая кислота стабилизируют друг друга и усиливают защиту.",
+   "confidence": "high",
+   "sources": [
+    "pinnell-laa",
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "На свежеотшелушенной коже кислая C щиплет.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы, но после энзимов L-AA может щипать.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "vitc",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Антиоксидант утром усиливает защиту SPF, но не заменяет его.",
+   "confidence": "high",
+   "sources": [
+    "pinnell-laa",
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "vitc",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "peptides",
+   "verdict": "good_together",
+   "why": "Совместимы, оба мягкие.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "copper_peptides",
+   "verdict": "ok",
+   "why": "Утверждения о несовместимости — фольклор.",
+   "confidence": "low",
+   "sources": [],
+   "myth": true
+  },
+  {
+   "a": "niacinamide",
+   "b": "bpo",
+   "verdict": "good_together",
+   "why": "Ниацинамид снижает раздражение и сам помогает при акне.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "niacinamide",
+   "b": "sulfur",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "brightening",
+   "verdict": "good_together",
+   "why": "Ниацинамид + транексамовая/арбутин — популярная связка от пигмента.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict",
+    "txa-review-2026"
+   ]
+  },
+  {
+   "a": "niacinamide",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Ниацинамид усиливает синтез керамидов.",
+   "confidence": "high",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "niacinamide",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Утром ниацинамид + SPF — удобная связка.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "niacinamide",
+   "b": "other",
+   "verdict": "good_together",
+   "why": "Цинк PCA + ниацинамид — классика для жирной кожи.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "niacinamide",
+   "b": "niacinamide",
+   "verdict": "caution",
+   "why": "Несколько средств с ниацинамидом дают в сумме >10% — чаще покраснение.",
+   "confidence": "low",
+   "sources": [
+    "niacinamide-koh"
+   ]
+  },
+  {
+   "a": "peptides",
+   "b": "peptides",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "copper_peptides",
+   "verdict": "ok",
+   "why": "Запрет смешивать пептиды — фольклор.",
+   "confidence": "low",
+   "sources": [],
+   "myth": true
+  },
+  {
+   "a": "peptides",
+   "b": "bpo",
+   "verdict": "caution",
+   "why": "Окислитель теоретически может повредить пептиды.",
+   "confidence": "low",
+   "condition": "Лучше разные слоты.",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "enzyme",
+   "verdict": "separate_slots",
+   "why": "Протеазы расщепляют белки и, вероятно, пептиды.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "sulfur",
+   "verdict": "ok",
+   "why": "Конфликта нет.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "brightening",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "spf_filter",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "peptides",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "bpo",
+   "verdict": "avoid_same_time",
+   "why": "Окислитель плюс ион меди — нежелательная реакция; теоретически.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Мало данных.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "brightening",
+   "verdict": "caution",
+   "why": "Койевая кислота связывает медь; может ослабить пептид.",
+   "confidence": "low",
+   "condition": "Транексамовая и арбутин — ok.",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы (кроме чистой аскорбиновой — см. vitc).",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "enzyme",
+   "verdict": "separate_slots",
+   "why": "Протеазы могут расщеплять пептид.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "spf_filter",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "Мало данных.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "copper_peptides",
+   "verdict": "caution",
+   "why": "Избыток меди теоретически раздражает.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "bpo",
+   "verdict": "avoid_same_time",
+   "why": "Две формы BPO — лишняя сухость без пользы.",
+   "confidence": "medium",
+   "sources": [
+    "bpo-jdd"
+   ]
+  },
+  {
+   "a": "bpo",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Обе сильно сушат.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "brightening",
+   "verdict": "caution",
+   "why": "Окислитель может разрушать часть осветлителей.",
+   "confidence": "low",
+   "condition": "Разные слоты.",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Снижает раздражение.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Снижает сухость.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Увлажняющий крем снижает раздражение от BPO.",
+   "confidence": "high",
+   "sources": [
+    "dermnet-bpo",
+    "aad-acne-2024"
+   ]
+  },
+  {
+   "a": "bpo",
+   "b": "antioxidant",
+   "verdict": "separate_slots",
+   "why": "BPO окисляет антиоксиданты.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "exfoliant_physical",
+   "verdict": "avoid_same_time",
+   "why": "Сильное раздражение.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "enzyme",
+   "verdict": "caution",
+   "why": "Суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "bpo",
+   "b": "spf_filter",
+   "verdict": "ok",
+   "why": "Совместимы; SPF всё равно нужен.",
+   "confidence": "medium",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "bpo",
+   "b": "other",
+   "verdict": "caution",
+   "why": "С чайным деревом — суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "sulfur",
+   "verdict": "caution",
+   "why": "Избыточно.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "brightening",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "Суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "enzyme",
+   "verdict": "caution",
+   "why": "Суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "spf_filter",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "brightening",
+   "verdict": "ok",
+   "why": "Комбинации осветлителей обычны (TXA + арбутин + солодка).",
+   "confidence": "medium",
+   "condition": "Две раздражающие (койевая + бутилрезорцинол) — следить.",
+   "sources": [
+    "txa-review-2026"
+   ]
+  },
+  {
+   "a": "brightening",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "antioxidant",
+   "verdict": "good_together",
+   "why": "Антиоксиданты тоже уменьшают пигментацию.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "exfoliant_physical",
+   "verdict": "caution",
+   "why": "Раздражение может усилить пигментацию.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "brightening",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Без SPF осветлители почти бесполезны.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen",
+    "txa-review-2026"
+   ]
+  },
+  {
+   "a": "brightening",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "soothing",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "antioxidant",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Успокаивающие после скраба уместны.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "soothing",
+   "b": "other",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "hydrating",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Увлажнитель + липиды — лучший базовый уход.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "hydrating",
+   "b": "other",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "barrier",
+   "verdict": "good_together",
+   "why": "Керамиды + холестерин + жирные кислоты работают вместе.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "antioxidant",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Крем после скраба уместен.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "barrier",
+   "b": "other",
+   "verdict": "good_together",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "antioxidant",
+   "b": "antioxidant",
+   "verdict": "good_together",
+   "why": "Антиоксиданты поддерживают друг друга.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "antioxidant",
+   "b": "exfoliant_physical",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "antioxidant",
+   "b": "enzyme",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "antioxidant",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "Антиоксиданты утром дополняют SPF.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "antioxidant",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "exfoliant_physical",
+   "b": "exfoliant_physical",
+   "verdict": "avoid_same_time",
+   "why": "Двойная механическая травма.",
+   "confidence": "high",
+   "sources": []
+  },
+  {
+   "a": "exfoliant_physical",
+   "b": "enzyme",
+   "verdict": "avoid_same_time",
+   "why": "Двойное отшелушивание.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "exfoliant_physical",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "После отшелушивания кожа чувствительнее к солнцу.",
+   "confidence": "medium",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "exfoliant_physical",
+   "b": "other",
+   "verdict": "caution",
+   "why": "Спикулы усиливают проникновение любых активов, включая раздражающие.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "enzyme",
+   "b": "enzyme",
+   "verdict": "caution",
+   "why": "Избыточно.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "enzyme",
+   "b": "spf_filter",
+   "verdict": "good_together",
+   "why": "SPF после любого отшелушивания.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "enzyme",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "spf_filter",
+   "b": "spf_filter",
+   "verdict": "ok",
+   "why": "Сочетания фильтров — норма; несколько SPF-средств не складывают SPF арифметически.",
+   "confidence": "high",
+   "sources": [
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "a": "spf_filter",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Совместимы.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "other",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pha",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "azelaic",
+   "verdict": "caution",
+   "why": "Два средства с азелаиновой кислотой — избыточно.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "azelaic",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "copper_peptides",
+   "b": "other",
+   "verdict": "ok",
+   "why": "Конфликтов не описано.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "sulfur",
+   "b": "other",
+   "verdict": "caution",
+   "why": "С чайным деревом и спикулами — суммарное раздражение.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "tretinoin",
+   "b": "benzoyl_peroxide",
+   "verdict": "separate_slots",
+   "why": "BPO окисляет третиноин и ослабляет его. BPO утром, третиноин вечером.",
+   "confidence": "high",
+   "condition": "Кроме специальных стабильных комбинаций (микроинкапсуляция).",
+   "sources": [
+    "aad-acne-2024",
+    "dermnet-retinoids",
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "adapalene",
+   "b": "benzoyl_peroxide",
+   "verdict": "good_together",
+   "why": "Адапален стабилен с BPO; есть готовые комбинации (Эффезел/Epiduo).",
+   "confidence": "high",
+   "condition": "Сухость — ввод через день.",
+   "sources": [
+    "aad-acne-2024",
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "retinol",
+   "b": "benzoyl_peroxide",
+   "verdict": "separate_slots",
+   "why": "Ретинол легко окисляется; вместе ещё и сушит.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "vitc_laa",
+   "b": "copper_peptides",
+   "verdict": "separate_slots",
+   "why": "Химическая реакция в растворе правдоподобна; на коже вред не доказан. Разнести по утру/вечеру — дешёвая страховка.",
+   "confidence": "low",
+   "sources": [
+    "cu-evigrade"
+   ]
+  },
+  {
+   "a": "vitc_laa",
+   "b": "niacinamide",
+   "verdict": "ok",
+   "why": "Миф. Комплекс образуется обратимо и не вредит; ниацин образуется только при нагреве.",
+   "confidence": "high",
+   "condition": "При покраснении — разнести.",
+   "sources": [
+    "beautytap-mixing",
+    "fb-mixing"
+   ],
+   "myth": true
+  },
+  {
+   "a": "vitc_laa",
+   "b": "benzoyl_peroxide",
+   "verdict": "avoid_same_time",
+   "why": "BPO окисляет аскорбиновую кислоту.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-bpo"
+   ]
+  },
+  {
+   "a": "vitc_laa",
+   "b": "glycolic_acid",
+   "verdict": "caution",
+   "why": "Два низких pH подряд — сильное покалывание.",
+   "confidence": "medium",
+   "condition": "Разные слоты.",
+   "sources": [
+    "fda-aha",
+    "pinnell-laa"
+   ]
+  },
+  {
+   "a": "vitc_laa",
+   "b": "retinol",
+   "verdict": "separate_slots",
+   "why": "C утром, ретинол вечером — удобнее и мягче.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "glycolic_acid",
+   "b": "retinol",
+   "verdict": "alternate_days",
+   "why": "Самая раздражающая частая связка у новичков.",
+   "confidence": "high",
+   "condition": "Только опытным и при низких %.",
+   "sources": [
+    "fda-aha",
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "glycolic_acid",
+   "b": "tretinoin",
+   "verdict": "avoid_same_time",
+   "why": "Высокий риск ожога и дерматита.",
+   "confidence": "high",
+   "sources": [
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "salicylic_acid",
+   "b": "tretinoin",
+   "verdict": "alternate_days",
+   "why": "Суммарная сухость и раздражение.",
+   "confidence": "high",
+   "sources": [
+    "dermnet-retinoids"
+   ]
+  },
+  {
+   "a": "urea",
+   "b": "aha",
+   "verdict": "caution",
+   "why": "Мочевина >10% тоже отшелушивает и щиплет вместе с кислотами.",
+   "confidence": "medium",
+   "condition": "Ниже 10% — ok.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "urea",
+   "b": "retinoid",
+   "verdict": "caution",
+   "why": "Мочевина >10% усиливает проникновение и раздражение.",
+   "confidence": "low",
+   "condition": "Ниже 10% — good_together.",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "spicules",
+   "b": "retinoid",
+   "verdict": "avoid_same_time",
+   "why": "Спикулы открывают микроканалы — ретиноид проникает сильнее и сильнее раздражает.",
+   "confidence": "medium",
+   "condition": "Минимум 2–3 дня между ними.",
+   "sources": [
+    "rbc-style"
+   ]
+  },
+  {
+   "a": "spicules",
+   "b": "aha",
+   "verdict": "avoid_same_time",
+   "why": "Кислоты на микроповреждённой коже — жжение.",
+   "confidence": "medium",
+   "sources": [
+    "rbc-style"
+   ]
+  },
+  {
+   "a": "spicules",
+   "b": "vitc_laa",
+   "verdict": "avoid_same_time",
+   "why": "Кислая C на микроповреждённой коже — жжение.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "kojic_acid",
+   "b": "copper_peptides",
+   "verdict": "caution",
+   "why": "Койевая кислота связывает медь.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "bakuchiol",
+   "b": "retinol",
+   "verdict": "good_together",
+   "why": "Бакучиол часто добавляют к ретинолу для мягкости; данных о вреде нет.",
+   "confidence": "low",
+   "sources": [
+    "labmuffin-bakuchiol"
+   ]
+  },
+  {
+   "a": "bakuchiol",
+   "b": "retinoid",
+   "verdict": "ok",
+   "why": "Совместимы; бакучиол не ретиноид.",
+   "confidence": "low",
+   "sources": [
+    "labmuffin-bakuchiol"
+   ]
+  },
+  {
+   "a": "zinc_pca",
+   "b": "niacinamide",
+   "verdict": "good_together",
+   "why": "Себорегуляция при жирной коже.",
+   "confidence": "medium",
+   "sources": [
+    "pc-dict"
+   ]
+  },
+  {
+   "a": "tea_tree",
+   "b": "benzoyl_peroxide",
+   "verdict": "caution",
+   "why": "Оба раздражают; вместе — избыточно.",
+   "confidence": "low",
+   "sources": []
+  },
+  {
+   "a": "pdrn",
+   "b": "retinoid",
+   "verdict": "ok",
+   "why": "Конфликтов не описано; PDRN мягкий.",
+   "confidence": "low",
+   "sources": [
+    "pdrn-review"
+   ]
+  },
+  {
+   "a": "exosomes",
+   "b": "retinoid",
+   "verdict": "ok",
+   "why": "Конфликтов не описано; данных мало.",
+   "confidence": "low",
+   "sources": [
+    "exo-dermtimes"
+   ]
+  },
+  {
+   "a": "hyaluronic_acid",
+   "b": "aha",
+   "verdict": "ok",
+   "why": "Миф о «нейтрализации» кислот гиалуроновой кислотой не подтверждён.",
+   "confidence": "medium",
+   "sources": [
+    "labmuffin"
+   ],
+   "myth": true
+  },
+  {
+   "a": "cysteamine",
+   "b": "retinoid",
+   "verdict": "avoid_same_time",
+   "why": "Оба сильно раздражают.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "cysteamine",
+   "b": "aha",
+   "verdict": "avoid_same_time",
+   "why": "Оба сильно раздражают.",
+   "confidence": "medium",
+   "sources": []
+  },
+  {
+   "a": "azelaic_acid",
+   "b": "niacinamide",
+   "verdict": "good_together",
+   "why": "Связка при розацеа и постакне.",
+   "confidence": "medium",
+   "sources": [
+    "dermnet-azelaic"
+   ]
+  },
+  {
+   "a": "tranexamic_acid",
+   "b": "niacinamide",
+   "verdict": "good_together",
+   "why": "Частая противопигментная связка.",
+   "confidence": "medium",
+   "sources": [
+    "txa-review-2026"
+   ]
+  }
+ ],
+ "rules": [
+  {
+   "id": "irritation-load",
+   "text": "Считаем нагрузку за один приём: сумма strength всех кислот, ретиноидов, BPO, серы, отшелушивающих и сильных осветлителей (strength ≥ 2). Новичок и чувствительная кожа — не больше 4, обычная — 6, опытная — 8. Не больше одного актива со strength ≥ 4 за приём."
+  },
+  {
+   "id": "concentration-modifier",
+   "text": "К базовому strength: концентрация ≤ low → −1, между medium и high → +1, выше high → +2 (не ниже 1 и не выше 5). Если концентрация неизвестна — берём medium. Для AHA pH < 3 даёт ещё +1.",
+   "sources": [
+    "fda-aha",
+    "ret-conc-pmc",
+    "bpo-jdd"
+   ]
+  },
+  {
+   "id": "one-new-active",
+   "text": "Вводить только один новый актив за раз; следующий — через 2 недели (ретиноиды и сильные кислоты — через 4)."
+  },
+  {
+   "id": "escalation",
+   "text": "Сначала повышаем частоту, потом концентрацию: 2 раза в неделю → через день → ежедневно, шаг — stepUpWeeks при отсутствии раздражения. Переход на следующую концентрацию — не раньше чем через 4–8 недель ежедневного применения без раздражения."
+  },
+  {
+   "id": "patch-test",
+   "text": "Новое средство с активами — патч-тест 2–3 вечера на линии челюсти или за ухом."
+  },
+  {
+   "id": "spf-daily",
+   "text": "Если в уходе есть ретиноид, кислота, осветлитель или скраб — ежедневный SPF 30+ утром (FDA: после AHA ещё 7 дней).",
+   "sources": [
+    "fda-aha",
+    "aad-sunscreen"
+   ]
+  },
+  {
+   "id": "pause-on-irritation",
+   "text": "Жжение дольше 10 минут, отёк, мокнутие или сильное шелушение — пауза всех активов на 3–7 дней, только мягкое очищение, крем и SPF; затем возврат с меньшей частотой. Сыпь, отёк век или волдыри — к врачу."
+  },
+  {
+   "id": "slots",
+   "text": "Утро: антиоксиданты (витамин C), ниацинамид, увлажнение, SPF. Вечер: ретиноиды, AHA, спикулы, сера. Если двум активам нельзя «same_time» — разводим утро/вечер или чередуем дни."
+  },
+  {
+   "id": "one-exfoliant-per-evening",
+   "text": "Не больше одного отшелушивающего средства за вечер (кислоты, ретиноид, энзимы, скраб, спикулы, мочевина >10%)."
+  },
+  {
+   "id": "recovery-nights",
+   "text": "При 3+ вечерах с активами в неделю — 1–2 вечера «отдыха» только с барьерным уходом."
+  },
+  {
+   "id": "sensitive-skin",
+   "text": "Чувствительная кожа, розацеа, атопия: ограничить активы strength ≤ 3, стартовать с минимальных концентраций, предпочитать PHA, азелаиновую, ниацинамид 2–5%, производные C, инкапсулированный ретинол."
+  },
+  {
+   "id": "pregnancy",
+   "text": "Беременность/кормление: все ретиноиды — исключить (включая эфиры и HPR); салициловую — только низкие % на небольших участках; высокие % и пилинги — нет. Допустимы азелаиновая, AHA, витамин C, ниацинамид, BPO (по мнению врача), минеральный SPF. Для активов без данных — «осторожно».",
+   "sources": [
+    "preg-jabfm",
+    "topical-acne-safety"
+   ]
+  },
+  {
+   "id": "rx-drugs",
+   "text": "Третиноин, адапален 0,3%, азелаиновая 15–20%, рецептурный гидрохинон — лекарства. Приложение не меняет схему, назначенную врачом; только напоминает о совместимости."
+  },
+  {
+   "id": "layering",
+   "text": "Порядок: от жидкого к плотному; ждать между слоями обычно не нужно (миф о 20 минутах для кислот без доказательств). Ретиноид при чувствительности — «сэндвич»: крем, ретиноид, крем."
+  },
+  {
+   "id": "no-summer-ban",
+   "text": "Ретиноиды и кислоты летом не запрещены, если есть ежедневный SPF; перед отпуском у моря — снизить частоту за 1 неделю."
+  },
+  {
+   "id": "purge",
+   "text": "Ретиноиды и кислоты в первые 4–6 недель могут вызывать временное усиление высыпаний там, где они обычно бывают; новые зоны и зуд — признак раздражения, а не «очищения»."
+  },
+  {
+   "id": "inci-order",
+   "text": "INCI перечисляется по убыванию массовой доли (ЕС ст. 19 Регламента 1223/2009; США — аналогично). Всё, что меньше 1%, может идти в любом порядке после ингредиентов >1%. Красители (CI ...) — в конце.",
+   "sources": [
+    "eu-1223",
+    "cosbiz-inci",
+    "incidecoder-lists"
+   ]
+  },
+  {
+   "id": "inci-1pct-line",
+   "text": "Линию 1% ищем по маркерам: феноксиэтанол (ЕС макс. 1%), этилгексилглицерин, бензоат натрия, сорбат калия, ксантан, карбомер, отдушка (Parfum/Fragrance), аллергены (Linalool, Limonene), EDTA. Всё после первого маркера — вероятно ≤1%. Актив выше воды/основы и на 2–5 месте — вероятно высокая концентрация.",
+   "sources": [
+    "incidecoder-lists",
+    "cosing",
+    "eu-1223"
+   ]
+  },
+  {
+   "id": "inci-estimate",
+   "text": "Если процент не указан: актив до линии 1% и в первой трети — оценка medium..high; до линии, но ниже середины — low..medium; после линии — ≤1% (для ретинола/пептидов это может быть нормальной рабочей дозой, для кислот и ниацинамида — слабо). Активы с activeOnlyIfAbove1pctLine после линии считаем вспомогательными (регулятор pH, стабилизатор).",
+   "sources": [
+    "incidecoder-lists"
+   ]
+  },
+  {
+   "id": "label-percent",
+   "text": "Процент на этикетке приоритетнее оценки по INCI. Но «2% гиалуроновой» или «10% пептидов» часто означает долю раствора сырья, а не чистого вещества."
+  },
+  {
+   "id": "matching",
+   "text": "Сопоставление INCI: регистронезависимо, по целым словам, побеждает самое длинное совпадение (Alpha-Arbutin раньше Arbutin; Ethylhexyl Salicylate — УФ-фильтр, а не BHA; Sodium Lactate — не AHA)."
+  },
+  {
+   "id": "low-confidence",
+   "text": "Пары с confidence=low показываются как мягкий совет, а не запрет."
+  }
+ ],
+ "concentrationMarkers": [
+  {
+   "inci": "Phenoxyethanol",
+   "maxPct": 1.0,
+   "note": "ЕС лимит 1%"
+  },
+  {
+   "inci": "Ethylhexylglycerin",
+   "maxPct": 1.0,
+   "note": "обычно 0,1–1%"
+  },
+  {
+   "inci": "Sodium Benzoate",
+   "maxPct": 1.0,
+   "note": "обычно ≤0,5%"
+  },
+  {
+   "inci": "Potassium Sorbate",
+   "maxPct": 0.6,
+   "note": "ЕС лимит 0,6% (как кислота)"
+  },
+  {
+   "inci": "Benzyl Alcohol",
+   "maxPct": 1.0,
+   "note": "консервант до 1%"
+  },
+  {
+   "inci": "Chlorphenesin",
+   "maxPct": 0.3,
+   "note": "ЕС лимит 0,3%"
+  },
+  {
+   "inci": "Methylparaben",
+   "maxPct": 0.4,
+   "note": "ЕС лимит 0,4%"
+  },
+  {
+   "inci": "Xanthan Gum",
+   "maxPct": 1.0,
+   "note": "загуститель 0,1–1%"
+  },
+  {
+   "inci": "Carbomer",
+   "maxPct": 1.0,
+   "note": "загуститель 0,1–1%"
+  },
+  {
+   "inci": "Parfum",
+   "maxPct": 1.0,
+   "note": "отдушка в уходе обычно ≤1%"
+  },
+  {
+   "inci": "Fragrance",
+   "maxPct": 1.0,
+   "note": "отдушка в уходе обычно ≤1%"
+  },
+  {
+   "inci": "Disodium EDTA",
+   "maxPct": 0.2,
+   "note": "хелатор 0,05–0,2%"
+  },
+  {
+   "inci": "Linalool",
+   "maxPct": 0.1,
+   "note": "аллерген, указывается от 0,001%"
+  },
+  {
+   "inci": "Limonene",
+   "maxPct": 0.1,
+   "note": "аллерген, указывается от 0,001%"
+  },
+  {
+   "inci": "Citric Acid",
+   "maxPct": 0.5,
+   "note": "обычно регулятор pH, если стоит в конце"
+  },
+  {
+   "inci": "Sodium Hydroxide",
+   "maxPct": 0.5,
+   "note": "регулятор pH"
+  }
+ ]
+}
